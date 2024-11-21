@@ -1,6 +1,6 @@
 <h1 align="center">CodeForge</h1>
 <p align="center">  
-🎉 **Projeto fictício para a disciplina de Engenharia de Software da Universidade Federal de Lavras.** 🎉  
+🎉 Projeto fictício para a disciplina de Engenharia de Software da Universidade Federal de Lavras. 🎉  
 </p>
 
 ## **✨ Descrição**  
