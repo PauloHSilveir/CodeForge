@@ -3,7 +3,7 @@
   Projeto fictício para a disciplina de Engenharia de Software da Universidade Federal de Lavras.  
 </p>
 
-## **✨ Descrição**  
+## **📑 Descrição**  
 Será desenvolvido um sistema **WEB** para a **Gestão de Eventos**, permitindo:  
 - 🛠️ **Organização eficiente** de serviços de aluguel de itens.  
 - 🎈 Solicitação de serviços relacionados a eventos.  
