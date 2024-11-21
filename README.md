@@ -1,9 +1,15 @@
 <h1 align="center">CodeForge</h1>
-<p align="center">
-  Projeto fictício para a disciplina de Engenharia de Sofware da Universidade Federal de Lavras.
+<p align="center">  
+🎉 **Projeto fictício para a disciplina de Engenharia de Software da Universidade Federal de Lavras.** 🎉  
 </p>
-**Descrição:** Será desenvolvido um sistema WEB para a Gestão de Eventos que permitirá a organização eficiente de serviços de aluguel 
-de itens e solicitação de serviços relacionados a eventos. 
+---
+
+## **✨ Descrição**  
+Será desenvolvido um sistema **WEB** para a **Gestão de Eventos**, permitindo:  
+- 🛠️ **Organização eficiente** de serviços de aluguel de itens.  
+- 🎈 Solicitação de serviços relacionados a eventos.  
+
+---
 
 ## Tecnologias utilizadas
 - **🌐 Front-End:** React v18.3.1  
