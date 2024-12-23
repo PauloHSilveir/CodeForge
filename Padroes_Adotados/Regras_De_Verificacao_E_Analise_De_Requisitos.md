@@ -19,15 +19,18 @@ O documento de requisitos seguirá as seguintes regras de verificação e análi
 1. **Defina somente um requisito por vez:**  
    Cada requisito deve ser descrito individualmente para garantir clareza e evitar ambiguidade.
 
-2. **Evite palavras ambíguas:**  
-   Não use termos subjetivos ou vagos que possam levar a interpretações diferentes.  
-   **Exemplo de palavras proibidas:** "interface amigável", "versátil", "flexível", "usualmente", "provavelmente", entre outras.
+2. **Evite as palavras:**  
+   E, OU, SOMENTE SE, EXCETO, SE NECESSÁRIO, MAS, CONTUDO, ENTRETANTO, USUALMENTE, GERALMENTE, FREQUENTEMENTE, TIPICAMENTE, AMIGÁVEL, VERSÁTIL, FLEXÍVEL, APROXIMADAMENTE, TÃO LOGO QUANTO POSSÍVEL, TALVEZ, PROVAVELMETE, ou palavras que forneçam a mesma idéia que essas.
 
 3. **Utilize um vocabulário fechado:**  
    Empregue uma terminologia padronizada e previamente acordada entre os envolvidos no projeto para evitar confusões e manter a consistência do documento.
 
-4. **Evite frases longas:**  
-   Prefira descrições curtas e objetivas para garantir a leitura e compreensão rápidas dos requisitos.
+4. **Evite frases grandes:**  
+   **CORRETO:**  
+   O software DEVE permitir o registro dos clientes da empresa.  
 
-5. **Agrupe corretamente os requisitos:**  
+   **INCORRETO:**  
+   O software DEVE permitir o registro dos clientes de nossa estimada empresa.
+
+6. **Agrupe corretamente os requisitos:**  
    Classifique e organize os requisitos de forma lógica, separando-os em categorias, como funcionais (**RF**) e não funcionais (**RNF**), para facilitar a leitura e análise.
