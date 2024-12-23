@@ -4,7 +4,7 @@
 </p>
 
 ## **📑 Descrição**  
-O **Blue Star Events** é um sistema **WEB** desenvolvido para a empresa **Blue Star Events**, com o objetivo de centralizar, otimizar e organizar a gestão de eventos. O sistema oferece funcionalidades para que os **clientes** possam se cadastrar, logar, consultar e comprar pacotes prontos ou personalizados, que incluem diversas opções; os **funcionários** possam gerenciar pacotes prontos, personalizados e itens que compõem esses pacotes; e os **administradores** possam gerenciar seus funcionários, podendo cadastrá-los, editá-los e excluí-los, garantindo eficiência operacional e uma experiência aprimorada para os clientes da empresa.
+O **Blue Star Events** é um sistema **WEB** desenvolvido para a empresa **Blue Star Events**, com o objetivo de centralizar, otimizar e organizar a gestão de eventos. O sistema oferece funcionalidades para que os **clientes** possam se cadastrar, logar, consultar e comprar pacotes prontos ou personalizados, que incluem diversas opções. Os **funcionários** possam gerenciar pacotes prontos, personalizados e itens que compõem esses pacotes. E os **administradores** possam gerenciar seus funcionários, podendo cadastrá-los, editá-los e excluí-los, garantindo eficiência operacional e uma experiência aprimorada para os clientes da empresa.
 
 ## Funcionalidades principais
 
