@@ -13,13 +13,14 @@ import {
   RiBox3Line,
   RiSofaLine
  } from '@remixicon/react';
-import '../styles/NavBar.css';
+import '../styles/Navbar.css';
+import { Link } from 'react-router-dom';
 
 // Componente para o Logo
 const Logo = () => (
-  <a href="Home" className="nav__logo">
+  <Link to="/" className="nav__logo">
     <RiStarLine /> Blue Star Events
-  </a>
+  </Link>
 );
 
 // Componente para o botão do Menu
@@ -29,7 +30,7 @@ const MenuToggle = ({ menuOpen, toggleMenu }) => (
   </div>
 );
 
-// Componente para o item de Pacotes
+// Componente para o item de Pacotes  
 const PackagesDropdown = () => (
   <li className="dropdown__item">
     <div className="nav__link">
@@ -37,14 +38,14 @@ const PackagesDropdown = () => (
     </div>
     <ul className="dropdown__menu">
       <li>
-        <a href="ConsultarPacotes" className="dropdown__link">
+        <Link to ="/consultarpacotes" className="dropdown__link">
           <RiFileLine /> Padrão
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="ObterOrcamentoPersonalizado" className="dropdown__link">
+        <Link to="/obterorcamentopersonalizado" className="dropdown__link">
           <RiFileEditLine /> Personalizado
-        </a>
+        </Link>
       </li>
     </ul>
   </li>
@@ -58,19 +59,19 @@ const UserDropdown = () => (
     </div>
     <ul className="dropdown__menu">
       <li>
-        <a href="Login" className="dropdown__link">
+        <Link to='/login' className="dropdown__link">
           <RiLoginBoxLine /> Login
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="Cadastrar" className="dropdown__link">
+        <Link to="/cadastrar" className="dropdown__link">
           <RiUserAddLine /> Cadastrar
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="Perfil" className="dropdown__link">
+        <Link to="/perfil" className="dropdown__link">
           <RiUserLine /> Perfil
-        </a>
+        </Link>
       </li>
     </ul>
   </li>
@@ -84,24 +85,24 @@ const ManageSystemDropdown = () => (
     </div>
     <ul className="dropdown__menu">
       <li>
-        <a href="GerenciarPacotes" className="dropdown__link">
+        <Link to="/gerenciarpacotes" className="dropdown__link">
           <RiBox3Line /> Pacotes
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="GerenciarItens" className="dropdown__link">
+        <Link to="/gerenciaritens" className="dropdown__link">
           <RiSofaLine /> Itens
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="GerenciarUsuarios" className="dropdown__link">
+        <Link to="/gerenciarusuarios" className="dropdown__link">
           <RiUserLine /> Usuários
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="GerenciarTransacoes" className="dropdown__link">
+        <Link to="/gerenciartransacoes" className="dropdown__link">
           <RiMoneyDollarBoxLine /> Transações
-        </a>
+        </Link>
       </li>
     </ul>
   </li>
@@ -129,7 +130,7 @@ const Navbar = () => {
             <UserDropdown />
             <ManageSystemDropdown />
             <li>
-              <a href="ContateNos" className="nav__link">Contate-nos</a>
+              <Link to="/contatenos" className="nav__link">Contate-nos</Link>
             </li>
           </ul>
         </div>

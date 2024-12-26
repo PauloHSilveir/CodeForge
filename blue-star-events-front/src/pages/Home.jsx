@@ -1,21 +1,24 @@
 import React from 'react';
-import NavBar from '../components/Navbar'
-import '../styles/Home.css'
+import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/Navbar';
+import stylesHome from '../styles/Home.module.css';
 
 function Home() {
-    const handleClick = () => {
-        console.log("Botão clicado!");
-    }
-        
+    const navigate = useNavigate();
+
+    const handleNavigate = (path) => {
+        navigate(path);
+    };
+
     return (
-        <body>
+        <div>
             <NavBar />
-            <div className='background-image'>
-                <div className='Textos'>
-                    <div className='big-text'>
+            <div className={stylesHome.backgroundImage}>
+                <div className={stylesHome.container}>
+                    <div className={stylesHome.bigText}> 
                         Transformando momentos em memórias inesquecíveis.
                     </div>
-                    <ul className='custom-list small-text'>
+                    <ul className={stylesHome.customList}>
                         <li>
                             Qualquer trabalho que você possa imaginar.
                         </li>
@@ -26,11 +29,15 @@ function Home() {
                             Com Blue Star Events, seu evento brilha mais forte!
                         </li>
                     </ul>
-                    <button className = 'buttons-home cons-pac' onClick={handleClick}>Consultar Pacotes</button>
-                    <button className = 'buttons-home orc-per' onClick={handleClick}>Obter Orçamento Personalizado</button>
+                    <button className= {`${stylesHome.buttonsHome} ${stylesHome.consPac}`} onClick={() => handleNavigate('/consultarpacotes')}>
+                        Consultar Pacotes
+                    </button>
+                    <button className={`${stylesHome.buttonsHome} ${stylesHome.orcPer}`} onClick={() => handleNavigate('/obterorcamentopersonalizado')}>
+                        Obter Orçamento Personalizado
+                    </button>
                 </div>
             </div>
-        </body>
+        </div>
     );
 }
 
