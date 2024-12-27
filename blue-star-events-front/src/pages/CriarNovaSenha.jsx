@@ -30,13 +30,19 @@ function CriarNovaSenha() {
                     </div>
                     <div className={stylesFormBaseA.formContainer}>
                         <form action="#" className={stylesFormBaseA.baseForm}>
+                            <label htmlFor="novaSenha" className={stylesFormBaseA.label}>
+                                Nova Senha
+                            </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" placeholder="Digite sua nova senha" className={stylesFormBaseA.inputField} required />
+                                <input type="password" id= "novaSenha" placeholder="Digite sua nova senha" className={stylesFormBaseA.inputField} required />
                             </div>
+                            <label htmlFor="confirmarSenha" className={stylesFormBaseA.label}>
+                                Confirme a senha
+                            </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" placeholder="Confirme a nova senha" className={stylesFormBaseA.inputField} required />
+                                <input type="password" id= "confirmarSenha" placeholder="Confirme a nova senha" className={stylesFormBaseA.inputField} required />
                             </div>
                             <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/')}>
                                 Redefinir

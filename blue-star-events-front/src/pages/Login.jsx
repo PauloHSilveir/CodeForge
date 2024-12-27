@@ -33,13 +33,19 @@ function Login() {
                 </div>
                 <div className={stylesFormBaseA.formContainer}>
                     <form action="#" className={stylesFormBaseA.baseForm}>
+                        <label htmlFor="email" className={stylesFormBaseA.label}>
+                            Email
+                        </label>
                         <div className={stylesFormBaseA.inputs}>
                             <RiMailLine />
-                            <input type="email" placeholder="Digite seu e-mail" className={stylesFormBaseA.inputField} required />
+                            <input type="email" id = "email" placeholder="Digite seu e-mail" className={stylesFormBaseA.inputField} required />
                         </div>
+                        <label htmlFor="senha" className={stylesFormBaseA.label}>
+                            Senha
+                        </label>
                         <div className={stylesFormBaseA.inputs}>
                             <RiLockPasswordLine />
-                            <input type="password" placeholder="Digite sua senha" className={stylesFormBaseA.inputField} required />
+                            <input type="password" id = "senha" placeholder="Digite sua senha" className={stylesFormBaseA.inputField} required />
                         </div>
 
                         <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/')}>
