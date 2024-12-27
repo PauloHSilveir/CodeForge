@@ -1,0 +1,56 @@
+@font-face {
+    font-family: "Inter";
+    src: url("../assets/fonts/Inter/static/Inter_18pt-Medium.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.inputCheckBox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 5px;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.checkboxLabel {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #000000;
+}
+
+.link {
+    color: #0A5A9C;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.modalText {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+}
+
+@media screen and (max-height: 800px){
+    .legendContainer {
+        padding-top: 250px;
+    }
+}
+
+@media screen and (max-height: 600px){
+    .legendContainer {
+        padding-top: 350px;
+    }
+}

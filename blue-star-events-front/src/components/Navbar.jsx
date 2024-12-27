@@ -64,7 +64,7 @@ const UserDropdown = () => (
         </Link>
       </li>
       <li>
-        <Link to="/cadastrar" className="dropdown__link">
+        <Link to="/cadastrarusuario" className="dropdown__link">
           <RiUserAddLine /> Cadastrar
         </Link>
       </li>

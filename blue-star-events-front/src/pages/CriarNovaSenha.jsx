@@ -22,7 +22,7 @@ function CriarNovaSenha() {
                     <div className={stylesFormBaseA.legendContainer}>
                         <RiArrowLeftCircleLine
                             className={stylesFormBaseA.iconBack}
-                            onClick={() => navigate(-1)}
+                            onClick={() => navigate('/redefinirsenha')}
                         />
                         <div className={stylesFormBaseA.bigText}>
                             REDEFINIR SENHA
@@ -52,7 +52,7 @@ function CriarNovaSenha() {
                     </div>
                     <div className={stylesFormBaseA.register}>
                         <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
-                        <Link to="/cadastrar" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
+                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
                     </div>
                 </div>
             </div>

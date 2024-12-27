@@ -58,7 +58,7 @@
     font-weight: bolder;
     font-size: clamp(1.25rem, 2vw, 2.5rem);
     color: #0A5A9C;
-    text-align: center; /* Garante que o texto permanece centralizado */
+    text-align: center;
 }
 
 
@@ -156,7 +156,7 @@
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background-color 0.3s, transform 0.2s ease;
     gap: 8px;
 }
 

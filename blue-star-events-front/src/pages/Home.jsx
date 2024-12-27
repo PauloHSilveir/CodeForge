@@ -15,7 +15,7 @@ function Home() {
             <NavBar />
             <div className={stylesHome.backgroundImage}>
                 <div className={stylesHome.container}>
-                    <div className={stylesHome.bigText}> 
+                    <div className={stylesHome.bigText}>
                         Transformando momentos em memórias inesquecíveis.
                     </div>
                     <ul className={stylesHome.customList}>
@@ -29,7 +29,7 @@ function Home() {
                             Com Blue Star Events, seu evento brilha mais forte!
                         </li>
                     </ul>
-                    <button className= {`${stylesHome.buttonsHome} ${stylesHome.consPac}`} onClick={() => handleNavigate('/consultarpacotes')}>
+                    <button className={`${stylesHome.buttonsHome} ${stylesHome.consPac}`} onClick={() => handleNavigate('/consultarpacotes')}>
                         Consultar Pacotes
                     </button>
                     <button className={`${stylesHome.buttonsHome} ${stylesHome.orcPer}`} onClick={() => handleNavigate('/obterorcamentopersonalizado')}>

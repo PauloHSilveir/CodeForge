@@ -23,7 +23,7 @@ function RedefinirSenha() {
                     <div className={stylesFormBaseA.legendContainer}>
                         <RiArrowLeftCircleLine
                             className={stylesFormBaseA.iconBack}
-                            onClick={() => navigate(-1)}
+                            onClick={() => navigate('/login')}
                         />
                         <div className={stylesFormBaseA.bigText}>
                             REDEFINIR SENHA
@@ -39,7 +39,7 @@ function RedefinirSenha() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMailLine />
-                                <input type="email" id = "email" placeholder="Digite seu e-mail" className={stylesFormBaseA.inputField} required />
+                                <input type="email" id="email" placeholder="Digite seu e-mail" className={stylesFormBaseA.inputField} required />
                             </div>
                             <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/criarnovasenha')}>
                                 Continuar
@@ -49,7 +49,7 @@ function RedefinirSenha() {
                     </div>
                     <div className={stylesFormBaseA.register}>
                         <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
-                        <Link to="/cadastrar" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
+                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
                     </div>
                 </div>
             </div>
