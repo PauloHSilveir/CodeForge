@@ -29,12 +29,14 @@ function Home() {
                             Com Blue Star Events, seu evento brilha mais forte!
                         </li>
                     </ul>
+
                     <button className={`${stylesHome.buttonsHome} ${stylesHome.consPac}`} onClick={() => handleNavigate('/consultarpacotes')}>
                         Consultar Pacotes
                     </button>
                     <button className={`${stylesHome.buttonsHome} ${stylesHome.orcPer}`} onClick={() => handleNavigate('/obterorcamentopersonalizado')}>
                         Obter Orçamento Personalizado
                     </button>
+
                 </div>
             </div>
         </div>

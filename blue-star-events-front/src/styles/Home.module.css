@@ -1,9 +1,8 @@
 .backgroundImage {
     position: relative;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     display: flex;
-    margin-top: 0vh;
 }
 
 .backgroundImage::before {
@@ -26,14 +25,12 @@
     font-style: normal;
 }
 
-
 .container {
-    display: flex;
-    height: 60%;
-    margin-top: 150px;
+    display: block;
+    max-height:max-content;
+    margin-top: 9.375rem;
     margin-left: 3vw; 
-    max-width: 45%; 
-    align-items: flex-start;
+    align-items:flex-start;
     flex-wrap: wrap;
     text-align:start;
     z-index: 2;
@@ -41,34 +38,26 @@
 
 .bigText {
     font-family: 'Poppins', sans-serif; 
-    font-weight: bold; 
-    font-size: clamp(2rem, 4vw, 2.75rem);;
+    font-weight: bold;  
     color: white;
 }
 
 .customList{
-    margin-top: 25px;
+    margin-top: 1.625rem;
     list-style-type: disc;
     list-style-position: inside;
     color: white;
-}
-.smallText {
-    font-family: 'Poppins', sans-serif; 
+    font-family: 'Poppins', sans-serif;
     font-weight: medium; 
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    color: white;
-    margin-left: 20px;
 }
 
 .buttonsHome{
-    padding-inline: 15px;
-    padding-block: 10px;
+    padding-block: 0.625rem;
     font-family: 'Poppins', sans-serif; 
     font-weight: bold; 
-    font-size: clamp(1rem, 2vw, 1.125rem);
     color: white;
-    margin-top: 30px;
-    border-width: 2px;
+    margin-top: 1.875rem;
+    border-width: 0.125rem;
     border-radius: 1%;
     z-index: 2;
     transition: transform 0.3s ease;
@@ -80,6 +69,7 @@
 }
 
 .buttonsHome.consPac{
+    padding-inline: 0.9375rem;
     background-color: #0A5A9C;
     border-color: #0A5A9C;
 }
@@ -90,8 +80,9 @@
 }
 
 .buttonsHome.orcPer{
+    padding-inline: 0.9375rem;
     background-color: transparent;
-    margin-left: 20px;
+    margin-left: 1.25rem;
     border-color: white;
 }
 
@@ -99,16 +90,83 @@
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-@media screen and (max-width:1236px) {
+@media screen and (min-width: 1440px) {
+    .container {
+        width: 56rem; 
+    }
+
+    .bigText {
+        font-size: clamp(3rem, 3vw, 6rem);
+    }
+
+    .customList {
+        font-size: clamp(1.6rem, 1.5vw, 2rem);
+    }
+
+    .buttonsHome {
+        font-size: clamp(1.6rem, 1.5vw, 1.9rem);
+        border-width: 0.2rem;
+    }
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1439px){
+    .container {
+        width: 38rem;
+    }
+    .bigText {
+        font-size: 2.75rem;
+    }
+    .customList {
+        font-size: 1.25rem;
+    }
+    .buttonsHome{
+        font-size: 1.15rem;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .container{
+        margin-top: 6.875rem;
+        width: 25rem;
+    }
+
+    .bigText {
+        font-size: 2.45rem;
+    }
+
+    .customList {
+        font-size: 1.1rem;
+    }
+    
+    .buttonsHome{
+        width: 21rem;
+        font-size: 1.1rem;
+    }
+
     .buttonsHome.orcPer{
-        margin-left: 0px;
+        margin-left: 0rem;
     }
 
 }
 
-@media screen and (max-width:1024px){
-    .textos{
-        margin-top: 110px;
-        max-width: 400px;
+@media screen and (max-width: 768px){
+    .container{
+        margin: auto;
+        width: 21rem;
+    }
+    .bigText{
+        font-size: 2.25rem;
+        text-align: left;
+    }
+
+    .customList {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .buttonsHome {
+        font-size: 1rem;
     }
 }
