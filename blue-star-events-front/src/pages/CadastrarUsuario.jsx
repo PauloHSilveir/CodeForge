@@ -23,8 +23,8 @@ function CadastrarUsuario() {
         <div>
             <NavBar />
             <div className={stylesFormBaseA.backgroundImage}>
-                <div className={stylesFormBaseA.container}>
-                    <div className={`${stylesFormBaseA.legendContainer} ${stylesCadastrarUsuario.legendContainer}`}>
+                <div className={`${stylesFormBaseA.container} ${stylesCadastrarUsuario.container}`}>
+                    <div className={stylesFormBaseA.legendContainer}>
                         <RiArrowLeftCircleLine
                             className={stylesFormBaseA.iconBack}
                             onClick={() => navigate('/')}

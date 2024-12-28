@@ -14,7 +14,7 @@
   --body-color: hsl(220, 100%, 97%);
 
   --body-font: "Poppins", sans-serif;
-  --normal-font-size: .938rem;
+  --normal-font-size: 0.938rem;
 
   --font-regular: 400;
   --font-semi-bold: 600;
@@ -49,7 +49,7 @@ a {
 }
 
 .container {
-  max-width: 1120px;
+  max-width: 70rem;
   margin-inline: 1.5rem;
 }
 
@@ -59,7 +59,7 @@ a {
   left: 0;
   width: 100%;
   background-color: var(--black-color);
-  box-shadow: 0 2px 16px hsla(220, 32%, 8%, .3);
+  box-shadow: 0 0.125rem 1rem hsla(220, 32%, 8%, 0.3);
   z-index: var(--z-fixed);
 }
 
@@ -83,7 +83,7 @@ a {
 .nav__logo {
   display: inline-flex;
   align-items: center;
-  column-gap: .25rem;
+  column-gap: 0.25rem;
   font-weight: var(--font-semi-bold);
 }
 
@@ -94,8 +94,8 @@ a {
 
 .nav__toggle {
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
 }
 
 .nav__burger,
@@ -107,7 +107,7 @@ a {
   margin: auto;
   font-size: 1.25rem;
   cursor: pointer;
-  transition: opacity .1s, transform .4s;
+  transition: opacity 0.1s, transform 0.4s;
 }
 
 .nav__close {
@@ -124,7 +124,7 @@ a {
     overflow: auto;
     pointer-events: none;
     opacity: 0;
-    transition: top .4s, opacity .3s;
+    transition: top 0.4s, opacity 0.3s;
   }
 
   .nav__menu::-webkit-scrollbar {
@@ -145,7 +145,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 }
 
 .nav__link:hover {
@@ -165,7 +165,7 @@ a {
 .dropdown__arrow {
   font-size: 1.25rem;
   font-weight: initial;
-  transition: transform .4s;
+  transition: transform 0.4s;
 }
 
 .dropdown__link {
@@ -174,9 +174,9 @@ a {
   background-color: var(--black-color-light);
   display: flex;
   align-items: center;
-  column-gap: .5rem;
+  column-gap: 0.5rem;
   font-weight: var(--font-semi-bold);
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 }
 
 .dropdown__link i {
@@ -191,12 +191,12 @@ a {
 .dropdown__menu {
   max-height: 0;
   overflow: hidden;
-  transition: max-height .4s ease-out;
+  transition: max-height 0.4s ease-out;
 }
 
 .dropdown__item:hover .dropdown__menu{
-  max-height: 1000px;
-  transition: max-height .4s ease-in;
+  max-height: 62.5rem;
+  transition: max-height 0.4s ease-in;
 }
 
 .dropdown__item:hover .dropdown__arrow {
@@ -238,7 +238,7 @@ a {
     height: 100%;
     padding: 0;
     justify-content: initial;
-    column-gap: .25rem;
+    column-gap: 0.25rem;
   }
 
   .nav__link:hover {
@@ -257,7 +257,7 @@ a {
     top: 6rem;
     opacity: 0;
     pointer-events: none;
-    transition: opacity .3s, top .3s;
+    transition: opacity 0.3s, top 0.3s;
   }
 
   .dropdown__link {
@@ -268,6 +268,6 @@ a {
     opacity: 1;
     top: 5.5rem;
     pointer-events: initial;
-    transition: top .3s;
+    transition: top 0.3s;
   }
 }

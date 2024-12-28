@@ -45,7 +45,7 @@ function CadastrarEndereco() {
         <div>
             <NavBar />
             <div className={stylesFormBaseA.backgroundImage}>
-                <div className={stylesFormBaseA.container}>
+                <div className={`${stylesFormBaseA.container} ${stylesCadastrarEndereco.container}`}>
                     <div className={`${stylesFormBaseA.legendContainer} ${stylesCadastrarEndereco.legendContainer}`}>
                         <RiArrowLeftCircleLine
                             className={stylesFormBaseA.iconBack}

@@ -1,11 +1,9 @@
-@media screen and (max-height: 800px){
-    .legendContainer {
-        padding-top: 70px;
-    }
+.container {
+    margin-top: 7rem;
 }
 
-@media screen and (max-height: 600px){
-    .legendContainer {
-        padding-top: 180px;
+@media screen and (max-width: 1024px) {
+    .container {
+        margin-top: 5rem;
     }
 }

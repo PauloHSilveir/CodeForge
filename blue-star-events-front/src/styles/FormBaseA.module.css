@@ -3,7 +3,6 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    margin-top: 0vh;
 }
 
 .backgroundImage::before {
@@ -36,8 +35,8 @@
     display: flex;
     align-items: center; 
     justify-content: center;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
     width: 100%;
 }
 
@@ -82,11 +81,11 @@
     display: flex;
     flex-direction: column; 
     width: 52.5vw;
-    height: auto;
-    margin-top: 140px;
+    height: max-content;
+    margin-top: 8.75rem;
     justify-content: center; 
     align-items: center; 
-    padding: 20px;
+    padding: 1.25rem;
     z-index: 2;
 }
 
@@ -94,29 +93,28 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 350px;
-    padding: 20px;
-    border: 1px solid #D9D9D9;
-    border-radius: 10px;
+    max-width: 21.875rem;
+    padding: 1.25rem;
+    border: 0.0625rem solid #D9D9D9;
+    border-radius: 0.625rem;
     background-color: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0rem 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
     align-items: center;
     text-align: center;
 }
 
 .baseForm {
-    width: 330px;
+    width: 20.625rem;
 }
 
 .inputs {
     display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 10px;
+    margin-bottom: 0.9375rem;
+    gap: 0.625rem;
     width: 100%;
-    border: 1px solid #D9D9D9;
-    border-radius: 5px;
-    padding: 10px;
+    border: 0.0625rem solid #D9D9D9;
+    border-radius: 0.3125rem;
+    padding: 0.625rem;
     background-color: #fff;
 }
 
@@ -136,9 +134,9 @@
 .label {
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: medium;
     color: #000000;
-    margin-bottom: 5px;
+    margin-bottom: 0.3125rem;
     display: block;
     text-align: left;
 }
@@ -148,16 +146,16 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 12px;
+    padding: 0.75rem;
     background-color: #0A5A9C;
     color: white;
     font-size: 1rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s ease;
-    gap: 8px;
+    gap: 0.5rem;
 }
 
 .buttonBase:hover {
@@ -169,8 +167,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    margin-top: 15px; 
+    gap: 0.3125rem;
+    margin-top: 0.9375rem; 
 }
 
 .register .blueBolder {
@@ -186,7 +184,7 @@
 
 @media screen and (max-width: 1024px) {
     .container {
-        margin-top: 110px;
+        margin-top: 6.875rem;
     }
 }
 
