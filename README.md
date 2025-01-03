@@ -12,7 +12,7 @@ O **Blue Star Events** é um sistema **WEB** desenvolvido para a empresa **Blue 
 - **Autenticação Segura**: Controle de acesso com diferentes níveis de permissões.
 - **Controle de Disponibilidade**: Gerenciamento em tempo real de itens e serviços.
 - **Solicitações de Serviços**: Registro e acompanhamento de solicitações de pacotes prontos e personalizados.
-- **Relatórios Gerenciais**: Geração de relatórios detalhados para análise de dados.
+
 
 
 ## **🚀 Tecnologias Utilizadas**  
