@@ -1,7 +1,6 @@
 import NavBar from "../components/Navbar";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesCadastrarEndereco from '../styles/CadastrarEndereco.module.css';
-import Modal from '../components/ModalCadastrar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -132,28 +131,28 @@ function CadastrarEndereco() {
             <ModalCadastrar isOpen={showTermsModal} onClose={handleCloseTerms} title="Termo de Acordo do Usuário">
                 <div className={stylesCadastrarEndereco.modalText}>
                     <p>
-                        <br />Ao utilizar os serviços da Blue Star Events, você concorda com os seguintes termos e condições:<br/><br/>
+                        <br />Ao utilizar os serviços da Blue Star Events, você concorda com os seguintes termos e condições:<br /><br />
                     </p>
                     <p>
                         <strong>1. Aceitação dos Termos</strong><br />
-                        Ao acessar e utilizar os nossos serviços, você concorda em cumprir estes Termos de Uso, nossas políticas e todas as 
-                        leis e regulamentos aplicáveis. Se você não concorda com qualquer parte dos termos, você não deve utilizar nossos serviços.<br />   
+                        Ao acessar e utilizar os nossos serviços, você concorda em cumprir estes Termos de Uso, nossas políticas e todas as
+                        leis e regulamentos aplicáveis. Se você não concorda com qualquer parte dos termos, você não deve utilizar nossos serviços.<br />
                     </p>
                     <p>
-                        <br/><strong>2. Modificação dos Termos</strong><br />
-                        Reservamo-nos o direito de modificar estes termos a qualquer momento. As modificações entrarão em vigor imediatamente após a 
-                        publicação no nosso site. Recomendamos que você revise os Termos de Uso periodicamente. O uso continuado dos nossos serviços 
+                        <br /><strong>2. Modificação dos Termos</strong><br />
+                        Reservamo-nos o direito de modificar estes termos a qualquer momento. As modificações entrarão em vigor imediatamente após a
+                        publicação no nosso site. Recomendamos que você revise os Termos de Uso periodicamente. O uso continuado dos nossos serviços
                         após quaisquer alterações constitui sua aceitação dos novos termos.<br /><br />
                     </p>
                     <p>
                         <strong>3. Responsabilidade do Usuário</strong><br />
-                        Você concorda em usar nossos serviços de maneira responsável e conforme as leis locais. É proibido o uso dos serviços para 
+                        Você concorda em usar nossos serviços de maneira responsável e conforme as leis locais. É proibido o uso dos serviços para
                         fins ilegais, fraudulentos ou prejudiciais.<br /><br />
                     </p>
                     <p>
                         <strong>4. Conta de Usuário</strong><br />
-                        Para utilizar certos serviços, você pode ser solicitado a criar uma conta de usuário. Você é responsável por manter a 
-                        confidencialidade da sua conta e senha e por todas as atividades que ocorram sob sua conta. Você concorda em notificar-nos 
+                        Para utilizar certos serviços, você pode ser solicitado a criar uma conta de usuário. Você é responsável por manter a
+                        confidencialidade da sua conta e senha e por todas as atividades que ocorram sob sua conta. Você concorda em notificar-nos
                         imediatamente sobre qualquer uso não autorizado da sua conta.<br />
                     </p>
                 </div>
@@ -162,14 +161,14 @@ function CadastrarEndereco() {
             <ModalCadastrar isOpen={showPrivacyModal} onClose={handleClosePrivacy} title="Política de Privacidade">
                 <div className={stylesCadastrarEndereco.modalText}>
                     <p>
-                        <br />A Blue Star Events valoriza sua privacidade. Esta Política de Privacidade descreve como coletamos, usamos, 
+                        <br />A Blue Star Events valoriza sua privacidade. Esta Política de Privacidade descreve como coletamos, usamos,
                         divulgamos e protegemos suas informações pessoais quando você utiliza nossos serviços.<br /><br />
                     </p>
                     <p>
                         <strong>1. Informações que Coletamos</strong><br />
                         Informações de Cadastro: Nome, endereço de e-mail, número de telefone, etc., fornecidos durante a criação de uma conta.<br />
                         Informações de Uso: Dados sobre como você utiliza nossos serviços, incluindo interações e preferências.<br />
-                        Informações de Pagamento: Detalhes do cartão de crédito e outras informações financeiras necessárias para 
+                        Informações de Pagamento: Detalhes do cartão de crédito e outras informações financeiras necessárias para
                         processar transações.<br /><br />
                     </p>
                     <p>
@@ -180,22 +179,22 @@ function CadastrarEndereco() {
                     </p>
                     <p>
                         <strong>3. Compartilhamento de Informações</strong><br />
-                        Não compartilhamos suas informações pessoais com terceiros, exceto conforme necessário para fornecer os serviços 
+                        Não compartilhamos suas informações pessoais com terceiros, exceto conforme necessário para fornecer os serviços
                         ou conforme exigido por lei.<br /><br />
                     </p>
                     <p>
                         <strong>4. Segurança das Informações</strong><br />
-                        Implementamos medidas de segurança adequadas para proteger suas informações contra acessos não autorizados, 
+                        Implementamos medidas de segurança adequadas para proteger suas informações contra acessos não autorizados,
                         alterações, divulgação ou destruição.<br /><br />
                     </p>
                     <p>
                         <strong>5. Seus Direitos</strong><br />
-                        Você tem o direito de acessar, corrigir ou excluir suas informações pessoais. Para exercer esses direitos, entre 
+                        Você tem o direito de acessar, corrigir ou excluir suas informações pessoais. Para exercer esses direitos, entre
                         em contato conosco através dos detalhes fornecidos no nosso site.<br /><br />
                     </p>
                     <p>
                         <strong>6. Alterações a esta Política</strong><br />
-                        Reservamo-nos o direito de atualizar esta Política de Privacidade a qualquer momento. Notificaremos você sobre 
+                        Reservamo-nos o direito de atualizar esta Política de Privacidade a qualquer momento. Notificaremos você sobre
                         quaisquer alterações significativas através do nosso site ou por outros meios apropriados.<br />
                     </p>
                 </div>

@@ -42,7 +42,7 @@ function Perfil() {
                             </div>
                         </div>
                         <div>
-                            <button className={`${stylesPerfil.buttonsPerfilBox} ${stylesPerfil.editarDados}`} onClick={() => handleNavigate('/')}>
+                            <button className={`${stylesPerfil.buttonsPerfilBox} ${stylesPerfil.editarDados}`} onClick={() => handleNavigate('/editardados')}>
                                 <RiEditBoxLine />EDITAR DADOS
                             </button>
                             <button className={`${stylesPerfil.buttonsPerfilBox} ${stylesPerfil.excluirConta}`} onClick={openModal}>

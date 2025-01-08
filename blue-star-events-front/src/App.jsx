@@ -6,6 +6,7 @@ import CriarNovaSenha from './pages/CriarNovaSenha';
 import CadastrarUsuario from './pages/CadastrarUsuario';
 import CadastrarEndereco from './pages/CadastrarEndereco';
 import Perfil from './pages/Perfil';
+import EditarDados from './pages/EditarDados';
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
         <Route path='/cadastrarusuario' element={<CadastrarUsuario />} />
         <Route path='/cadastrarendereco' element={<CadastrarEndereco />} />
         <Route path='/perfil' element={<Perfil />} />
+        <Route path='/editardados' element={<EditarDados />} />
       </Routes>
     </BrowserRouter>
   );

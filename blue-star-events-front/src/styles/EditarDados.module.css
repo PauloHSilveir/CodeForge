@@ -1,0 +1,29 @@
+.backgroundImage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.containerPerfil {
+    display: flex;
+    justify-content: center;
+    width: 96vw;
+}
+
+.containerGeral {
+    display: inline-flex;
+    width: 96vw;
+}
+.containerDados {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: max-content;
+    margin-top: 2rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1.25rem;
+    z-index: 2;
+}
