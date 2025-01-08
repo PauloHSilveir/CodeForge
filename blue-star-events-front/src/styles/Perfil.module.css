@@ -1,0 +1,208 @@
+.backgroundImage {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+.backgroundImage::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url("../assets/images/backgroundPerfilEdit.png") no-repeat;
+    background-position: 0rem 29rem;
+    background-size:contain;
+    filter: brightness(40%);
+    z-index: 1;
+    filter: brightness(0.5) contrast(1.2) saturate(0.7);
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
+    font-weight: medium;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Light.ttf") format("truetype");
+    font-weight:lighter;
+    font-style: normal;
+}
+
+
+.bigText {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #000;
+    display: block;
+}
+
+.mediumText {
+    font-family: 'Poppins', sans-serif;
+    font-weight: medium;
+    font-size: 1rem;
+    color: #000;
+    
+}
+
+.smallText {
+    font-family: 'Poppins', sans-serif;
+    font-weight: lighter;
+    font-size: 0.8rem;
+    color: #393737;
+    
+}
+
+.container {
+    width: 100vw;
+    height: 29rem;
+    justify-items: center;
+    z-index: 2;
+}
+
+.PerfilBox {
+    display: flex;
+    border: solid 0.0625rem #D9D9D9;
+    width: 95vw;
+    height: 6rem;
+    margin-top: 7rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 1.3rem;
+}
+
+.leftPerfil{
+    display: inline-flex;
+    gap:1rem;
+    align-items: center;
+}
+
+.leftText{
+    flex-direction: column;
+}
+
+.mailPerfil{
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+}
+
+.buttonsPerfilBox {
+    display: inline-flex;
+    width: 14rem;
+    height: 2.85rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: bolder;
+    color: #fff;
+    border-width: 0.125rem;
+    border-radius: 1%;
+    transition: transform 0.3s ease;
+}
+
+.buttonsPerfilBox:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.editarDados {
+    padding-inline: 0.9375rem;
+    background-color: #0A5A9C;
+    border-color: #0A5A9C;
+}
+
+.editarDados:hover {
+    background-color: #0c4778;
+    border-color: #fff;
+}
+
+.excluirConta {
+    padding-inline: 0.9375rem;
+    background-color: #BF0E1F;
+    margin-left: 1.25rem;
+    border-color: #BF0E1F;
+}
+
+.excluirConta:hover {
+    background-color: #a41624;
+    border-color: #fff;
+}
+
+.optionBox{
+    display: flex;
+    flex-direction: column;
+    width: 95vw;
+    height: 10rem;
+    margin-top: 2rem;
+}
+.containerTitle{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+
+}
+.containerButtons{
+    display: inline-flex;
+    width: 95vw;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+.buttonsOptionsBox {
+    display: inline-flex;
+    width: 22rem;
+    height: 7.5rem;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: bolder;
+    color: #000;
+    border-width: 0.00125rem;
+    border-radius: 1%;
+    border-color: #D9D9D9;
+    transition: transform 0.3s ease;
+}
+
+.buttonsOptionsBox:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    background-color: #fafafa;
+    border-color: #747272;
+}
+
+.textsButtonsOptions {
+    line-height: 0.9rem;
+    text-align: start;
+    padding-left: 1rem;
+    width: 12rem;
+}
+
+.blueIcon {
+    color: #0A5A9C;
+}
+
+.bigIcon{
+    width: 3rem;
+    height: 3rem;
+}
+
+.smallIcon{
+    width: 1.2rem;
+    height: 1.2rem;
+}

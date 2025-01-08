@@ -15,6 +15,7 @@ import {
     RiMapPinRangeLine,
     RiUserAddLine
 } from '@remixicon/react';
+import ModalCadastrar from "../components/ModalCadastrar";
 
 function CadastrarEndereco() {
     const navigate = useNavigate();
@@ -128,7 +129,7 @@ function CadastrarEndereco() {
                 </div>
             </div>
 
-            <Modal isOpen={showTermsModal} onClose={handleCloseTerms} title="Termo de Acordo do Usuário">
+            <ModalCadastrar isOpen={showTermsModal} onClose={handleCloseTerms} title="Termo de Acordo do Usuário">
                 <div className={stylesCadastrarEndereco.modalText}>
                     <p>
                         <br />Ao utilizar os serviços da Blue Star Events, você concorda com os seguintes termos e condições:<br/><br/>
@@ -156,9 +157,9 @@ function CadastrarEndereco() {
                         imediatamente sobre qualquer uso não autorizado da sua conta.<br />
                     </p>
                 </div>
-            </Modal>
+            </ModalCadastrar>
 
-            <Modal isOpen={showPrivacyModal} onClose={handleClosePrivacy} title="Política de Privacidade">
+            <ModalCadastrar isOpen={showPrivacyModal} onClose={handleClosePrivacy} title="Política de Privacidade">
                 <div className={stylesCadastrarEndereco.modalText}>
                     <p>
                         <br />A Blue Star Events valoriza sua privacidade. Esta Política de Privacidade descreve como coletamos, usamos, 
@@ -198,7 +199,7 @@ function CadastrarEndereco() {
                         quaisquer alterações significativas através do nosso site ou por outros meios apropriados.<br />
                     </p>
                 </div>
-            </Modal>
+            </ModalCadastrar>
 
         </div >
     );
