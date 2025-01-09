@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar';
 import stylesHome from '../styles/Home.module.css';

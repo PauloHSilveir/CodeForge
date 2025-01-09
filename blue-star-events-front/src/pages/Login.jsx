@@ -1,3 +1,5 @@
+import { useState } from 'react';
+//import api from '../services/api';
 import NavBar from "../components/Navbar";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesLogin from '../styles/Login.module.css';
@@ -11,10 +13,40 @@ import {
 } from '@remixicon/react';
 
 function Login() {
+
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleNavigate = (path) => {
-        navigate(path);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:3333/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ email: email, password: senha, islogged: true }),
+            });
+
+            const data = await response.json();
+
+            if (response.status === 200) {
+                console.log('Logado com sucesso');
+
+                navigate(`/`);
+                
+            } else if (response.status === 401) {
+                console.log('Não autorizado');
+                setError({ message: data.message });
+            }
+        } catch (error) {
+            setError({ message: error.message });
+            console.error('Erro ao tentar logar:', error);
+        }
     };
 
     return (
@@ -31,29 +63,43 @@ function Login() {
                             ACESSE SUA CONTA
                         </div>
                     </div>
+                    {error && <div className="error">{error.message}</div>}
                     <div className={stylesFormBaseA.formContainer}>
-                        <form action="#" className={stylesFormBaseA.baseForm}>
+                        <form onSubmit={handleSubmit} className={stylesFormBaseA.baseForm}>
                             <label htmlFor="email" className={stylesFormBaseA.label}>
                                 Email
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMailLine />
-                                <input type="email" id="email" placeholder="Digite seu e-mail" className={stylesFormBaseA.inputField} required />
+                                <input 
+                                type="email" 
+                                id="email" 
+                                placeholder="Digite seu e-mail" 
+                                className={stylesFormBaseA.inputField}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required />
                             </div>
                             <label htmlFor="senha" className={stylesFormBaseA.label}>
                                 Senha
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" id="senha" placeholder="Digite sua senha" className={stylesFormBaseA.inputField} required />
+                                <input 
+                                type="password" 
+                                id="senha" 
+                                placeholder="Digite sua senha" 
+                                className={stylesFormBaseA.inputField}
+                                value={senha}
+                                onChange={(e) => setSenha(e.target.value)}
+                                required />
                             </div>
 
-                            <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/')}>
+                            <button type='submit' className={stylesFormBaseA.buttonBase}>
                                 <RiLoginBoxLine /> Entrar
                             </button>
                             <Link to="/redefinirsenha" className={stylesLogin.forgotPass}>Esqueceu a senha?</Link>
                         </form>
-
                     </div>
                     <div className={stylesFormBaseA.register}>
                         <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
