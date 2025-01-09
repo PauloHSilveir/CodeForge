@@ -7,6 +7,8 @@ import CadastrarUsuario from './pages/CadastrarUsuario';
 import CadastrarEndereco from './pages/CadastrarEndereco';
 import Perfil from './pages/Perfil';
 import EditarDados from './pages/EditarDados';
+import OrcamentoPersonalizado1 from './pages/OrcamentoPersonalizado1';
+
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +21,7 @@ function App() {
         <Route path='/cadastrarendereco' element={<CadastrarEndereco />} />
         <Route path='/perfil' element={<Perfil />} />
         <Route path='/editardados' element={<EditarDados />} />
+        <Route path='/orcamentopersonalizado1' element={<OrcamentoPersonalizado1 />} />
       </Routes>
     </BrowserRouter>
   );
