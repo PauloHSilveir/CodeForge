@@ -8,6 +8,9 @@ import CadastrarEndereco from './pages/CadastrarEndereco';
 import Perfil from './pages/Perfil';
 import EditarDados from './pages/EditarDados';
 import OrcamentoPersonalizado1 from './pages/OrcamentoPersonalizado1';
+import OrcamentoPersonalizado2 from './pages/OrcamentoPersonalizado2';
+import OrcamentoPersonalizado3 from './pages/OrcamentoPersonalizado3';
+import OrcamentoPersonalizado4 from './pages/OrcamentoPersonalizado4';
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
         <Route path='/perfil' element={<Perfil />} />
         <Route path='/editardados' element={<EditarDados />} />
         <Route path='/orcamentopersonalizado1' element={<OrcamentoPersonalizado1 />} />
+        <Route path='/orcamentopersonalizado2' element={<OrcamentoPersonalizado2 />} />
+        <Route path='/orcamentopersonalizado3' element={<OrcamentoPersonalizado3 />} />
+        <Route path='/orcamentopersonalizado4' element={<OrcamentoPersonalizado4 />} />
       </Routes>
     </BrowserRouter>
   );
