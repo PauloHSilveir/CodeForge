@@ -10,8 +10,9 @@ app.use(cors({
     credentials: true,
 }));
 
+
 app.use(express.json());
-app.use('/user/cadastro', userRouter);
+app.use('/user', userRouter);
 
 
 
