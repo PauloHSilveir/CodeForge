@@ -64,7 +64,7 @@ function EditarDados() {
                             <div className={stylesFormBaseA.legendContainer}>
                                 <RiArrowLeftCircleLine
                                     className={stylesFormBaseA.iconBack}
-                                    onClick={() => navigate('/perfil')}
+                                    onClick={() => handleNavigate('/perfil')}
                                 />
                                 <div className={stylesFormBaseA.bigText}>
                                     EDITE SEUS DADOS
