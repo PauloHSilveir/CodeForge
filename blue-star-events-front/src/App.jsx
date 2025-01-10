@@ -11,6 +11,7 @@ import OrcamentoPersonalizado1 from './pages/OrcamentoPersonalizado1';
 import OrcamentoPersonalizado2 from './pages/OrcamentoPersonalizado2';
 import OrcamentoPersonalizado3 from './pages/OrcamentoPersonalizado3';
 import OrcamentoPersonalizado4 from './pages/OrcamentoPersonalizado4';
+import GerenciarSistema from './pages/GerenciarSistema';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path='/orcamentopersonalizado2' element={<OrcamentoPersonalizado2 />} />
         <Route path='/orcamentopersonalizado3' element={<OrcamentoPersonalizado3 />} />
         <Route path='/orcamentopersonalizado4' element={<OrcamentoPersonalizado4 />} />
+        <Route path='/gerenciarsistema' element={<GerenciarSistema />} />
       </Routes>
     </BrowserRouter>
   );
