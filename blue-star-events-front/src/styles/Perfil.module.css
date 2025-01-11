@@ -148,12 +148,13 @@
     height: 10rem;
     margin-top: 2rem;
 }
+
 .containerTitle{
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-
 }
+
 .containerButtons{
     display: inline-flex;
     width: 95vw;
@@ -161,6 +162,7 @@
     margin-top: 0.5rem;
     flex-wrap: wrap;
 }
+
 .buttonsOptionsBox {
     display: inline-flex;
     width: 28vw;
@@ -195,6 +197,7 @@
 
 .blueIcon {
     color: #0A5A9C;
+   
 }
 
 .bigIcon{

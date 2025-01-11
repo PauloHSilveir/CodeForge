@@ -1,0 +1,129 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.bigText {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #000;
+}
+
+.mediumTextDark {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #222222;
+}
+
+.mediumTextLight {
+    font-family: 'Poppins', sans-serif;
+    font-weight: lighter;
+    font-size: 0.9rem;
+    margin-left: 0.2rem;
+    color: #525151;
+}
+
+.descriptionItem{
+    display: flex;
+    border: 0.0625rem solid #D9D9D9;
+    width: 47vw;
+    min-width: 30rem;
+    margin-top: 1rem;
+    height: 10rem;
+    flex-direction: column;
+}
+
+.descriptionItemTop{
+    display: flex;
+    width: 100%;
+    border-bottom: solid 0.0625rem  #D9D9D9;
+    height: 3rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.descriptionItemBottom{
+    display: flex;
+    width: 100%;
+    height: 7rem;
+    align-items: center;
+}
+
+.packageImageContainer{
+    display: flex;
+    margin-left: 1rem;
+    width: 5rem;
+    height: 5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.packageImageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.idTop{
+    display: flex;
+    padding-left: 1rem;
+}
+
+.buttonsTop{
+    display: flex;
+    padding-right: 0.5rem;
+    gap: 1rem;
+}
+
+.buttons{
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: bold;
+    padding-inline: 1rem;
+    height: 2rem;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.buttons:hover{
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.adicPac{
+    background-color: white;
+    color: #0A5A9C;
+    border-color: #0A5A9C;
+}
+
+.adicPac:hover{
+    background-color: #fafafa;
+    color: #0c4778;
+    border-color: #0c4778;
+}
+
+.excPac{
+    background-color: #BF0E1F;
+    color: #fff;
+    border-color: #BF0E1F;
+}
+
+.excPac:hover{
+    background-color: #a41624;
+    border-color: #a41624;
+}
+
+.ediPac{
+    background-color: #0A5A9C;
+    color: #fff;
+    border-color: #0A5A9C;
+}
+
+.ediPac:hover{
+    background-color: #0c4778;
+    border-color: #0c4778;
+}
