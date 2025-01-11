@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { 
-  RiStarLine, 
-  RiMenuLine, 
-  RiCloseLine, 
-  RiArrowDownSLine, 
-  RiFileLine, 
-  RiFileEditLine, 
-  RiLoginBoxLine, 
-  RiUserAddLine, 
+import {
+  RiStarLine,
+  RiMenuLine,
+  RiCloseLine,
+  RiArrowDownSLine,
+  RiFileLine,
+  RiFileEditLine,
+  RiLoginBoxLine,
+  RiUserAddLine,
   RiUserLine,
   RiMoneyDollarBoxLine,
   RiBox3Line,
   RiSofaLine
- } from '@remixicon/react';
+} from '@remixicon/react';
 import '../styles/Navbar.css';
 import { Link } from 'react-router-dom';
 
@@ -38,7 +38,7 @@ const PackagesDropdown = () => (
     </div>
     <ul className="dropdown__menu">
       <li>
-        <Link to ="/consultarpacotes" className="dropdown__link">
+        <Link to="/consultarpacotes" className="dropdown__link">
           <RiFileLine /> Padrão
         </Link>
       </li>
@@ -96,8 +96,8 @@ const ManageSystemDropdown = () => (
         </Link>
       </li>
       <li>
-        <Link to="/gerenciarusuarios" className="dropdown__link">
-          <RiUserLine /> Usuários
+        <Link to="/gerenciarfuncionarios" className="dropdown__link">
+          <RiUserLine /> Funcionários
         </Link>
       </li>
       <li>

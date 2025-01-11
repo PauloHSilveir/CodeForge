@@ -36,21 +36,21 @@ function GerenciarSistema() {
                                     <span className={stylesPerfil.smallText}> <br />Adicione, edite, remova e visualize os pacotes disponíveis no sistema. </span>
                                 </div>
                             </button>
-                            <button className={`${stylesPerfil.buttonsOptionsBox} ${stylesGS.buttonsOptionsBox}`} onClick={() => handleNavigate('/')}>
+                            <button className={`${stylesPerfil.buttonsOptionsBox} ${stylesGS.buttonsOptionsBox}`} onClick={() => handleNavigate('/gerenciaritens')}>
                                 <RiSurroundSoundLine className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={`${stylesPerfil.textButtonsOptions} ${stylesGS.textButtonsOptions}`}>
                                     <span className={stylesPerfil.mediumText}> GERENCIAR ITENS </span>
                                     <span className={stylesPerfil.smallText}> <br />Adicione, edite, remova e visualize os itens disponíveis no sistema. </span>
                                 </div>
                             </button>
-                            <button className={`${stylesPerfil.buttonsOptionsBox} ${stylesGS.buttonsOptionsBox}`} onClick={() => handleNavigate('/')}>
+                            <button className={`${stylesPerfil.buttonsOptionsBox} ${stylesGS.buttonsOptionsBox}`} onClick={() => handleNavigate('/gerenciarfuncionarios')}>
                                 <RiUser3Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={`${stylesPerfil.textButtonsOptions} ${stylesGS.textButtonsOptions}`}>
                                     <span className={stylesPerfil.mediumText}> GERENCIAR FUNCIONÁRIOS </span>
                                     <span className={stylesPerfil.smallText}> <br />Cadastre novos funcionários, atualize informações ou gerencie permissões. </span>
                                 </div>
                             </button>
-                            <button className={`${stylesPerfil.buttonsOptionsBox} ${stylesGS.buttonsOptionsBox}`} onClick={() => handleNavigate('/')}>
+                            <button className={`${stylesPerfil.buttonsOptionsBox} ${stylesGS.buttonsOptionsBox}`} onClick={() => handleNavigate('/gerenciartransacoes')}>
                                 <RiMoneyDollarCircleLine className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={`${stylesPerfil.textButtonsOptions} ${stylesGS.textButtonsOptions}`}>
                                     <span className={stylesPerfil.mediumText}> GERENCIAR TRANSAÇÕES </span>

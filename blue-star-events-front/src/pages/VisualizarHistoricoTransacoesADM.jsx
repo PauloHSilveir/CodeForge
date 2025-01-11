@@ -25,7 +25,7 @@ function VisualizarHistoricoTransacoesADM() {
             icone={RiMoneyDollarCircleLine}
             titulo="HISTÓRICO DE TRANSAÇÕES"
             placeholder="Pesquisar transações"
-            buttonText="Voltar"
+            buttonText="VOLTAR"
             buttonLink="/gerenciarsistema"
             itensPorPagina={30}
             noItensFound="Nenhuma transação encontrada."
