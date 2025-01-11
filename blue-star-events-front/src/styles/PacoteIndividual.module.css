@@ -33,7 +33,7 @@
     width: 47vw;
     min-width: 30rem;
     margin-top: 1rem;
-    height: 10rem;
+    height: max-content;
     flex-direction: column;
 }
 

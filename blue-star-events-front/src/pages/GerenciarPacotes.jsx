@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "../components/Navbar";
+import GerenciarGenerico from "../components/GerenciarGenerico";
 import PacoteIndividual from "../components/PacoteIndividual";
-import stylesGP from "../styles/GerenciarPacotes.module.css";
-import { RiBox3Line } from '@remixicon/react';
+import { RiBox3Line } from "@remixicon/react";
 import packageImage1 from "../assets/images/Aniversario.png";
-import GerenciarItensTop from '../components/GerenciarItensTop';
-import Paginacao from "../components/Paginacao";
 
-// Dados mockados simulando o backend
-const pacotesMock = [
+// Dados mockados
+const pacotes = [
     { id: 1, nome: "Pacote Aniversário Grande", imagem: packageImage1 },
     { id: 2, nome: "Pacote Mega Casamento", imagem: "https://via.placeholder.com/150" },
     { id: 3, nome: "Pacote Festa de Criança", imagem: "https://via.placeholder.com/150" },
@@ -42,67 +38,26 @@ const pacotesMock = [
 ];
 
 function GerenciarPacotes() {
-    const [pacotes] = useState(pacotesMock);
-    const [pacotesFiltrados, setPacotesFiltrados] = useState(pacotes);
-    const [paginaAtual, setPaginaAtual] = useState(1);
-    const pacotesPorPagina = 12;
-
-    const indexInicial = (paginaAtual - 1) * pacotesPorPagina;
-    const pacotesNaPagina = pacotesFiltrados.slice(indexInicial, indexInicial + pacotesPorPagina);
-
-    const totalDePaginas = () => Math.ceil(pacotesFiltrados.length / pacotesPorPagina);
-
-    const mudarPagina = (pagina) => {
-        if (pagina >= 1 && pagina <= totalDePaginas()) {
-            setPaginaAtual(pagina);
-        }
-    };
-
-    const handleSearch = (query) => {
-        const filtered = pacotes.filter(pacote => 
-            pacote.nome.toLowerCase().includes(query.toLowerCase())
-        );
-        setPacotesFiltrados(filtered);
-        setPaginaAtual(1);
-    };
-
     return (
-        <div>
-            <NavBar />
-            <div className={stylesGP.container}>
-                <GerenciarItensTop 
-                    pacotes={pacotes} 
-                    setPacotesFiltrados={setPacotesFiltrados} 
-                    placeholder="Pesquisar pacotes" 
-                    icon={RiBox3Line}
-                    bigText="PACOTES CADASTRADOS"
-                    buttonText="ADICIONAR PACOTE"
-                    buttonLink="/adicionar-pacote"
-                    onSearch={handleSearch}
+        <GerenciarGenerico
+            dados={pacotes}
+            renderItem={(pacote) => (
+                <PacoteIndividual
+                    key={pacote.id}
+                    id={pacote.id}
+                    nome={pacote.nome}
+                    imagem={pacote.imagem}
                 />
-                <div className={stylesGP.descriptions}>
-                    {pacotesNaPagina.length > 0 ? (
-                        pacotesNaPagina.map((pacote) => (
-                            <PacoteIndividual
-                                key={pacote.id}
-                                id={pacote.id}
-                                nome={pacote.nome}
-                                imagem={pacote.imagem}
-                            />
-                        ))
-                    ) : null}
-                </div>
-                
-                <Paginacao 
-                    totalItens={pacotesFiltrados.length} 
-                    itensPorPagina={pacotesPorPagina} 
-                    paginaAtual={paginaAtual} 
-                    mudarPagina={mudarPagina}
-                />
-            </div>
-        </div>
+            )}
+            icone={RiBox3Line}
+            titulo="PACOTES CADASTRADOS"
+            placeholder="Pesquisar pacotes"
+            buttonText="ADICIONAR PACOTE"
+            buttonLink="/adicionar-pacote"
+            itensPorPagina={12}
+            noItensFound="Nenhum pacote encontrado."
+        />
     );
 }
 
 export default GerenciarPacotes;
-

@@ -1,52 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from '../styles/GerenciarItensTop.module.css';
-import { RiSearchLine } from '@remixicon/react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "../styles/GerenciarItensTop.module.css";
+import { RiSearchLine } from "@remixicon/react";
 
 function GerenciarItensTop({
-    pacotes,
-    setPacotesFiltrados,
     placeholder,
     icon: Icon,
     bigText,
     buttonText,
     buttonLink,
+    onSearch,
 }) {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [noResultsMessage, setNoResultsMessage] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
     const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            filterPacotes();
+        if (event.key === "Enter") {
+            onSearch(searchQuery);
         }
     };
 
     const handleSearchClick = () => {
-        filterPacotes();
-    };
-
-    const filterPacotes = () => {
-        const filtered = pacotes.filter(pacote =>
-            pacote.nome.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        setPacotesFiltrados(filtered);
-
-        if (filtered.length === 0) {
-            setNoResultsMessage("Nenhum pacote encontrado.");
-        } else {
-            setNoResultsMessage('');
-        }
+        onSearch(searchQuery);
     };
 
     return (
         <div>
             <div className={styles.searchBarContainer}>
                 <div className={styles.searchInputWrapper}>
-                    <RiSearchLine className={styles.iconSearch} onClick={handleSearchClick}/>
+                    <RiSearchLine
+                        className={styles.iconSearch}
+                        onClick={handleSearchClick}
+                    />
                     <input
                         type="search"
                         value={searchQuery}
@@ -63,15 +52,15 @@ function GerenciarItensTop({
                     {Icon && <Icon className={styles.blueIcon} />}
                     <span className={styles.bigText}>{bigText}</span>
                 </div>
-                <button className={styles.adicPac} onClick={() => navigate(buttonLink)}>
+                <button
+                    className={styles.adicPac}
+                    onClick={() => navigate(buttonLink)}
+                >
                     {buttonText}
                 </button>
             </div>
-
-            {noResultsMessage && <p>{noResultsMessage}</p>}
         </div>
     );
 }
-
 
 export default GerenciarItensTop;
