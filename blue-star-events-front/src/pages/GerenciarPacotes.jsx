@@ -56,6 +56,7 @@ function GerenciarPacotes() {
             buttonLink="/adicionar-pacote"
             itensPorPagina={12}
             noItensFound="Nenhum pacote encontrado."
+            campoPesquisa="nome"
         />
     );
 }

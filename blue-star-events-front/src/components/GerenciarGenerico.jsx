@@ -14,6 +14,7 @@ function GerenciarGenerico({
     buttonLink,
     itensPorPagina,
     noItensFound,
+    campoPesquisa,
 }) {
     const [itensFiltrados, setItensFiltrados] = useState(dados);
     const [paginaAtual, setPaginaAtual] = useState(1);
@@ -31,7 +32,7 @@ function GerenciarGenerico({
 
     const handleSearch = (query) => {
         const filtered = dados.filter((item) =>
-            item.nome.toLowerCase().includes(query.toLowerCase())
+            item[campoPesquisa].toLowerCase().includes(query.toLowerCase())
         );
         setItensFiltrados(filtered);
         setPaginaAtual(1);

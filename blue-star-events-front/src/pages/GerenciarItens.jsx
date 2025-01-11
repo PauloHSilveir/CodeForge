@@ -29,6 +29,7 @@ function GerenciarItens() {
             buttonLink="/adicionaritem"
             itensPorPagina={12}
             noItensFound="Nenhum item encontrado."
+            campoPesquisa="nome"
         />
     );
 }

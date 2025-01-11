@@ -1,0 +1,43 @@
+.descriptionItem {
+    width: 96vw;
+    padding: 1rem;
+}
+
+.descriptionItemTop {
+    display: grid;
+    grid-template-columns: 0.854fr 0.854fr 0.740fr 1.898fr 1.044fr 0.607fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.itemColuna {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media (max-width: 1150px) {
+    .descriptionItemTop {
+        grid-template-columns: 1.15fr 0.75fr 0.6fr;
+    }
+
+    .itemColuna {
+        flex-direction: column;
+        white-space: normal;
+    }
+}
+
+@media (max-width: 700px) {
+    .descriptionItemTop {
+        grid-template-columns: 0.7fr 1.3fr; 
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .descriptionItemTop {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}

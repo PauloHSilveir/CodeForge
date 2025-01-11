@@ -14,6 +14,7 @@ import OrcamentoPersonalizado4 from './pages/OrcamentoPersonalizado4';
 import GerenciarSistema from './pages/GerenciarSistema';
 import GerenciarPacotes from './pages/GerenciarPacotes';
 import GerenciarItens from './pages/GerenciarItens';
+import VisualizarHisricoTransacoesADM from './pages/VisualizarHistoricoTransacoesADM';
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
         <Route path='/gerenciarsistema' element={<GerenciarSistema />} />
         <Route path='/gerenciarpacotes' element={<GerenciarPacotes />} />
         <Route path='/gerenciaritens' element={<GerenciarItens />} />
+        <Route path='/gerenciartransacoes' element={<VisualizarHisricoTransacoesADM />} />
+        
       </Routes>
     </BrowserRouter>
   );
