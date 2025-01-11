@@ -32,7 +32,7 @@ function Home() {
                     <button className={`${stylesHome.buttonsHome} ${stylesHome.consPac}`} onClick={() => handleNavigate('/consultarpacotes')}>
                         Consultar Pacotes
                     </button>
-                    <button className={`${stylesHome.buttonsHome} ${stylesHome.orcPer}`} onClick={() => handleNavigate('/obterorcamentopersonalizado')}>
+                    <button className={`${stylesHome.buttonsHome} ${stylesHome.orcPer}`} onClick={() => handleNavigate('/orcamentopersonalizado1')}>
                         Obter Orçamento Personalizado
                     </button>
 

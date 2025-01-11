@@ -1,0 +1,103 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
+    font-weight: medium;
+    font-style: normal;
+}
+
+.itemContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 40rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.itemRow {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0;
+    border-bottom: 0.0125rem solid #D9D9D9;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: medium;
+    color: #1E1E1E;
+    gap: 12px;
+}
+
+.checkboxLabel input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 0.025rem solid #0A5A9C;
+    border-radius: 0.25rem;
+    background-color: white;
+}
+
+.checkboxLabel input:checked~.checkmark {
+    background-color: #0A5A9C;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 0.375rem;
+    top: 0.125rem;
+    width: 0.25rem;
+    height: 0.625rem;
+    border: solid #fff;
+    border-width: 0 0.125rem 0.125rem 0;
+    transform: rotate(45deg);
+}
+
+.checkboxLabel input:checked~.checkmark:after {
+    display: block;
+}
+
+.quantityControls {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.quantityButton {
+    background: none;
+    border: none;
+    color: #0A5A9C;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+}
+
+.quantityButton:disabled {
+    color: #D9D9D9;
+    cursor: not-allowed;
+}
+
+.quantityInput {
+    width: 2.5rem;
+    height: 1.75rem;
+    text-align: center;
+    border: 0.0625rem solid #D9D9D9;
+    border-radius: 0.25rem;
+    margin: 0 0.25rem;
+}
+
+.quantityInput::-webkit-inner-spin-button,
+.quantityInput::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

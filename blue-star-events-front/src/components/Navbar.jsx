@@ -43,7 +43,7 @@ const PackagesDropdown = () => (
         </Link>
       </li>
       <li>
-        <Link to="/obterorcamentopersonalizado" className="dropdown__link">
+        <Link to="/orcamentopersonalizado1" className="dropdown__link">
           <RiFileEditLine /> Personalizado
         </Link>
       </li>
@@ -81,7 +81,8 @@ const UserDropdown = () => (
 const ManageSystemDropdown = () => (
   <li className="dropdown__item">
     <div className="nav__link">
-      Gerenciar Sistema <RiArrowDownSLine className="dropdown__arrow" />
+      <Link to="/gerenciarsistema" className="nav__link">Gerenciar Sistema</Link>
+      <RiArrowDownSLine className="dropdown__arrow" />
     </div>
     <ul className="dropdown__menu">
       <li>
