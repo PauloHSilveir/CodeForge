@@ -11,6 +11,8 @@ router.post('/users', UserController.store);
 router.put('/users/:user_id', UserController.update);
 router.delete('/users/:user_id', UserController.delete);
 router.post('/users/login', UserController.login);
+router.post('/users/forgot_password', UserController.forgot_password);
+router.post('/users/reset_password', UserController.reset_password);   
 
 router.use(authMiddleware);
 
