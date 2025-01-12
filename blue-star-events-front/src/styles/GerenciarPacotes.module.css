@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: max-content;
+    margin-top: 6.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.descriptions{
+    display: flex;
+    justify-content: space-between;
+    width: 96vw;
+    flex-wrap: wrap;
+}

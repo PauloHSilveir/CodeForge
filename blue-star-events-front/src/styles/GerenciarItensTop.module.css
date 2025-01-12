@@ -1,0 +1,108 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.bigText {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #000;
+}
+
+.searchBarContainer {
+    display: flex;
+    width: 96vw;
+    height: 7rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.searchInputWrapper {
+    position: relative;
+    width: 35rem;
+}
+
+.searchBar {
+    width: 100%;
+    height: 2rem;
+    padding: 1rem 2.5rem 1rem 1rem;
+    border: 0.0625rem solid #D9D9D9;
+    border-radius: 0.4rem;
+    background-color: white;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: medium;
+    color: black;
+}
+
+.searchBar:focus {
+    border-color: #0A5A9C;
+    outline: none;
+    background-color: #f7fafd; 
+    box-shadow: 0 0 0.33rem rgba(0, 91, 179, 0.2);
+}
+
+
+.iconSearch {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0A5A9C;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s ease;
+}
+
+.iconSearch:hover {
+    color: #0c4778;
+    transform: scale(1.1) translateY(-50%);
+}
+
+.topTitle{
+    display: flex;
+    width: 100%;
+    height: max-content;
+    justify-content: space-between;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: black;   
+}
+
+.title{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.blueIcon {
+    color: #0A5A9C;
+    width: 2rem;
+    height: 2rem;
+}
+
+.adicPac{
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: bold;
+    padding-inline: 1rem;
+    height: 2rem;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    background-color: white;
+    color: #0A5A9C;
+    border-color: #0A5A9C;
+}
+
+.adicPac:hover{
+    background-color: #fafafa;
+    color: #0c4778;
+    border-color: #0c4778;
+    transform: scale(1.03);
+    cursor: pointer;
+}
+

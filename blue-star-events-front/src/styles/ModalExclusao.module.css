@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    width: 23rem; 
+    width: 22rem; 
     height: 10rem;
     overflow-y: auto; 
     border-radius: 0.1rem;
@@ -25,7 +25,7 @@
 
 .text {
     display: flex;
-    width: 16rem;
+    width: 18rem;
     text-align: center;
     margin-top: 1.5rem;
     font-weight: medium;
