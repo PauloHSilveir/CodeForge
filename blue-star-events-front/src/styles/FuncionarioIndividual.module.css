@@ -1,0 +1,21 @@
+.descriptionItemTop {
+    grid-template-columns: 1.7fr 0.65fr 0.65fr;
+}
+
+@media (max-width: 1060px) {
+    .descriptionItemTop {
+        grid-template-columns: 0.7fr 1.3fr;
+    }
+}
+
+@media (max-width: 660px) {
+    .descriptionItemTop {
+        grid-template-columns: 1fr; 
+    }
+}
+
+@media (max-width: 480px) {
+    .descriptionItemTop {
+        grid-template-columns: 1fr;
+    }
+}

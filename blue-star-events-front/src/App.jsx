@@ -13,6 +13,10 @@ import OrcamentoPersonalizado3 from './pages/OrcamentoPersonalizado3';
 import OrcamentoPersonalizado4 from './pages/OrcamentoPersonalizado4';
 import GerenciarSistema from './pages/GerenciarSistema';
 import GerenciarPacotes from './pages/GerenciarPacotes';
+import GerenciarItens from './pages/GerenciarItens';
+import VisualizarHistoricoTransacoesADM from './pages/VisualizarHistoricoTransacoesADM';
+import GerenciarFuncionarios from './pages/GerenciarFuncionarios';
+import CadastrarPacote1 from './pages/CadastrarPacote1';
 
 function App() {
   return (
@@ -32,6 +36,10 @@ function App() {
         <Route path='/orcamentopersonalizado4' element={<OrcamentoPersonalizado4 />} />
         <Route path='/gerenciarsistema' element={<GerenciarSistema />} />
         <Route path='/gerenciarpacotes' element={<GerenciarPacotes />} />
+        <Route path='/gerenciaritens' element={<GerenciarItens />} />
+        <Route path='/gerenciartransacoes' element={<VisualizarHistoricoTransacoesADM />} />
+        <Route path='/gerenciarfuncionarios' element={<GerenciarFuncionarios />} />
+        <Route path='/cadastrarpacotes1' element={<CadastrarPacote1 />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,7 +5,7 @@ import FormularioDetalhesEvento from "../components/FormularioDetalhesEvento";
 
 function OrcamentoPersonalizado1() {
     const navigate = useNavigate();
-    
+
     const [formData, setFormData] = useState({
         eventSize: "",
         eventType: "",
@@ -31,7 +31,11 @@ function OrcamentoPersonalizado1() {
             handleNavigate={handleNavigate}
             nextButtonText="PRÓXIMA ETAPA"
         >
-            <FormularioDetalhesEvento formData={formData} handleChange={handleChange} />
+            <FormularioDetalhesEvento
+                formData={formData}
+                handleChange={handleChange}
+            />
+            
         </OrcamentoBase>
     );
 }

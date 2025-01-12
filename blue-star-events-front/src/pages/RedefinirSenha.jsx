@@ -62,9 +62,11 @@ function RedefinirSenha() {
                             REDEFINIR SENHA
                         </div>
                     </div>
+
                     <div className={`${stylesRedefinirSenha.message} ${stylesFormBaseA.smallText}`}>
                         Insira seu e-mail para que possamos redefinir sua senha.
                     </div>
+
                     <div className={stylesFormBaseA.formContainer}>
                         <form onSubmit={handleSubmit} className={stylesFormBaseA.baseForm}>
                             <label htmlFor="email" className={stylesFormBaseA.label}>
@@ -99,8 +101,14 @@ function RedefinirSenha() {
                         </form>
                     </div>
                     <div className={stylesFormBaseA.register}>
-                        <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
-                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>
+                        <span className={stylesFormBaseA.smallText}>
+                            Não tem uma conta?
+                        </span>
+
+                        <Link
+                            to="/cadastrarusuario"
+                            className={stylesFormBaseA.blueBolder}
+                        >
                             CADASTRE-SE
                         </Link>
                     </div>

@@ -9,7 +9,12 @@ const ModalCadastrar = ({ isOpen, onClose, title, children }) => {
             <div className={stylesMC.modalContent}>
                 <h2>{title}</h2>
                 <div>{children}</div>
-                <button onClick={onClose} className={stylesMC.closeButton}>Fechar</button>
+                <button
+                    onClick={onClose}
+                    className={stylesMC.closeButton}
+                >
+                    Fechar
+                </button>
             </div>
         </div>
     );

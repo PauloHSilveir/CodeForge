@@ -29,6 +29,7 @@ function CadastrarUsuario() {
                             className={stylesFormBaseA.iconBack}
                             onClick={() => navigate('/')}
                         />
+                        
                         <div className={stylesFormBaseA.bigText}>
                             INSIRA SEUS DADOS
                         </div>
@@ -40,7 +41,13 @@ function CadastrarUsuario() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiUserLine />
-                                <input type="text" id="nome" placeholder="Digite seu nome" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="nome"
+                                    placeholder="Digite seu nome"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="cpf" className={stylesFormBaseA.label}>
@@ -48,7 +55,13 @@ function CadastrarUsuario() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiIdCardLine />
-                                <input type="text" id="cpf" placeholder="Digite seu CPF" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="cpf"
+                                    placeholder="Digite seu CPF"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="email" className={stylesFormBaseA.label}>
@@ -56,7 +69,13 @@ function CadastrarUsuario() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMailLine />
-                                <input type="email" id="email" placeholder="Digite seu email" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Digite seu email"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="telefone" className={stylesFormBaseA.label}>
@@ -64,7 +83,13 @@ function CadastrarUsuario() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiPhoneLine />
-                                <input type="text" id="telefone" placeholder="Digite seu telefone" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="telefone"
+                                    placeholder="Digite seu telefone"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="senha" className={stylesFormBaseA.label}>
@@ -72,7 +97,13 @@ function CadastrarUsuario() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" id="senha" placeholder="Digite sua senha" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="password"
+                                    id="senha"
+                                    placeholder="Digite sua senha"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="confirmarSenha" className={stylesFormBaseA.label}>
@@ -80,18 +111,31 @@ function CadastrarUsuario() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" id="confirmarSenha" placeholder="Digite novamente a senha" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="password"
+                                    id="confirmarSenha"
+                                    placeholder="Digite novamente a senha"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
-                            <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/cadastrarendereco')}>
+                            <button
+                                className={stylesFormBaseA.buttonBase}
+                                onClick={() => handleNavigate('/cadastrarendereco')}
+                            >
                                 Próximo
                             </button>
                         </form>
 
                     </div>
                     <div className={stylesFormBaseA.register}>
-                        <span className={stylesFormBaseA.smallText}>Já possui uma conta?</span>
-                        <Link to="/login" className={stylesFormBaseA.blueBolder}>ENTRAR</Link>
+                        <span className={stylesFormBaseA.smallText}>
+                            Já possui uma conta?
+                        </span>
+                        <Link to="/login" className={stylesFormBaseA.blueBolder}>
+                            ENTRAR
+                        </Link>
                     </div>
                 </div>
 

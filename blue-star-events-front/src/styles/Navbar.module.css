@@ -5,6 +5,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "PermanentMarker";
+  src: url("../assets/fonts/Permanent_Marker/PermanentMarker-Regular.ttf") format("truetype");
+  font-weight: bold ;
+  font-style: normal;
+}
+
 :root {
   --header-height: 3.5rem;
 
@@ -84,7 +91,13 @@ a {
   display: inline-flex;
   align-items: center;
   column-gap: 0.25rem;
-  font-weight: var(--font-semi-bold);
+  color: #FFF;
+  stroke: #1383ED;
+  stroke-width: 0.0625rem;
+  -webkit-text-stroke: 0.0625rem #1383ED;
+  font-family: "PermanentMarker", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bolder;
 }
 
 .nav__logo i {

@@ -107,7 +107,9 @@ function CriarNovaSenha() {
                         </form>
                     </div>
                     <div className={stylesFormBaseA.register}>
-                        <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
+                        <span className={stylesFormBaseA.smallText}>
+                            Não tem uma conta?
+                        </span>
                         <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>
                             CADASTRE-SE
                         </Link>

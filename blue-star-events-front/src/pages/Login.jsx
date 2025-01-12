@@ -80,6 +80,7 @@ function Login() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required />
                             </div>
+
                             <label htmlFor="senha" className={stylesFormBaseA.label}>
                                 Senha
                             </label>
@@ -98,12 +99,20 @@ function Login() {
                             <button type='submit' className={stylesFormBaseA.buttonBase}>
                                 <RiLoginBoxLine /> Entrar
                             </button>
-                            <Link to="/redefinirsenha" className={stylesLogin.forgotPass}>Esqueceu a senha?</Link>
+
+                            <Link to="/redefinirsenha" className={stylesLogin.forgotPass}>
+                                Esqueceu a senha?
+                            </Link>
                         </form>
                     </div>
                     <div className={stylesFormBaseA.register}>
-                        <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
-                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
+                        <span className={stylesFormBaseA.smallText}>
+                            Não tem uma conta?
+                        </span>
+
+                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>
+                            CADASTRE-SE
+                        </Link>
                     </div>
                 </div>
 

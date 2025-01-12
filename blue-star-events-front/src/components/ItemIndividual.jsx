@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import stylesGI from "../styles/PacoteIndividual.module.css";
 import ModalExcluir from "../components/ModalExcluir";
 
-function PacoteIndividual({ id, nome, imagem }) {
+function ItemIndividual({ id, nome, quantidade, imagem }) {
     const [isModalOpen, setModalOpen] = useState(false);
 
 
@@ -12,26 +12,36 @@ function PacoteIndividual({ id, nome, imagem }) {
     return (
         <div className={stylesGI.descriptionItem}>
             <div className={stylesGI.descriptionItemTop}>
+
                 <div className={stylesGI.idTop}>
-                    <span className={stylesGI.mediumTextDark}>Pacote: </span>
+                    <span className={stylesGI.mediumTextDark}>Item: </span>
                     <span className={stylesGI.mediumTextLight}>{id}</span>
                 </div>
+
                 <div className={stylesGI.buttonsTop}>
                     <button
                         className={`${stylesGI.buttons} ${stylesGI.excPac}`}
                         onClick={openModal}
                     >
-                        EXCLUIR PACOTE
+                        EXCLUIR ITEM
                     </button>
+
                     <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`}>
-                        EDITAR PACOTE
+                        EDITAR ITEM
                     </button>
+                </div>
+            </div>
+
+            <div className={stylesGI.descriptionItemTop}>
+                <div className={stylesGI.idTop}>
+                    <span className={stylesGI.mediumTextDark}>Quantidade Disponível: </span>
+                    <span className={stylesGI.mediumTextLight}>{quantidade}</span>
                 </div>
             </div>
 
             <div className={stylesGI.descriptionItemBottom}>
                 <div className={stylesGI.packageImageContainer}>
-                    <img src={imagem} alt={`Imagem do pacote ${nome}`} />
+                    <img src={imagem} alt={`Imagem do item ${nome}`} />
                 </div>
                 <div className={stylesGI.idTop}>
                     <span className={stylesGI.mediumTextDark}>{nome}</span>
@@ -41,10 +51,10 @@ function PacoteIndividual({ id, nome, imagem }) {
                 isOpen={isModalOpen}
                 onClose={closeModal}
             >
-                <p>DESEJA REALMENTE <strong>EXCLUIR</strong> O PACOTE<strong> PERMANENTEMENTE</strong>?</p>
+                <p>DESEJA REALMENTE <strong>EXCLUIR</strong> O ITEM<strong> PERMANENTEMENTE</strong>?</p>
             </ModalExcluir>
         </div>
     );
 }
 
-export default PacoteIndividual;
+export default ItemIndividual;

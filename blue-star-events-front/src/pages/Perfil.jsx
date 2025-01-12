@@ -34,18 +34,31 @@ function Perfil() {
                         <div className={stylesPerfil.leftPerfil}>
                             <img src={iconImage} alt="Imagem de icone" />
                             <div className={stylesPerfil.leftText}>
-                                <span className={stylesPerfil.bigText}> Bem Vindo, Fulano Editor Master </span>
+                                <span className={stylesPerfil.bigText}>
+                                    Bem Vindo, Fulano Editor Master
+                                </span>
+
                                 <div className={stylesPerfil.mailPerfil}>
                                     <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
-                                    <span className={stylesPerfil.mediumText}>fulano@gmail.com</span>
+                                    <span className={stylesPerfil.mediumText}>
+                                        fulano@gmail.com
+                                    </span>
                                 </div>
+
                             </div>
                         </div>
                         <div>
-                            <button className={`${stylesPerfil.buttonsPerfilBox} ${stylesPerfil.editarDados}`} onClick={() => handleNavigate('/editardados')}>
+                            <button
+                                className={`${stylesPerfil.buttonsPerfilBox} ${stylesPerfil.editarDados}`}
+                                onClick={() => handleNavigate('/editardados')}
+                            >
                                 <RiEditBoxLine />EDITAR DADOS
                             </button>
-                            <button className={`${stylesPerfil.buttonsPerfilBox} ${stylesPerfil.excluirConta}`} onClick={openModal}>
+
+                            <button
+                                className={`${stylesPerfil.buttonsPerfilBox} ${stylesPerfil.excluirConta}`}
+                                onClick={openModal}
+                            >
                                 <RiDeleteBinLine />EXCLUIR CONTA
                             </button>
                         </div>
@@ -54,36 +67,68 @@ function Perfil() {
                     <div className={stylesPerfil.optionBox}>
                         <div className={stylesPerfil.containerTitle}>
                             <RiApps2Fill className={stylesPerfil.blueIcon} />
-                            <span className={stylesPerfil.bigText}>ATALHOS</span>
+                            <span className={stylesPerfil.bigText}>
+                                ATALHOS
+                            </span>
                         </div>
+
                         <div className={stylesPerfil.containerButtons}>
-                            <button className={stylesPerfil.buttonsOptionsBox} onClick={() => handleNavigate('/')}>
+                            <button
+                                className={stylesPerfil.buttonsOptionsBox}
+                                onClick={() => handleNavigate('/')}
+                            >
                                 <RiShoppingCart2Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
-                                    <span className={stylesPerfil.mediumText}> MEUS PEDIDOS</span>
-                                    <span className={stylesPerfil.smallText}> <br />Veja o histórico e acompanhe seus pedidos. </span>
+                                    <span className={stylesPerfil.mediumText}>
+                                        MEUS PEDIDOS
+                                    </span>
+
+                                    <span className={stylesPerfil.smallText}>
+                                        <br />Veja o histórico e acompanhe seus pedidos.
+                                    </span>
                                 </div>
                             </button>
-                            <button className={stylesPerfil.buttonsOptionsBox} onClick={() => handleNavigate('/')}>
+
+                            <button
+                                className={stylesPerfil.buttonsOptionsBox}
+                                onClick={() => handleNavigate('/')}
+                            >
                                 <RiUser3Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
-                                    <span className={stylesPerfil.mediumText}> MEUS DADOS </span>
-                                    <span className={stylesPerfil.smallText}> <br />Altere seus dados cadastrados. </span>
+                                    <span className={stylesPerfil.mediumText}>
+                                        MEUS DADOS
+                                    </span>
+
+                                    <span className={stylesPerfil.smallText}>
+                                        <br />Altere seus dados cadastrados.
+                                    </span>
                                 </div>
                             </button>
-                            <button className={stylesPerfil.buttonsOptionsBox} onClick={() => handleNavigate('/')}>
+                            <button
+                                className={stylesPerfil.buttonsOptionsBox}
+                                onClick={() => handleNavigate('/')}
+                            >
                                 <RiChat4Fill className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
-                                    <span className={stylesPerfil.mediumText}> AVALIAÇÕES </span>
-                                    <span className={stylesPerfil.smallText}> <br />Avalie seus pedidos e visualize suas avaliações e comentários. </span>
+                                    <span className={stylesPerfil.mediumText}>
+                                        AVALIAÇÕES
+                                    </span>
+
+                                    <span className={stylesPerfil.smallText}>
+                                        <br />Avalie seus pedidos e visualize suas avaliações e comentários.
+                                    </span>
                                 </div>
                             </button>
+
                         </div>
                     </div>
                 </div>
             </div>
 
-            <ModalExcluir isOpen={isModalOpen} onClose={closeModal}>
+            <ModalExcluir
+                isOpen={isModalOpen}
+                onClose={closeModal}
+            >
                 <p>DESEJA REALMENTE <strong>EXCLUIR</strong> SUA CONTA<strong> PERMANENTEMENTE</strong>?</p>
             </ModalExcluir>
         </div>
