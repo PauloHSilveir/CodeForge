@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import NavBar from "../components/Navbar";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesRedefinirSenha from '../styles/RedefinirSenha.module.css';
@@ -9,10 +10,42 @@ import {
 } from '@remixicon/react';
 
 function RedefinirSenha() {
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleNavigate = (path) => {
-        navigate(path);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:3333/users/forgot_password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSuccess('Email enviado com sucesso!');
+                setError('');
+                setTimeout(() => navigate('/'), 2000); 
+            } else {
+                setError(data.message || 'Erro ao enviar o e-mail.');
+                setSuccess('');
+            }
+        } catch (err) {
+            setError('Erro ao conectar ao servidor. Tente novamente mais tarde.', err);
+            setSuccess('');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -23,7 +56,7 @@ function RedefinirSenha() {
                     <div className={stylesFormBaseA.legendContainer}>
                         <RiArrowLeftCircleLine
                             className={stylesFormBaseA.iconBack}
-                            onClick={() => navigate('/login')}
+                            onClick={() => !loading && navigate('/login')}
                         />
                         <div className={stylesFormBaseA.bigText}>
                             REDEFINIR SENHA
@@ -33,23 +66,43 @@ function RedefinirSenha() {
                         Insira seu e-mail para que possamos redefinir sua senha.
                     </div>
                     <div className={stylesFormBaseA.formContainer}>
-                        <form action="#" className={stylesFormBaseA.baseForm}>
+                        <form onSubmit={handleSubmit} className={stylesFormBaseA.baseForm}>
                             <label htmlFor="email" className={stylesFormBaseA.label}>
                                 Email
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMailLine />
-                                <input type="email" id="email" placeholder="Digite seu e-mail" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Digite seu e-mail"
+                                    className={stylesFormBaseA.inputField}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    disabled={loading} // Bloqueia o campo durante a requisição
+                                    required
+                                />
                             </div>
-                            <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/criarnovasenha')}>
-                                Continuar
+                            {error && (
+                                <p className={stylesFormBaseA.errorText}>{error}</p>
+                            )}
+                            {success && (
+                                <p className={stylesFormBaseA.successText}>{success}</p>
+                            )}
+                            <button
+                                className={stylesFormBaseA.buttonBase}
+                                type="submit"
+                                disabled={loading}
+                            >
+                                {loading ? 'Enviando...' : 'Continuar'}
                             </button>
                         </form>
-
                     </div>
                     <div className={stylesFormBaseA.register}>
                         <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
-                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
+                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>
+                            CADASTRE-SE
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -58,4 +111,3 @@ function RedefinirSenha() {
 }
 
 export default RedefinirSenha;
-

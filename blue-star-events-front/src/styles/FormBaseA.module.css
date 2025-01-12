@@ -163,6 +163,15 @@
     transform: scale(1.03);
 }
 
+.buttonBase:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.buttonBase:disabled:hover {
+    background-color: #cccccc;
+}
+
 .register {
     display: flex;
     justify-content: center;

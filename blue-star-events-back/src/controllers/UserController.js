@@ -85,10 +85,10 @@ module.exports = {
                 {
                     passwordResetToken: token,
                     passwordResetExpires: now,
-                }, { where: { email: user.email }, }
+                }, { where: { email: email }, }
             );
 
-            const resetLink = generatePasswordResetLink(token);
+            const resetLink = generatePasswordResetLink(token, email);
             const emailResponse = await sendForgotPasswordEmail(email, resetLink);
 
             if (emailResponse.success) {
@@ -116,48 +116,45 @@ module.exports = {
     },
 
     async reset_password(req, res) {
-        const { email, token, password } = req.body;
-
+        const { token, email } = req.query;
+        const { password } = req.body;
+    
         try {
-            const user = await User.findOne({ where: { email } }).select('+passwordResetToken passwordResetExpires');
-
+            const user = await User.findOne({
+                where: { email },
+                attributes: ['passwordResetToken', 'passwordResetExpires', 'id'],
+            });
+    
             if (!user) {
-                return res.status(400).send({
-                    status: 0,
-                    message: 'Usuário não encontrado!',
-                    user: {}
-                });
+                return res.status(400).json({ message: 'Usuário não encontrado.' });
             }
+            
             if (token !== user.passwordResetToken) {
-                return res.status(400).send({
-                    status: 0,
-                    message: 'Token inválido!',
-                    user: {}
-                });
+                return res.status(400).json({ message: 'Token inválido.' });
             }
-            const now = new Date();
-            if (now > user.passwordResetExpires) {
-                return res.status(400).send({
-                    status: 0,
-                    message: 'Token expirado, solicite uma nova recuperação de senha!',
-                    user: {}
-                });
+
+            if (new Date() > user.passwordResetExpires) {
+                return res.status(400).json({ message: 'Token expirado. Solicite novamente.' });
             }
+
             user.password = password;
+            user.passwordResetToken = null;
+            user.passwordResetExpires = null;
+    
             await user.save();
-            return res.status(200).send({
+    
+            return res.status(200).json({
                 status: 1,
                 message: 'Senha alterada com sucesso!',
-                user: {}
             });
         } catch (err) {
-            return res.status(400).send({
+            console.error('Erro ao redefinir a senha:', err);
+            return res.status(500).json({
                 status: 0,
-                message: 'Erro ao on forgot password, try again!',
-                user: {}
+                message: 'Erro ao tentar redefinir a senha, tente novamente mais tarde.',
             });
         }
-    },
+    },    
 
     async index(req, res) {
 

@@ -18,10 +18,11 @@ async function sendForgotPasswordEmail(email, resetLink) {
         return { success: false, error };
     }
 }
-function generatePasswordResetLink(token) {
+function generatePasswordResetLink(token, email) {
     const baseUrl = 'http://localhost:5173/criarnovasenha'; 
-    return `${baseUrl}?token=${token}`;
+    return `${baseUrl}?token=${token}&email=${encodeURIComponent(email)}`;
 }
+
 
 
 module.exports = { sendForgotPasswordEmail, generatePasswordResetLink };
