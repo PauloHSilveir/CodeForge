@@ -53,7 +53,7 @@ function GerenciarPacotes() {
             titulo="PACOTES CADASTRADOS"
             placeholder="Pesquisar pacotes"
             buttonText="ADICIONAR PACOTE"
-            buttonLink="/adicionar-pacote"
+            buttonLink="/cadastrarpacotes1"
             itensPorPagina={12}
             noItensFound="Nenhum pacote encontrado."
             campoPesquisa="nome"

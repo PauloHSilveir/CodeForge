@@ -13,37 +13,42 @@ import {
   RiBox3Line,
   RiSofaLine
 } from '@remixicon/react';
-import '../styles/Navbar.css';
+import stylesNavbar from '../styles/Navbar.module.css';
 import { Link } from 'react-router-dom';
 
-// Componente para o Logo
 const Logo = () => (
-  <Link to="/" className="nav__logo">
+  <Link to="/" className={stylesNavbar.nav__logo}>
     <RiStarLine /> Blue Star Events
   </Link>
 );
 
-// Componente para o botão do Menu
 const MenuToggle = ({ menuOpen, toggleMenu }) => (
-  <div className="nav__toggle" id="nav-toggle" onClick={toggleMenu}>
-    {menuOpen ? <RiCloseLine className="nav__close" /> : <RiMenuLine className="nav__burger" />}
+  <div
+    className={stylesNavbar.nav__toggle}
+    id="nav-toggle"
+    onClick={toggleMenu}
+  >
+    {menuOpen ? (
+      <RiCloseLine className={stylesNavbar.nav__close} />
+    ) : (
+      <RiMenuLine className={stylesNavbar.nav__burger} />
+    )}
   </div>
 );
 
-// Componente para o item de Pacotes  
 const PackagesDropdown = () => (
-  <li className="dropdown__item">
-    <div className="nav__link">
-      Contratar um pacote <RiArrowDownSLine className="dropdown__arrow" />
+  <li className={stylesNavbar.dropdown__item}>
+    <div className={stylesNavbar.nav__link}>
+      Contratar um pacote <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
     </div>
-    <ul className="dropdown__menu">
+    <ul className={stylesNavbar.dropdown__menu}>
       <li>
-        <Link to="/consultarpacotes" className="dropdown__link">
+        <Link to="/consultarpacotes" className={stylesNavbar.dropdown__link}>
           <RiFileLine /> Padrão
         </Link>
       </li>
       <li>
-        <Link to="/orcamentopersonalizado1" className="dropdown__link">
+        <Link to="/orcamentopersonalizado1" className={stylesNavbar.dropdown__link}>
           <RiFileEditLine /> Personalizado
         </Link>
       </li>
@@ -51,25 +56,24 @@ const PackagesDropdown = () => (
   </li>
 );
 
-// Componente para o menu de Usuário
 const UserDropdown = () => (
-  <li className="dropdown__item">
-    <div className="nav__link">
-      Usuário <RiArrowDownSLine className="dropdown__arrow" />
+  <li className={stylesNavbar.dropdown__item}>
+    <div className={stylesNavbar.nav__link}>
+      Usuário <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
     </div>
-    <ul className="dropdown__menu">
+    <ul className={stylesNavbar.dropdown__menu}>
       <li>
-        <Link to='/login' className="dropdown__link">
+        <Link to='/login' className={stylesNavbar.dropdown__link}>
           <RiLoginBoxLine /> Login
         </Link>
       </li>
       <li>
-        <Link to="/cadastrarusuario" className="dropdown__link">
+        <Link to="/cadastrarusuario" className={stylesNavbar.dropdown__link}>
           <RiUserAddLine /> Cadastrar
         </Link>
       </li>
       <li>
-        <Link to="/perfil" className="dropdown__link">
+        <Link to="/perfil" className={stylesNavbar.dropdown__link}>
           <RiUserLine /> Perfil
         </Link>
       </li>
@@ -77,31 +81,30 @@ const UserDropdown = () => (
   </li>
 );
 
-// Componente para o menu de Usuário
 const ManageSystemDropdown = () => (
-  <li className="dropdown__item">
-    <div className="nav__link">
-      <Link to="/gerenciarsistema" className="nav__link">Gerenciar Sistema</Link>
-      <RiArrowDownSLine className="dropdown__arrow" />
+  <li className={stylesNavbar.dropdown__item}>
+    <div className={stylesNavbar.nav__link}>
+      <Link to="/gerenciarsistema" className={stylesNavbar.nav__link}>Gerenciar Sistema</Link>
+      <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
     </div>
-    <ul className="dropdown__menu">
+    <ul className={stylesNavbar.dropdown__menu}>
       <li>
-        <Link to="/gerenciarpacotes" className="dropdown__link">
+        <Link to="/gerenciarpacotes" className={stylesNavbar.dropdown__link}>
           <RiBox3Line /> Pacotes
         </Link>
       </li>
       <li>
-        <Link to="/gerenciaritens" className="dropdown__link">
+        <Link to="/gerenciaritens" className={stylesNavbar.dropdown__link}>
           <RiSofaLine /> Itens
         </Link>
       </li>
       <li>
-        <Link to="/gerenciarfuncionarios" className="dropdown__link">
+        <Link to="/gerenciarfuncionarios" className={stylesNavbar.dropdown__link}>
           <RiUserLine /> Funcionários
         </Link>
       </li>
       <li>
-        <Link to="/gerenciartransacoes" className="dropdown__link">
+        <Link to="/gerenciartransacoes" className={stylesNavbar.dropdown__link}>
           <RiMoneyDollarBoxLine /> Transações
         </Link>
       </li>
@@ -109,7 +112,6 @@ const ManageSystemDropdown = () => (
   </li>
 );
 
-// Componente principal da Navbar
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -118,20 +120,24 @@ const Navbar = () => {
   };
 
   return (
-    <header className="header">
-      <nav className="nav container">
-        <div className="nav__data">
+    <header className={stylesNavbar.header}>
+      <nav className={`${stylesNavbar.nav} ${stylesNavbar.container}`}>
+        <div className={stylesNavbar.nav__data}>
           <Logo />
           <MenuToggle menuOpen={menuOpen} toggleMenu={toggleMenu} />
         </div>
-
-        <div className={`nav__menu ${menuOpen ? 'show-menu' : 'show-icon'}`} id="nav-menu">
-          <ul className="nav__list">
+        <div
+          className={`${stylesNavbar.nav__menu} ${
+            menuOpen ? stylesNavbar['show-menu'] : stylesNavbar['show-icon']
+          }`}
+          id="nav-menu"
+        >
+          <ul className={stylesNavbar.nav__list}>
             <PackagesDropdown />
             <UserDropdown />
             <ManageSystemDropdown />
             <li>
-              <Link to="/contatenos" className="nav__link">Contate-nos</Link>
+              <Link to="/contatenos" className={stylesNavbar.nav__link}>Contate-nos</Link>
             </li>
           </ul>
         </div>

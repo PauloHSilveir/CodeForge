@@ -38,26 +38,50 @@ function Login() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMailLine />
-                                <input type="email" id="email" placeholder="Digite seu e-mail" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Digite seu e-mail"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
+
                             <label htmlFor="senha" className={stylesFormBaseA.label}>
                                 Senha
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" id="senha" placeholder="Digite sua senha" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="password"
+                                    id="senha"
+                                    placeholder="Digite sua senha"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
-                            <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/')}>
+                            <button
+                                className={stylesFormBaseA.buttonBase}
+                                onClick={() => handleNavigate('/')}
+                            >
                                 <RiLoginBoxLine /> Entrar
                             </button>
-                            <Link to="/redefinirsenha" className={stylesLogin.forgotPass}>Esqueceu a senha?</Link>
+
+                            <Link to="/redefinirsenha" className={stylesLogin.forgotPass}>
+                                Esqueceu a senha?
+                            </Link>
                         </form>
 
                     </div>
                     <div className={stylesFormBaseA.register}>
-                        <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
-                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
+                        <span className={stylesFormBaseA.smallText}>
+                            Não tem uma conta?
+                        </span>
+
+                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>
+                            CADASTRE-SE
+                        </Link>
                     </div>
                 </div>
 

@@ -16,6 +16,7 @@
     display: inline-flex;
     width: 96vw;
 }
+
 .containerDados {
     display: flex;
     flex-direction: column;

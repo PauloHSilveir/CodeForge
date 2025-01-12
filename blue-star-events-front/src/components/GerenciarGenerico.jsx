@@ -50,6 +50,7 @@ function GerenciarGenerico({
                     buttonLink={buttonLink}
                     onSearch={handleSearch} // Passa a função handleSearch para o filho
                 />
+
                 <div className={styles.descriptions}>
                     {itensNaPagina.length > 0 ? (
                         itensNaPagina.map((item) => renderItem(item))
@@ -57,12 +58,14 @@ function GerenciarGenerico({
                         <p>{noItensFound}</p>
                     )}
                 </div>
+
                 <Paginacao
                     totalItens={itensFiltrados.length}
                     itensPorPagina={itensPorPagina}
                     paginaAtual={paginaAtual}
                     mudarPagina={mudarPagina}
                 />
+                
             </div>
         </div>
     );

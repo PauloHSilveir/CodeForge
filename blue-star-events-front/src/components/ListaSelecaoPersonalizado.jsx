@@ -32,13 +32,21 @@ const ListaSelecaoPersonalizado = ({ initialItems }) => {
                 {items.map((item) => (
                     <div key={item.id} className={stylesOP2.itemRow}>
                         <label className={stylesOP2.checkboxLabel}>
-                            <input type="checkbox" checked={item.quantity > 0} onChange={() => handleCheckboxChange(item.id)}/>
+                            <input
+                                type="checkbox"
+                                checked={item.quantity > 0}
+                                onChange={() => handleCheckboxChange(item.id)}
+                            />
                             <span className={stylesOP2.checkmark}></span>
                             {item.name}
                         </label>
+                        
                         {item.quantity > 0 && (
                             <div className={stylesOP2.quantityControls}>
-                                <button className={stylesOP2.quantityButton} onClick={() => handleQuantityChange(item.id, item.quantity - 1)}>
+                                <button
+                                    className={stylesOP2.quantityButton}
+                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                >
                                     ‹
                                 </button>
                                 <input
@@ -53,7 +61,10 @@ const ListaSelecaoPersonalizado = ({ initialItems }) => {
                                     }}
                                     min="0"
                                 />
-                                <button className={stylesOP2.quantityButton} onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>
+                                <button
+                                    className={stylesOP2.quantityButton}
+                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                >
                                     ›
                                 </button>
                             </div>

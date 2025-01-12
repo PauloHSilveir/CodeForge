@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -8,7 +8,7 @@
     justify-content: center;
 }
 
-.descriptions{
+.descriptions {
     display: flex;
     justify-content: space-between;
     width: 96vw;

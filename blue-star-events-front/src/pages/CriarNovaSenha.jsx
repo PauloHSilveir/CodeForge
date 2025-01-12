@@ -35,24 +35,43 @@ function CriarNovaSenha() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" id= "novaSenha" placeholder="Digite sua nova senha" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="password"
+                                    id="novaSenha"
+                                    placeholder="Digite sua nova senha"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
                             <label htmlFor="confirmarSenha" className={stylesFormBaseA.label}>
                                 Confirme a senha
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input type="password" id= "confirmarSenha" placeholder="Confirme a nova senha" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="password"
+                                    id="confirmarSenha"
+                                    placeholder="Confirme a nova senha"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
-                            <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/')}>
+                            <button
+                                className={stylesFormBaseA.buttonBase}
+                                onClick={() => handleNavigate('/')}
+                            >
                                 Redefinir
                             </button>
                         </form>
 
                     </div>
                     <div className={stylesFormBaseA.register}>
-                        <span className={stylesFormBaseA.smallText}>Não tem uma conta?</span>
-                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>CADASTRE-SE</Link>
+                        <span className={stylesFormBaseA.smallText}>
+                            Não tem uma conta?
+                        </span>
+                        <Link to="/cadastrarusuario" className={stylesFormBaseA.blueBolder}>
+                            CADASTRE-SE
+                        </Link>
                     </div>
                 </div>
             </div>

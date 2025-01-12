@@ -27,7 +27,7 @@
     color: #525151;
 }
 
-.descriptionItem{
+.descriptionItem {
     display: flex;
     border: 0.0625rem solid #D9D9D9;
     width: 47vw;
@@ -37,7 +37,7 @@
     flex-direction: column;
 }
 
-.descriptionItemTop{
+.descriptionItemTop {
     display: flex;
     width: 100%;
     border-bottom: solid 0.0625rem  #D9D9D9;
@@ -46,14 +46,14 @@
     align-items: center;
 }
 
-.descriptionItemBottom{
+.descriptionItemBottom {
     display: flex;
     width: 100%;
     height: 7rem;
     align-items: center;
 }
 
-.packageImageContainer{
+.packageImageContainer {
     display: flex;
     margin-left: 1rem;
     width: 5rem;
@@ -68,18 +68,18 @@
     object-fit: cover;
 }
 
-.idTop{
+.idTop {
     display: flex;
     padding-left: 1rem;
 }
 
-.buttonsTop{
+.buttonsTop {
     display: flex;
     padding-right: 0.5rem;
     gap: 1rem;
 }
 
-.buttons{
+.buttons {
     font-family: 'Poppins', Arial, sans-serif;
     font-weight: bold;
     padding-inline: 1rem;
@@ -89,41 +89,41 @@
     flex-shrink: 0;
 }
 
-.buttons:hover{
+.buttons:hover {
     transform: scale(1.03);
     cursor: pointer;
 }
 
-.adicPac{
+.adicPac {
     background-color: white;
     color: #0A5A9C;
     border-color: #0A5A9C;
 }
 
-.adicPac:hover{
+.adicPac:hover {
     background-color: #fafafa;
     color: #0c4778;
     border-color: #0c4778;
 }
 
-.excPac{
+.excPac {
     background-color: #BF0E1F;
     color: #fff;
     border-color: #BF0E1F;
 }
 
-.excPac:hover{
+.excPac:hover {
     background-color: #a41624;
     border-color: #a41624;
 }
 
-.ediPac{
+.ediPac {
     background-color: #0A5A9C;
     color: #fff;
     border-color: #0A5A9C;
 }
 
-.ediPac:hover{
+.ediPac:hover {
     background-color: #0c4778;
     border-color: #0c4778;
 }

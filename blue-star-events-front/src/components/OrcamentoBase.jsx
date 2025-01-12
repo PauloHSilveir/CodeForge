@@ -26,19 +26,27 @@ const OrcamentoBase = ({ title, children, subtotal, nextPath, prevPath, handleNa
                                 <span>Subtotal do Pacote:</span>
                                 <span>R$ {subtotal.toFixed(2)}</span>
                             </div>
+
                             <div className={stylesOP1.summaryRow}>
                                 <span>Frete:</span>
                                 <span>R$ 0,00</span>
                             </div>
+
                             <div className={stylesOP1.summaryRowTotal}>
                                 <span>Total:</span>
                                 <span>R$ {subtotal.toFixed(2)}</span>
                             </div>
                         </div>
-                        <button className={`${stylesOP1.buttons} ${stylesOP1.pe}`} onClick={() => handleNavigate(nextPath)}> 
-                            {nextButtonText} 
+                        <button
+                            className={`${stylesOP1.buttons} ${stylesOP1.pe}`}
+                            onClick={() => handleNavigate(nextPath)}
+                        >
+                            {nextButtonText}
                         </button>
-                        <button className={`${stylesOP1.buttons} ${stylesOP1.voltar}`} onClick={() => handleNavigate(prevPath)}>
+                        <button
+                            className={`${stylesOP1.buttons} ${stylesOP1.voltar}`}
+                            onClick={() => handleNavigate(prevPath)}
+                        >
                             VOLTAR
                         </button>
                     </div>

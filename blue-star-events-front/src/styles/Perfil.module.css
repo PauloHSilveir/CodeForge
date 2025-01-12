@@ -81,17 +81,17 @@
     padding-inline: 1.3rem;
 }
 
-.leftPerfil{
+.leftPerfil {
     display: inline-flex;
     gap:1rem;
     align-items: center;
 }
 
-.leftText{
+.leftText {
     flex-direction: column;
 }
 
-.mailPerfil{
+.mailPerfil {
     display: flex;
     gap: 0.3rem;
     align-items: center;
@@ -141,7 +141,7 @@
     border-color: #fff;
 }
 
-.optionBox{
+.optionBox {
     display: flex;
     flex-direction: column;
     width: 95vw;
@@ -149,13 +149,13 @@
     margin-top: 2rem;
 }
 
-.containerTitle{
+.containerTitle {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
 }
 
-.containerButtons{
+.containerButtons {
     display: inline-flex;
     width: 95vw;
     justify-content: space-between;

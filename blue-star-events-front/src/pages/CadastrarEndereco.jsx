@@ -62,7 +62,13 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiRoadMapLine />
-                                <input type="text" id="logradouro" placeholder="Digite o logradouro" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="logradouro"
+                                    placeholder="Digite o logradouro"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="numero" className={stylesFormBaseA.label}>
@@ -70,7 +76,13 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMapPinUserLine />
-                                <input type="text" id="numero" placeholder="Digite o número da residência" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="numero"
+                                    placeholder="Digite o número da residência"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="complemento" className={stylesFormBaseA.label}>
@@ -78,7 +90,12 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiHome8Line />
-                                <input type="text" id="complemento" placeholder="Digite o complemento" className={stylesFormBaseA.inputField} />
+                                <input
+                                    type="text"
+                                    id="complemento"
+                                    placeholder="Digite o complemento"
+                                    className={stylesFormBaseA.inputField}
+                                />
                             </div>
 
                             <label htmlFor="bairro" className={stylesFormBaseA.label}>
@@ -86,7 +103,13 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiGroup2Line />
-                                <input type="text" id="bairro" placeholder="Digite o bairro" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="bairro"
+                                    placeholder="Digite o bairro"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="cidade" className={stylesFormBaseA.label}>
@@ -94,7 +117,13 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiCommunityLine />
-                                <input type="text" id="cidade" placeholder="Digite a cidade" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="cidade"
+                                    placeholder="Digite a cidade"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="estado" className={stylesFormBaseA.label}>
@@ -102,7 +131,13 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMapLine />
-                                <input type="text" id="estado" placeholder="Digite o estado" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="estado"
+                                    placeholder="Digite o estado"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="cep" className={stylesFormBaseA.label}>
@@ -110,17 +145,33 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMapPinRangeLine />
-                                <input type="text" id="cep" placeholder="Digite o CEP" className={stylesFormBaseA.inputField} required />
+                                <input
+                                    type="text"
+                                    id="cep"
+                                    placeholder="Digite o CEP"
+                                    className={stylesFormBaseA.inputField}
+                                    required
+                                />
                             </div>
 
                             <div className={stylesCadastrarEndereco.inputCheckBox}>
-                                <input type="checkbox" id="concordo" required />
+                                <input
+                                    type="checkbox"
+                                    id="concordo"
+                                    required
+                                />
                                 <label htmlFor="concordo" className={stylesCadastrarEndereco.checkboxLabel}>
-                                    Concordo com o <span onClick={handleOpenTerms} className={stylesCadastrarEndereco.link}>Termo de Acordo do Usuário </span>
-                                    e com a <span onClick={handleOpenPrivacy} className={stylesCadastrarEndereco.link}>Política de Privacidade</span> do Blue Star Events.
+                                    Concordo com o
+                                    <span onClick={handleOpenTerms} className={stylesCadastrarEndereco.link}> Termo de Acordo do Usuário </span>
+                                    e com a
+                                    <span onClick={handleOpenPrivacy} className={stylesCadastrarEndereco.link}> Política de Privacidade </span>
+                                    do Blue Star Events.
                                 </label>
                             </div>
-                            <button className={stylesFormBaseA.buttonBase} onClick={() => handleNavigate('/')}>
+                            <button
+                                className={stylesFormBaseA.buttonBase}
+                                onClick={() => handleNavigate('/')}
+                            >
                                 <RiUserAddLine />Cadastrar
                             </button>
                         </form>
@@ -128,7 +179,11 @@ function CadastrarEndereco() {
                 </div>
             </div>
 
-            <ModalCadastrar isOpen={showTermsModal} onClose={handleCloseTerms} title="Termo de Acordo do Usuário">
+            <ModalCadastrar
+                isOpen={showTermsModal}
+                onClose={handleCloseTerms}
+                title="Termo de Acordo do Usuário"
+            >
                 <div className={stylesCadastrarEndereco.modalText}>
                     <p>
                         <br />Ao utilizar os serviços da Blue Star Events, você concorda com os seguintes termos e condições:<br /><br />
@@ -158,7 +213,11 @@ function CadastrarEndereco() {
                 </div>
             </ModalCadastrar>
 
-            <ModalCadastrar isOpen={showPrivacyModal} onClose={handleClosePrivacy} title="Política de Privacidade">
+            <ModalCadastrar
+                isOpen={showPrivacyModal}
+                onClose={handleClosePrivacy}
+                title="Política de Privacidade"
+            >
                 <div className={stylesCadastrarEndereco.modalText}>
                     <p>
                         <br />A Blue Star Events valoriza sua privacidade. Esta Política de Privacidade descreve como coletamos, usamos,

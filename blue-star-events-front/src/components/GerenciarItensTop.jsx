@@ -32,7 +32,7 @@ function GerenciarItensTop({
         <div>
             <div className={styles.searchBarContainer}>
                 <div className={styles.searchInputWrapper}>
-                    <RiSearchLine
+                    <RiSearchLine 
                         className={styles.iconSearch}
                         onClick={handleSearchClick}
                     />

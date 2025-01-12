@@ -17,7 +17,10 @@ function PacoteIndividual({ id, nome, imagem }) {
                     <span className={stylesGI.mediumTextLight}>{id}</span>
                 </div>
                 <div className={stylesGI.buttonsTop}>
-                    <button className={`${stylesGI.buttons} ${stylesGI.excPac}`} onClick={openModal}>
+                    <button
+                        className={`${stylesGI.buttons} ${stylesGI.excPac}`}
+                        onClick={openModal}
+                    >
                         EXCLUIR PACOTE
                     </button>
                     <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`}>
@@ -34,7 +37,10 @@ function PacoteIndividual({ id, nome, imagem }) {
                     <span className={stylesGI.mediumTextDark}>{nome}</span>
                 </div>
             </div>
-            <ModalExcluir isOpen={isModalOpen} onClose={closeModal}>
+            <ModalExcluir
+                isOpen={isModalOpen}
+                onClose={closeModal}
+            >
                 <p>DESEJA REALMENTE <strong>EXCLUIR</strong> O PACOTE<strong> PERMANENTEMENTE</strong>?</p>
             </ModalExcluir>
         </div>
