@@ -1,6 +1,9 @@
 const express = require('express');
+const item = require('./src/models/item');
+const user = require('./src/models/user');
 const database = require('./src/config/database');
-const userRouter = require('./src/routes/user');//importa as rotas de usuários
+const userRouter = require('./src/routes/user');//importa as rotas de usuário
+const itemRouter = require('./src/routes/item');//importa as rotas de item
 const app = express();
 const cors = require('cors');
 const port = 1313;
@@ -13,10 +16,11 @@ app.use(cors({
 
 app.use(express.json());
 app.use('/user', userRouter);
+app.use('/item', itemRouter);
 
 
 
-//Conexão ao banco de dados e inicialização do servidor
+//Conexão ao banco de dados e inicializaçãso do servidor
 database.db
     .sync({force: false})
     .then((_) =>{

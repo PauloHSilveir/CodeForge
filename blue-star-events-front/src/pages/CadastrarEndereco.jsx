@@ -64,13 +64,13 @@ function CadastrarEndereco() {
         const fullData = {
             ...userData,
             
-                rua,
-                numero,
-                complemento,
-                bairro,
-                cidade,
-                estado,
-                cep,
+            rua,
+            numero,
+            complemento,
+            bairro,
+            cidade,
+            estado,
+            cep,
             
         };
 
