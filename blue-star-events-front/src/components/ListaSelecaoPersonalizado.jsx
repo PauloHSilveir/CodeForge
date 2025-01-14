@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import stylesOP2 from "../styles/ListaSelecaoPersonalizado.module.css";
 
 const ListaSelecaoPersonalizado = ({ initialItems }) => {

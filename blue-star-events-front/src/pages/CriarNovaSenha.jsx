@@ -16,7 +16,6 @@ function CriarNovaSenha() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Extraímos o token e o email da URL ou outro meio
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
     const email = queryParams.get('email');
