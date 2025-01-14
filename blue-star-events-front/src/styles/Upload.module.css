@@ -1,0 +1,52 @@
+.fileInputContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease;
+}
+
+.fileInput {
+    
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+    z-index: 2;
+    font-size: 0; 
+    color: transparent;
+    left: 0;
+    top: 0;
+}
+
+/* Esconde o texto no IE */
+.fileInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+/* Esconde o texto no Firefox */
+.fileInput::file-selector-button {
+    visibility: hidden;
+}
+
+.fileInputLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #0A5A9C;
+    gap: 0.5rem;
+    border: 0.125rem solid #0A5A9C;
+    border-radius: 0.3125rem;
+    margin-bottom: 1.5rem;
+    transition: tranform 0.3 ease;
+}
+
+.fileInputContainer:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+}

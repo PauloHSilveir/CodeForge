@@ -132,6 +132,14 @@
     font-size: 1rem;
 }
 
+.textAreaField {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    min-height: 5rem;
+}
+
 .label {
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;

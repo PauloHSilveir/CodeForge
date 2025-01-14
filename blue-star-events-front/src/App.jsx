@@ -17,6 +17,15 @@ import GerenciarItens from './pages/GerenciarItens';
 import VisualizarHistoricoTransacoesADM from './pages/VisualizarHistoricoTransacoesADM';
 import GerenciarFuncionarios from './pages/GerenciarFuncionarios';
 import CadastrarPacote1 from './pages/CadastrarPacote1';
+import EditarPacotes1 from './pages/EditarPacotes1';
+import CadastrarPacote2 from './pages/CadastrarPacote2';
+import EditarPacotes2 from './pages/EditarPacotes2';
+import CadastrarPacote3 from './pages/CadastrarPacote3';
+import CadastrarItem from './pages/CadastrarItem';
+import EditarItem from './pages/EditarItem';
+import CadastrarPacote4 from './pages/CadastrarPacote4';
+import EditarPacotes3 from './pages/EditarPacotes3';
+import EditarPacotes4 from './pages/EditarPacotes4';
 
 function App() {
   return (
@@ -40,6 +49,15 @@ function App() {
         <Route path='/gerenciartransacoes' element={<VisualizarHistoricoTransacoesADM />} />
         <Route path='/gerenciarfuncionarios' element={<GerenciarFuncionarios />} />
         <Route path='/cadastrarpacotes1' element={<CadastrarPacote1 />} />
+        <Route path='/cadastrarpacotes2' element={<CadastrarPacote2 />} />
+        <Route path='/cadastrarpacotes3' element={<CadastrarPacote3 />} />
+        <Route path='/cadastrarpacotes4' element={<CadastrarPacote4 />} />
+        <Route path='editarpacote1' element={<EditarPacotes1 />}/>
+        <Route path='editarpacote2' element={<EditarPacotes2 />}/>
+        <Route path='editarpacote3' element={<EditarPacotes3 />}/>
+        <Route path='editarpacote4' element={<EditarPacotes4 />}/>
+        <Route path='cadastraritem' element={<CadastrarItem />}/>
+        <Route path='editaritem' element={<EditarItem />}/>
       </Routes>
     </BrowserRouter>
   );
