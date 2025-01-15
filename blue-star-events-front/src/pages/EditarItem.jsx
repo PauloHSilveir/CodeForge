@@ -34,6 +34,7 @@ function EditarItem() {
         <div>
             <NavBar />
             <ModalMensagemSucesso
+                title="EDITAR ITEM"
                 text="Editado com sucesso! Redirecionando..."
                 isVisible={showMessage}
             />

@@ -21,7 +21,8 @@ function CadastrarItem() {
     return (
         <div>
             <NavBar />
-            <ModalMensagemSucesso 
+            <ModalMensagemSucesso
+                title="CADASTRAR ITEM"
                 text="Cadastrado com sucesso! Redirecionando..." 
                 isVisible={showMessage} 
             />

@@ -1,7 +1,7 @@
 import React from 'react';
 import stylesME from '../styles/ModalExclusao.module.css';
 
-const ModalExcluir = ({ isOpen, onClose, children }) => {
+const ModalExcluir = ({ isOpen, onClose, onConfirm, children }) => {
     if (!isOpen) return null;
 
     return (
@@ -10,11 +10,14 @@ const ModalExcluir = ({ isOpen, onClose, children }) => {
                 <div className={stylesME.text}>{children}</div>
                 <div className={stylesME.buttonsContainer}>
                     <button
-                        onClick={onClose}
+                        onClick={() => {
+                            onConfirm();
+                            onClose();
+                        }}
                         className={`${stylesME.buttonsME} ${stylesME.sim}`}
                     >
                         SIM
-                    </button> {/*Precisa implementar ainda*/}
+                    </button>
 
                     <button
                         onClick={onClose}
