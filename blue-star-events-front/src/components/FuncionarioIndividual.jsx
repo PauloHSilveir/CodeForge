@@ -88,7 +88,7 @@ function FuncionarioIndividual({ nome, email, celular, tipo }) {
 
             <ModalMensagemSucesso
                 title="EXCLUIR FUNCIONÁRIO"
-                text="`Funcionário excluído com sucesso! "
+                text="Funcionário excluído com sucesso! "
                 isVisible={showSucess}
             />
 

@@ -101,7 +101,7 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, imagem }) {
 
             <ModalMensagemSucesso
                 title="EXCLUIR ITEM"
-                text="`Item excluído com sucesso! "
+                text="Item excluído com sucesso!"
                 isVisible={showSucess}
             />
 

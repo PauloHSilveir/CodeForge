@@ -94,7 +94,7 @@ function PacoteIndividual({ id, nome, descricao, tamanho, valor, imagem }) {
 
             <ModalMensagemSucesso
                 title="EXCLUIR PACOTE"
-                text="`Pacote excluído com sucesso!"
+                text="Pacote excluído com sucesso!"
                 isVisible={showSucess}
             />
 
