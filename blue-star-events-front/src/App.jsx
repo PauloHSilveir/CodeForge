@@ -26,6 +26,7 @@ import EditarItem from './pages/EditarItem';
 import CadastrarPacote4 from './pages/CadastrarPacote4';
 import EditarPacotes3 from './pages/EditarPacotes3';
 import EditarPacotes4 from './pages/EditarPacotes4';
+import ConsultarPacotes from './pages/ConsultarPacotes';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
         <Route path='editarpacote4' element={<EditarPacotes4 />}/>
         <Route path='cadastraritem' element={<CadastrarItem />}/>
         <Route path='editaritem' element={<EditarItem />}/>
+        <Route path='consultarpacotes' element={<ConsultarPacotes />}/>
       </Routes>
     </BrowserRouter>
   );
