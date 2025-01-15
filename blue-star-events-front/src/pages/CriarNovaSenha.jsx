@@ -30,7 +30,7 @@ function CriarNovaSenha() {
 
         setError('');
         try {
-            const response = await fetch('http://localhost:3333/users/reset_password?token=' + token + '&email=' + email, {
+            const response = await fetch('http://localhost:3333/user/reset_password?token=' + token + '&email=' + email, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

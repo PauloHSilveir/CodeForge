@@ -28,7 +28,7 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      telefone: {
+      phone: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -84,12 +84,24 @@ module.exports = {
       },
     });
 
-    // Tabela de eventos
-    await queryInterface.createTable('events', {
+    // Tabela de pacotes
+    await queryInterface.createTable('pacotes', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      preco: {
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       tamanho: {
@@ -100,8 +112,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      data: {
-        type: Sequelize.DATE,
+      disponibilidade: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      imagem: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {
@@ -114,46 +130,8 @@ module.exports = {
       },
     });
 
-    // Tabela de pacotes personalizados
-    await queryInterface.createTable('pacote_pers', {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      event_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'events',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      created_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updated_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-    });
-
-    // Tabela de profissionais
-    await queryInterface.createTable('professionals', {
+    // Tabela de eventos
+    await queryInterface.createTable('eventos', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -164,18 +142,43 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'pacote_pers',
+          model: 'pacotes',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      name: {
+      data: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      rua: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      price: {
-        type: Sequelize.DECIMAL(10, 2),
+      numero: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      complemento: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      bairro: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      cidade: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      estado: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      cep: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {
@@ -189,7 +192,7 @@ module.exports = {
     });
 
     // Tabela de itens
-    await queryInterface.createTable('items', {
+    await queryInterface.createTable('componentes', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -200,7 +203,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'pacote_pers',
+          model: 'pacotes',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -210,8 +213,24 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      price: {
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      preco: {
         type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      categoria: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      quantidade: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      imagem: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {
@@ -224,8 +243,7 @@ module.exports = {
       },
     });
 
-    // Tabela de comidas
-    await queryInterface.createTable('foods', {
+    await queryInterface.createTable('transacoes', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -234,20 +252,112 @@ module.exports = {
       },
       pacote_id: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {
-          model: 'pacote_pers',
+          model: 'pacotes',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      name: {
+      usuario_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      data: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      valor: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      status: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      price: {
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+
+    await queryInterface.createTable('pagamentos', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      transacao_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'transacoes',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      data: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      metodo_pagamento: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      valor: {
         type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+
+    await queryInterface.createTable('admin', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      usuario_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      salario: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      data_admissao: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {
@@ -266,7 +376,7 @@ module.exports = {
         cpf: '12345678901',
         password: 'password123',
         email: 'joao.silva@example.com',
-        telefone: '11987654321',
+        phone: '11987654321',
         rua: 'Rua A',
         numero: 10,
         complemento: 'Apto 101',
@@ -285,7 +395,7 @@ module.exports = {
         cpf: '23456789012',
         password: 'password456',
         email: 'maria.oliveira@example.com',
-        telefone: '21987654321',
+        phone: '21987654321',
         rua: 'Rua B',
         numero: 20,
         complemento: 'Casa',
@@ -304,7 +414,7 @@ module.exports = {
         cpf: '34567890123',
         password: 'password789',
         email: 'carlos.pereira@example.com',
-        telefone: '31987654321',
+        phone: '31987654321',
         rua: 'Rua C',
         numero: 30,
         complemento: 'Sala Comercial',
@@ -320,106 +430,210 @@ module.exports = {
       },
     ]);
 
-    await queryInterface.bulkInsert('events', [
+    await queryInterface.bulkInsert('pacotes', [
       {
+        name: 'Pacote 1',
+        description: 'Descrição do Pacote 1',
+        preco: 100.0,
         tamanho: 100,
         tipo: 'Casamento',
-        data: new Date(),
+        disponibilidade: 3, 
+        imagem: 'pacote1.jpg',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
+        name: 'Pacote 2',
+        description: 'Descrição do Pacote 2',
+        preco: 300.0,
         tamanho: 300,
-        tipo: 'Aniversário',
-        data: new Date(),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        tamanho: 800,
         tipo: 'Casamento',
+        disponibilidade: 10,
+        imagem: 'pacote2.jpg',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: 'Pacote 3',
+        description: 'Descrição do Pacote 3',
+        preco: 500.0,
+        tamanho: 500,
+        tipo: 'Casamento',
+        disponibilidade: 30,
+        imagem: 'pacote3.jpg',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    await queryInterface.bulkInsert('eventos', [
+      {
+        pacote_id: 1,
         data: new Date(),
+        rua: 'Rua U',
+        numero: 30,
+        complemento: 'Sala Comercial',
+        bairro: 'Jardim América',
+        cidade: 'Belo Horizonte',
+        estado: 'MG',
+        cep: '30130003',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        pacote_id: 2,
+        data: new Date(),
+        rua: 'Rua V',
+        numero: 36,
+        complemento: 'Apto 101',
+        bairro: 'Jardim América',
+        cidade: 'Belo Horizonte',
+        estado: 'MG',
+        cep: '30130003',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        pacote_id: 3,
+        data: new Date(),
+        rua: 'Rua W',
+        numero: 70,
+        complemento: 'Sala Comercial',
+        bairro: 'Jardim América',
+        cidade: 'Belo Horizonte',
+        estado: 'MG',
+        cep: '30130003',
         created_at: new Date(),
         updated_at: new Date(),
       },
     ]);
 
-    await queryInterface.bulkInsert('pacote_pers', [
-      {
-        user_id: 1,
-        event_id: 1,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ]);
-
-    await queryInterface.bulkInsert('professionals', [
-      {
-        pacote_id: 1,
-        name: 'Pedro Almeida',
-        price: 150.00,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        pacote_id: 1,
-        name: 'Ana Costa',
-        price: 200.00,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        pacote_id: 1,
-        name: 'Roberto Lima',
-        price: 180.00,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ]);
-
-    await queryInterface.bulkInsert('items', [
+    await queryInterface.bulkInsert('componentes', [
       {
         pacote_id: 1,
         name: 'Cadeira de escritório',
-        price: 150.00,
+        description: 'Cadeira de escritório confortável',
+        preco: 150.00,
+        categoria: 'Itens',
+        quantidade: 10,
+        imagem: 'cadeira.jpg',  
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         pacote_id: 1,
-        name: 'Mesa Branca',
-        price: 200.00,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        pacote_id: 1,
-        name: 'Sofá de Couro',
-        price: 180.00,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ]);
-
-    await queryInterface.bulkInsert('foods', [
-      {
-        pacote_id: 1,
-        name: 'Arroz',
-        price: 20.00,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        pacote_id: 1,
-        name: 'Costela ao bafo',
-        price: 30.00,
+        name: 'Cozinheira',
+        description: 'Cozinheira de mão cheia',
+        preco: 200.00,
+        categoria: 'Funcionarios',
+        quantidade: 5,
+        imagem: 'cozinheiro.jpg',  
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         pacote_id: 1,
         name: 'Coxinha',
-        price: 5.00,
+        description: 'Coxinha de frango',
+        preco: 180.00,
+        categoria: 'Comidas',
+        quantidade: 5,
+        imagem: 'coxinha.jpg',  
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    await queryInterface.bulkInsert('transacoes', [
+      {
+        id: 1,
+        pacote_id: 1,
+        usuario_id: 1,
+        data: new Date(),
+        valor: 150.00,
+        status: 'completo',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 2,
+        pacote_id: 2,
+        usuario_id: 2,
+        data: new Date(),
+        valor: 200.00,
+        status: 'pendente',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 3,
+        pacote_id: 3,
+        usuario_id: 3,
+        data: new Date(),
+        valor: 300.00,
+        status: 'falha',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    // Inserir dados na tabela "pagamentos"
+    await queryInterface.bulkInsert('pagamentos', [
+      {
+        id: 1,
+        transacao_id: 1,
+        data: new Date(),
+        metodo_pagamento: 'cartao_credito',
+        valor: 150.00,
+        status: 'pago',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 2,
+        transacao_id: 2,
+        data: new Date(),
+        metodo_pagamento: 'cartao_credito',
+        valor: 200.00,
+        status: 'processando',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 3,
+        transacao_id: 3,
+        data: new Date(),
+        metodo_pagamento: 'pix',
+        valor: 300.00,
+        status: 'falhou',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    // Inserir dados na tabela "admin"
+    await queryInterface.bulkInsert('admin', [
+      {
+        id: 1,
+        usuario_id: 1,
+        salario: '5000',
+        data_admissao: '2025-01-01',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 2,
+        usuario_id: 2,
+        salario: '6000',
+        data_admissao: '2024-06-15',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 3,
+        usuario_id: 3,
+        salario: '7000',
+        data_admissao: '2023-03-10',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -427,11 +641,12 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('foods');
-    await queryInterface.dropTable('items');
-    await queryInterface.dropTable('professionals');
-    await queryInterface.dropTable('pacote_pers');
-    await queryInterface.dropTable('events');
+    await queryInterface.dropTable('admin');
+    await queryInterface.dropTable('pagamentos');
+    await queryInterface.dropTable('transacoes');
+    await queryInterface.dropTable('componentes');
+    await queryInterface.dropTable('eventos');
+    await queryInterface.dropTable('pacotes');
     await queryInterface.dropTable('users');
 
   },

@@ -1,10 +1,10 @@
-const PacotePersService = require('../services/pacotePersService');
+const PacoteService = require('../services/PacoteService');
 
 module.exports = {
-    // Função para listar pacotes personalizados
+    // Função para listar pacotes
     async index(req, res) {
         try {
-            const pacotes = await PacotePersService.getAll();
+            const pacotes = await PacoteService.getAll();
             return res.status(200).json(pacotes);
         } catch (error) {
             console.error('Erro ao buscar pacotes:', error);
@@ -12,36 +12,36 @@ module.exports = {
         }
     },
 
-    // Função para criar um pacote personalizado
+    // Função para criar um pacote
     async store(req, res) {
         const { user_id, event_id } = req.body;
 
         try {
-            const pacote = await PacotePersService.create(user_id, event_id);
+            const pacote = await PacoteService.create(user_id, event_id);
             return res.status(201).json({
                 status: 1,
-                message: 'Pacote personalizado criado com sucesso!',
+                message: 'Pacote criado com sucesso!',
                 pacote,
             });
         } catch (error) {
             console.error('Erro ao criar pacote:', error);
-            return res.status(500).json({ error: 'Erro ao criar pacote personalizado' });
+            return res.status(500).json({ error: 'Erro ao criar pacote' });
         }
     },
 
-    // Função para excluir um pacote personalizado
+    // Função para excluir um pacote
     async delete(req, res) {
         const { pacote_id } = req.params;
 
         try {
-            const pacote = await PacotePersService.delete(pacote_id);
+            const pacote = await PacoteService.delete(pacote_id);
             return res.status(200).json({
                 status: 1,
-                message: 'Pacote personalizado excluído com sucesso!',
+                message: 'Pacote excluído com sucesso!',
             });
         } catch (error) {
             console.error('Erro ao excluir pacote:', error);
-            return res.status(500).json({ error: 'Erro ao excluir pacote personalizado' });
+            return res.status(500).json({ error: 'Erro ao excluir pacote' });
         }
     },
 };

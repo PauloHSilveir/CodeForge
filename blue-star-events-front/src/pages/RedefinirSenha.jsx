@@ -21,7 +21,7 @@ function RedefinirSenha() {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3333/users/forgot_password', {
+            const response = await fetch('http://localhost:1313/user/forgot_password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

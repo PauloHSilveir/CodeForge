@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const User = require('../models/User');
+const User = require('../models/UserModel');
 const { sendForgotPasswordEmail, generatePasswordResetLink } = require('../utils/email');
 
 module.exports = {

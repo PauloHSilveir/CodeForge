@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import NavBar from "../components/Navbar";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesCadastrarUsuario from '../styles/CadastrarUsuario.module.css';
@@ -15,8 +16,22 @@ import {
 function CadastrarUsuario() {
     const navigate = useNavigate();
 
-    const handleNavigate = (path) => {
-        navigate(path);
+    const [name, setNome] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setTelefone] = useState('');
+    const [password, setSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Salvar os dados no localStorage
+        const userData = { name, cpf, email, phone, password };
+        localStorage.setItem('userData', JSON.stringify(userData));
+
+        // Navegar para a página de endereço
+        navigate('/cadastrarendereco');
     };
 
     return (
@@ -35,7 +50,7 @@ function CadastrarUsuario() {
                         </div>
                     </div>
                     <div className={stylesFormBaseA.formContainer}>
-                        <form action="#" className={stylesFormBaseA.baseForm}>
+                        <form onSubmit={handleSubmit} className={stylesFormBaseA.baseForm}>
                             <label htmlFor="nome" className={stylesFormBaseA.label}>
                                 Nome
                             </label>
@@ -47,6 +62,8 @@ function CadastrarUsuario() {
                                     placeholder="Digite seu nome"
                                     className={stylesFormBaseA.inputField}
                                     required
+                                    value={name}
+                                    onChange={(e) => setNome(e.target.value)}
                                 />
                             </div>
 
@@ -61,6 +78,8 @@ function CadastrarUsuario() {
                                     placeholder="Digite seu CPF"
                                     className={stylesFormBaseA.inputField}
                                     required
+                                    value={cpf}
+                                    onChange={(e) => setCpf(e.target.value)}
                                 />
                             </div>
 
@@ -75,6 +94,8 @@ function CadastrarUsuario() {
                                     placeholder="Digite seu email"
                                     className={stylesFormBaseA.inputField}
                                     required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
 
@@ -89,6 +110,8 @@ function CadastrarUsuario() {
                                     placeholder="Digite seu telefone"
                                     className={stylesFormBaseA.inputField}
                                     required
+                                    value={phone}
+                                    onChange={(e) => setTelefone(e.target.value)}
                                 />
                             </div>
 
@@ -103,6 +126,8 @@ function CadastrarUsuario() {
                                     placeholder="Digite sua senha"
                                     className={stylesFormBaseA.inputField}
                                     required
+                                    value={password}
+                                    onChange={(e) => setSenha(e.target.value)}
                                 />
                             </div>
 
@@ -117,17 +142,15 @@ function CadastrarUsuario() {
                                     placeholder="Digite novamente a senha"
                                     className={stylesFormBaseA.inputField}
                                     required
+                                    value={confirmarSenha}
+                                    onChange={(e) => setConfirmarSenha(e.target.value)}
                                 />
                             </div>
 
-                            <button
-                                className={stylesFormBaseA.buttonBase}
-                                onClick={() => handleNavigate('/cadastrarendereco')}
-                            >
+                            <button type="submit" className={stylesFormBaseA.buttonBase}>
                                 Próximo
                             </button>
                         </form>
-
                     </div>
                     <div className={stylesFormBaseA.register}>
                         <span className={stylesFormBaseA.smallText}>
@@ -138,11 +161,9 @@ function CadastrarUsuario() {
                         </Link>
                     </div>
                 </div>
-
             </div>
-        </div >
+        </div>
     );
 }
 
 export default CadastrarUsuario;
-

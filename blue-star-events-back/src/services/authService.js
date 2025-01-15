@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/UserModel');
 const authConfig = require('../config/auth');
 
 // Função para gerar o token JWT

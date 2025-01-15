@@ -88,11 +88,7 @@ function Perfil() {
                                     </span>
                                 </div>
                             </button>
-
-                            <button
-                                className={stylesPerfil.buttonsOptionsBox}
-                                onClick={() => handleNavigate('/')}
-                            >
+                            <button className={stylesPerfil.buttonsOptionsBox} onClick={() => handleNavigate('/editardados')}>
                                 <RiUser3Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>

@@ -23,7 +23,7 @@ function Login() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3333/users/login', {
+            const response = await fetch('http://localhost:1313/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
