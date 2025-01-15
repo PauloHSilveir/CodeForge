@@ -31,6 +31,7 @@
 .selectItem select:hover, 
 .selectItem input:hover {
     border-color: #007bff;
+    cursor: pointer;
 }
 
 .selectItem select:focus, 

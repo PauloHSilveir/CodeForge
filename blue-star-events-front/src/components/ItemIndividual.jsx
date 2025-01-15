@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
 import stylesGI from "../styles/PacoteIndividual.module.css";
 import ModalExcluir from "../components/ModalExcluir";
+import { useNavigate } from 'react-router-dom';
 
-function ItemIndividual({ id, nome, quantidade, imagem }) {
+function ItemIndividual({ id, nome, descricao, quantidade, valor, imagem }) {
+    const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
-
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    const handleEdit = () => {
+        navigate('/editaritem', {
+            state: {
+                itemData: {
+                    id,
+                    nome,
+                    descricao,
+                    quantidade,
+                    valor,
+                    imagem
+                }
+            }
+        });
+    };
 
     return (
         <div className={stylesGI.descriptionItem}>
@@ -26,7 +42,7 @@ function ItemIndividual({ id, nome, quantidade, imagem }) {
                         EXCLUIR ITEM
                     </button>
 
-                    <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`}>
+                    <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`} onClick={handleEdit}>
                         EDITAR ITEM
                     </button>
                 </div>

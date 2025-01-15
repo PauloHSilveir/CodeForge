@@ -5,8 +5,8 @@ import ItemIndividual from "../components/ItemIndividual";
 
 // Dados mockados
 const itens = [
-    { id: 1, nome: "Bolo de aniversário", quantidade: 1556, imagem: packageImage1 },
-    { id: 2, nome: "Cadeira", quantidade: 2343, imagem: "https://via.placeholder.com/150" },
+    { id: 1, nome: "Bolo de aniversário", descricao: "descrição teste", quantidade: 1556, valor: 150.00, imagem: packageImage1 },
+    { id: 2, nome: "Cadeira", descricao: "descrição teste", quantidade: 2343, valor: 200.00, imagem: "https://via.placeholder.com/150" },
 ];
 
 function GerenciarItens() {
@@ -16,17 +16,14 @@ function GerenciarItens() {
             renderItem={(item) => (
                 <ItemIndividual
                     key={item.id}
-                    id={item.id}
-                    nome={item.nome}
-                    quantidade={item.quantidade}
-                    imagem={item.imagem}
+                    {...item}
                 />
             )}
             icone={RiSurroundSoundLine}
             titulo="ITENS CADASTRADOS"
             placeholder="Pesquisar itens"
             buttonText="ADICIONAR ITEM"
-            buttonLink="/adicionaritem"
+            buttonLink="/cadastraritem"
             itensPorPagina={12}
             noItensFound="Nenhum item encontrado."
             campoPesquisa="nome"

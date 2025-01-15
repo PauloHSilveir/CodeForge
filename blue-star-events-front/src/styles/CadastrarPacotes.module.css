@@ -1,0 +1,14 @@
+.containerList{
+    width: 25rem;
+}
+
+.buttonCP{
+    margin-top: 1rem;
+}
+
+.mediumText {
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
