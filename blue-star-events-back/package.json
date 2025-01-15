@@ -20,7 +20,9 @@
     "nodemailer-express-handlebars": "^7.0.0",
     "nodemon": "^2.0.22",
     "posh-git": "0.0.9",
-    "sequelize": "^6.37.5",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
     "sequelize-cli": "^6.6.2"
   }
 }

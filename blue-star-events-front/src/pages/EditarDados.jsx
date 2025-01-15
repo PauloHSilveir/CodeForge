@@ -43,7 +43,7 @@ function EditarDados() {
     });
     
     // Assumindo que você tem o ID do usuário armazenado em algum lugar
-    const userId = '2'; // Substitua pela forma como você armazena o ID do usuário
+    const userId = '4'; // Substitua pela forma como você armazena o ID do usuário
 
     useEffect(() => {
         fetchUserData();
@@ -93,7 +93,7 @@ function EditarDados() {
     const handleAddressSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${BASE_URL}/user/update/adress/${userId}`, {
+            const response = await fetch(`${BASE_URL}/user/update/address/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

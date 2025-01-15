@@ -18,7 +18,7 @@ class UserService {
         throw new Error('Email ou CPF já cadastrado');
       }
 
-      if (!userData.name || !userData.cpf || !userData.email || !userData.password) {
+      if (!userData.name || !userData.cpf || !userData.email || !userData.phone || !userData.password) {
         throw new Error('Todos os campos obrigatórios devem ser preenchidos');
       }
 
@@ -36,7 +36,7 @@ class UserService {
   }
 
   // Atualiza os dados de endereço do usuário
-  async UpdateAddress(id, rua, numero, complemento, bairro, cidade, estado, cep) {
+  async UpdateAdress(id, rua, numero, complemento, bairro, cidade, estado, cep) {
     try {
       // Recupera o usuário do banco de dados
       const user = await User.findByPk(id);
@@ -115,25 +115,40 @@ class UserService {
     }
   }
 
-  async delete(id) {
+  async DeleteUser(id) {
     try {
-      const user = await User.findByPk(id);
+        // Busca o usuário pelo ID
+        const user = await User.findByPk(id);
 
-      if (!user) {
-        throw new Error('Usuário não encontrado');
-      }
+        if (!user) {
+            throw new Error('Usuário não encontrado');
+        }
+        /*
+        // Verifica se há transações pendentes associadas ao usuário
+        const transacoesPendentes = await Transacao.findOne({
+            where: {
+                usuario_id: id, // Certifique-se de usar o nome correto do campo
+                status: { [Op.ne]: 'completa' }, // Status diferente de "completa"
+            },
+        });
 
-      await user.destroy();
+        if (transacoesPendentes) {
+            throw new Error('Não é possível excluir o usuário pois há transações pendentes');
+        }*/
 
-      return {
-        message: 'Usuário deletado com sucesso'
-      };
+        // Exclui o usuário
+        await user.destroy();
+
+        return {
+            message: 'Usuário deletado com sucesso',
+        };
     } catch (error) {
-      throw new Error(error.message);
+        throw new Error(error.message);
     }
   }
 
-  async findById(id) {
+
+  async FindById(id) {
     try {
       const user = await User.findByPk(id);
 
@@ -149,7 +164,7 @@ class UserService {
     }
   }
 
-  async findAll() {
+  async FindAll() {
     try {
       const users = await User.findAll({
         attributes: { exclude: ['password'] }

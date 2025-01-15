@@ -14,6 +14,6 @@ app.use(express.json());
 app.use('/user', userRouter);
 app.use('/user', loginRouter); 
 app.use('/user', forgotPasswordRouter); 
-app.use('/item', ComponenteRouter);
+app.use('/componente', ComponenteRouter);
 
 module.exports = app;
