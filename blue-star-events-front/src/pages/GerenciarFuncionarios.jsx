@@ -23,7 +23,7 @@ function GerenciarFuncionarios() {
                 />
             )}
             icone={RiUser3Line}
-            titulo="FUNCIOÁRIOS CADASTRADOS"
+            titulo="FUNCIONÁRIOS CADASTRADOS"
             placeholder="Pesquisar funcionários"
             buttonText="ADICIONAR FUNCIONÁRIOS"
             buttonLink="/gerenciarfuncionarios"
