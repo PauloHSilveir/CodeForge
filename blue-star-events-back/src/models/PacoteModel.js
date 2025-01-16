@@ -80,8 +80,7 @@ class Pacote extends Model {
 
     static associate(models) {
         this.hasOne(models.Event, { foreignKey: 'pacote_id', as: 'evento' });
-        this.hasMany(models.Componente, { foreignKey: 'pacote_id', as: 'componentes' });
-    }
+        this.belongsToMany(models.Componente, { foreignKey: 'pacote_id', through: 'pacote_componentes', as: 'componentes'});    }
 }
 
 module.exports = Pacote;

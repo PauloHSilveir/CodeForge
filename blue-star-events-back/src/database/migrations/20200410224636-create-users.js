@@ -74,6 +74,10 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+      isAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+    },
       password_reset_token: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -191,23 +195,13 @@ module.exports = {
       },
     });
 
-    // Tabela de itens
+    // Tabela de componentes
     await queryInterface.createTable('componentes', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-      },
-      pacote_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'pacotes',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       },
       name: {
         type: Sequelize.STRING,
@@ -232,6 +226,44 @@ module.exports = {
       imagem: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+
+    // Tabela de pacote_componentes
+    await queryInterface.createTable('pacote_componentes', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      pacote_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'pacotes',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      componente_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'componentes',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       created_at: {
         type: Sequelize.DATE,
@@ -353,11 +385,11 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       salario: {
-        type: Sequelize.STRING,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       data_admissao: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
         allowNull: false,
       },
       created_at: {
@@ -510,7 +542,6 @@ module.exports = {
 
     await queryInterface.bulkInsert('componentes', [
       {
-        pacote_id: 1,
         name: 'Cadeira de escritório',
         description: 'Cadeira de escritório confortável',
         preco: 150.00,
@@ -521,7 +552,6 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        pacote_id: 1,
         name: 'Cozinheira',
         description: 'Cozinheira de mão cheia',
         preco: 200.00,
@@ -532,13 +562,33 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        pacote_id: 1,
         name: 'Coxinha',
         description: 'Coxinha de frango',
         preco: 180.00,
         categoria: 'Comidas',
         quantidade: 5,
         imagem: 'coxinha.jpg',  
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    await queryInterface.bulkInsert('pacote_componentes', [
+      {
+        pacote_id: 1,
+        componente_id: 1,    
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        pacote_id: 1,
+        componente_id: 2,  
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        pacote_id: 2,
+        componente_id: 2,  
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -616,24 +666,24 @@ module.exports = {
       {
         id: 1,
         usuario_id: 1,
-        salario: '5000',
-        data_admissao: '2025-01-01',
+        salario: 5000,
+        data_admissao: new Date(),
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         id: 2,
         usuario_id: 2,
-        salario: '6000',
-        data_admissao: '2024-06-15',
+        salario: 6000,
+        data_admissao: new Date(),
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         id: 3,
         usuario_id: 3,
-        salario: '7000',
-        data_admissao: '2023-03-10',
+        salario: 7000,
+        data_admissao: new Date(),
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -644,6 +694,7 @@ module.exports = {
     await queryInterface.dropTable('admin');
     await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('transacoes');
+    await queryInterface.dropTable('pacote_componentes');
     await queryInterface.dropTable('componentes');
     await queryInterface.dropTable('eventos');
     await queryInterface.dropTable('pacotes');

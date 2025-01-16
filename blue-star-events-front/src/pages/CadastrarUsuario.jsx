@@ -13,6 +13,24 @@ import {
     RiLockPasswordLine
 } from '@remixicon/react';
 
+// Função para formatar CPF
+const formatCPF = (cpf) => {
+    const numbers = cpf.replace(/\D/g, '');
+    return numbers.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+};
+
+// Função para formatar telefone
+const formatPhone = (phone) => {
+    const numbers = phone.replace(/\D/g, '');
+    return numbers.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+};
+
+// Função para validar email
+const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
 function CadastrarUsuario() {
     const navigate = useNavigate();
 
@@ -26,11 +44,26 @@ function CadastrarUsuario() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Salvar os dados no localStorage
-        const userData = { name, cpf, email, phone, password };
-        localStorage.setItem('userData', JSON.stringify(userData));
+        // Validação básica de email
+        if (!isValidEmail(email)) {
+            alert('Por favor, insira um email válido');
+            return;
+        }
 
-        // Navegar para a página de endereço
+        // Validação de senha
+        if (password !== confirmarSenha) {
+            alert('As senhas não conferem!');
+            return;
+        }
+
+        if (password.length < 8) {
+            alert('A senha deve ter pelo menos 8 caracteres');
+            return;
+        }
+
+        // Se passou pelas validações, continua com o código original
+        const userData = { name, cpf: formatCPF(cpf), email, phone: formatPhone(phone), password };
+        localStorage.setItem('userData', JSON.stringify(userData));
         navigate('/cadastrarendereco');
     };
 
@@ -44,7 +77,7 @@ function CadastrarUsuario() {
                             className={stylesFormBaseA.iconBack}
                             onClick={() => navigate('/')}
                         />
-                        
+
                         <div className={stylesFormBaseA.bigText}>
                             INSIRA SEUS DADOS
                         </div>
@@ -92,10 +125,15 @@ function CadastrarUsuario() {
                                     type="email"
                                     id="email"
                                     placeholder="Digite seu email"
-                                    className={stylesFormBaseA.inputField}
+                                    className={`${stylesFormBaseA.inputField} ${email && !isValidEmail(email) ? stylesFormBaseA.inputError : ''}`}
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onBlur={(e) => {
+                                        if (e.target.value && !isValidEmail(e.target.value)) {
+                                            alert('Por favor, insira um email válido');
+                                        }
+                                    }}
                                 />
                             </div>
 

@@ -5,7 +5,7 @@ const userRouter = require('./userRoute');
 const loginRouter = require('./loginRoute');
 const forgotPasswordRouter = require('./redefinirSenhaRoute');
 const ComponenteRouter = require('./ComponenteRoute');
-//const pacotePersRoute = require('./pacotePersRoute');
+const pacoteRouter = require('./pacoteRoute');
 
 const authMiddleware = require('../middlewares/auth');
 
@@ -15,5 +15,6 @@ app.use('/user', userRouter);
 app.use('/user', loginRouter); 
 app.use('/user', forgotPasswordRouter); 
 app.use('/componente', ComponenteRouter);
+app.use('/pacote', pacoteRouter);
 
 module.exports = app;

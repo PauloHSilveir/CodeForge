@@ -1,11 +1,9 @@
-require('./src/database'); // ADICIONAR esta linha no início
+require('./src/database');
 const express = require('express');
-//const database = require('./src/config/database');
 const routes = require('./src/routes/index');
 const app = express();
 const cors = require('cors');
 const port = 1313;
-//require('./database');
 
 app.use(cors({
     origin: 'http://localhost:5173', 

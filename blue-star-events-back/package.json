@@ -6,7 +6,7 @@
   "author": "Thiago Ferreira Azevedo e Paulo Henrique dos Anjos Silveira",
   "license": "MIT",
   "scripts": {
-    "dev": "node --watch index.js",
+    "dev": "nodemon index.js",
     "test": "jest"
   },
   "dependencies": {

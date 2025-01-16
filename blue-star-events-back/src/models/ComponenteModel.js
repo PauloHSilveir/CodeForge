@@ -3,11 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 class Componente extends Model {
     static init(sequelize) {
         super.init({
-            pacote_id: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-            },
-            name: {
+                name: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
                 unique: true,
@@ -72,8 +68,7 @@ class Componente extends Model {
         });
     }
     static associate(models) {
-        this.belongsTo(models.Pacote, { foreignKey: 'pacote_id', as: 'pacote' });
-    }
+        this.belongsToMany(models.Pacote, { foreignKey: 'componente_id', through: 'pacote_componentes', as: 'pacotes'});    }
 }
 
 module.exports = Componente;
