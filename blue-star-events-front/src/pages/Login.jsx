@@ -9,12 +9,28 @@ import {
     RiLockPasswordLine,
     RiArrowLeftCircleLine
 } from '@remixicon/react';
+import { useState } from "react";
 
 function Login() {
     const navigate = useNavigate();
+    const [userType, setUserType] = useState("cliente");
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
 
     const handleNavigate = (path) => {
         navigate(path);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (userType === "cliente") {
+            console.log("Buscando na tabela cliente...");
+        } else {
+            console.log("Buscando na tabela admin...");
+        }
+
+        handleNavigate('/');
     };
 
     return (
@@ -32,7 +48,10 @@ function Login() {
                         </div>
                     </div>
                     <div className={stylesFormBaseA.formContainer}>
-                        <form action="#" className={stylesFormBaseA.baseForm}>
+                        <form
+                            onSubmit={handleSubmit}
+                            className={stylesFormBaseA.baseForm}
+                        >
                             <label htmlFor="email" className={stylesFormBaseA.label}>
                                 Email
                             </label>
@@ -43,6 +62,8 @@ function Login() {
                                     id="email"
                                     placeholder="Digite seu e-mail"
                                     className={stylesFormBaseA.inputField}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
                             </div>
@@ -57,13 +78,40 @@ function Login() {
                                     id="senha"
                                     placeholder="Digite sua senha"
                                     className={stylesFormBaseA.inputField}
+                                    value={senha}
+                                    onChange={(e) => setSenha(e.target.value)}
                                     required
                                 />
                             </div>
 
+                            <div className={stylesLogin.radioGroup}>
+                                <label className={`${stylesFormBaseA.label} ${stylesLogin.radioLabel}`}>
+                                    <input
+                                        type="radio"
+                                        name="userType"
+                                        value="cliente"
+                                        checked={userType === "cliente"}
+                                        onChange={() => setUserType("cliente")}
+                                        className={stylesLogin.radioInput}
+                                    />
+                                    Cliente
+                                </label>
+                                <label className={`${stylesFormBaseA.label} ${stylesLogin.radioLabel}`}>
+                                    <input
+                                        type="radio"
+                                        name="userType"
+                                        value="admin"
+                                        checked={userType === "admin"}
+                                        onChange={() => setUserType("admin")}
+                                        className={stylesLogin.radioInput}
+                                    />
+                                    Admin
+                                </label>
+                            </div>
+
                             <button
+                                type="submit"
                                 className={stylesFormBaseA.buttonBase}
-                                onClick={() => handleNavigate('/')}
                             >
                                 <RiLoginBoxLine /> Entrar
                             </button>
@@ -72,7 +120,6 @@ function Login() {
                                 Esqueceu a senha?
                             </Link>
                         </form>
-
                     </div>
                     <div className={stylesFormBaseA.register}>
                         <span className={stylesFormBaseA.smallText}>
@@ -84,11 +131,9 @@ function Login() {
                         </Link>
                     </div>
                 </div>
-
             </div>
-        </div >
+        </div>
     );
 }
 
 export default Login;
-
