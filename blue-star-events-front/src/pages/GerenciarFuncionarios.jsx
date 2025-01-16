@@ -26,7 +26,7 @@ function GerenciarFuncionarios() {
             titulo="FUNCIONÁRIOS CADASTRADOS"
             placeholder="Pesquisar funcionários"
             buttonText="ADICIONAR FUNCIONÁRIOS"
-            buttonLink="/gerenciarfuncionarios"
+            buttonLink="/cadastrarfuncionario"
             itensPorPagina={30}
             noItensFound="Nenhuma funcionário encontrado."
             campoPesquisa="nome"

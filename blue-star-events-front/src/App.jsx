@@ -27,6 +27,9 @@ import CadastrarPacote4 from './pages/CadastrarPacote4';
 import EditarPacotes3 from './pages/EditarPacotes3';
 import EditarPacotes4 from './pages/EditarPacotes4';
 import ConsultarPacotes from './pages/ConsultarPacotes';
+import CadastrarFuncionario from './pages/CadastrarFuncionário';
+import CadastrarEnderecoFuncionario from './pages/CadastrarEnderecoFuncionario';
+
 
 function App() {
   return (
@@ -60,6 +63,8 @@ function App() {
         <Route path='cadastraritem' element={<CadastrarItem />}/>
         <Route path='editaritem' element={<EditarItem />}/>
         <Route path='consultarpacotes' element={<ConsultarPacotes />}/>
+        <Route path='cadastrarfuncionario' element={<CadastrarFuncionario />}/>
+        <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />}/>
       </Routes>
     </BrowserRouter>
   );
