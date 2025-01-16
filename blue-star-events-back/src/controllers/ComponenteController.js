@@ -1,40 +1,42 @@
-const itemService = require('../services/ComponenteService');//Importa os serviços do item
+const componenteService = require('../services/ComponenteService');//Importa os serviços do componente
 
 class ComponenteController {
-     //metodo para cadastrar um novo item
+     //metodo para cadastrar um novo componente
      async Create(req, res) {
         try {
-            const {name, description, preco, quantidade} = req.body;
-            const item = await itemService.Create(name, description, preco, quantidade);
+            const { name, description, preco, quantidade, pacote_id, categoria, imagem } = req.body;
+            const componenteData = { name, description, preco, quantidade, pacote_id, categoria, imagem };
 
-            res.status(200).send({item});
+            const componente = await componenteService.create(componenteData);
+            res.status(200).send({componente});
 
         }catch(error) {
             res.status(500).send({msg: error.message});
         }
     }
 
-    //Atualizar dados do item
+    //Atualizar dados do componente
     async Update(req, res) {
         try {
             const {id} = req.params;
-            const {name, description, preco, quantidade} = req.body;
-            const item = await itemService.Update(id, name, description, preco, quantidade);
+            const componenteData = req.body; // Todos os campos vêm no corpo da requisição
+        
+            const componente = await componenteService.Update(id, componenteData);
 
-            res.status(200).send({item});
+            res.status(200).send({componente});
 
         }catch(error) {
             res.status(500).send({msg: error.message});
         }
     }
 
-    //encontrar apenas um item
+    //encontrar apenas um componente
     async FindById(req, res) {
         try {
             const {id} = req.params;
-            const item = await itemService.FindById(id);
+            const componente = await componenteService.FindById(id);
 
-            res.status(200).send({item});
+            res.status(200).send({componente});
 
         }catch(error) {
             res.status(500).send({msg: error.message});
@@ -44,24 +46,24 @@ class ComponenteController {
     //encotrar todos os itens 
     async FindAll(req, res) {
         try {
-            const item = await itemService.FindAll();
+            const componente = await componenteService.FindAll();
 
-            res.status(200).send({item});
+            res.status(200).send({componente});
 
         }catch(error) {
             res.status(500).send({msg: error.message});
         }
     }
 
-    //deletar um item
-    async DeleteItem(req, res) {
+    //deletar um componente
+    async DeleteComponente(req, res) {
         try {
             const {id} = req.params;
             const {packageStatus} = false;
             
-            const item = await itemService.DeleteItem(id, packageStatus);
+            const componente = await componenteService.DeleteComponente(id, packageStatus);
 
-            res.status(200).send({item});
+            res.status(200).send({componente});
 
         }catch(error) {
             res.status(500).send({msg: error.message});
