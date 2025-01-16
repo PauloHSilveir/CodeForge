@@ -99,7 +99,7 @@ function PacoteIndividual({ id, nome, descricao, tamanho, valor, imagem }) {
             />
 
             <ModalMensagemFalha
-                title="EXCLUIR PERFIL"
+                title="EXCLUIR PACOTE"
                 text="Erro ao excluir o pacote!"
                 isVisible={showFail}
             />

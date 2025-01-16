@@ -11,6 +11,7 @@ import {
     RiLockPasswordLine,
     RiArrowLeftCircleLine
 } from '@remixicon/react';
+import { useState } from "react";
 
 function Login() {
 
@@ -18,37 +19,24 @@ function Login() {
     const [senha, setSenha] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [userType, setUserType] = useState("cliente");
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
 
-    const handleSubmit = async (e) => {
+    const handleNavigate = (path) => {
+        navigate(path);
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        try {
-            const response = await fetch('http://localhost:1313/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({ email: email, password: senha, islogged: true }),
-            });
-
-            const data = await response.json();
-
-            localStorage.setItem("authToken", data.token);
-
-            if (response.status === 200) {
-                console.log('Logado com sucesso');
-
-                navigate(`/`);
-                
-            } else if (response.status === 401) {
-                console.log('Não autorizado');
-                setError({ message: data.message });
-            }
-        } catch (error) {
-            setError({ message: error.message });
-            console.error('Erro ao tentar logar:', error);
+        if (userType === "cliente") {
+            console.log("Buscando na tabela cliente...");
+        } else {
+            console.log("Buscando na tabela admin...");
         }
+
+        handleNavigate('/');
     };
 
     return (
@@ -67,20 +55,24 @@ function Login() {
                     </div>
                     {error && <div className="error">{error.message}</div>}
                     <div className={stylesFormBaseA.formContainer}>
-                        <form onSubmit={handleSubmit} className={stylesFormBaseA.baseForm}>
+                        <form
+                            onSubmit={handleSubmit}
+                            className={stylesFormBaseA.baseForm}
+                        >
                             <label htmlFor="email" className={stylesFormBaseA.label}>
                                 Email
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMailLine />
-                                <input 
-                                type="email" 
-                                id="email" 
-                                placeholder="Digite seu e-mail" 
-                                className={stylesFormBaseA.inputField}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Digite seu e-mail"
+                                    className={stylesFormBaseA.inputField}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="senha" className={stylesFormBaseA.label}>
@@ -88,17 +80,46 @@ function Login() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiLockPasswordLine />
-                                <input 
-                                type="password" 
-                                id="senha" 
-                                placeholder="Digite sua senha" 
-                                className={stylesFormBaseA.inputField}
-                                value={senha}
-                                onChange={(e) => setSenha(e.target.value)}
-                                required />
+                                <input
+                                    type="password"
+                                    id="senha"
+                                    placeholder="Digite sua senha"
+                                    className={stylesFormBaseA.inputField}
+                                    value={senha}
+                                    onChange={(e) => setSenha(e.target.value)}
+                                    required
+                                />
                             </div>
 
-                            <button type='submit' className={stylesFormBaseA.buttonBase}>
+                            <div className={stylesLogin.radioGroup}>
+                                <label className={`${stylesFormBaseA.label} ${stylesLogin.radioLabel}`}>
+                                    <input
+                                        type="radio"
+                                        name="userType"
+                                        value="cliente"
+                                        checked={userType === "cliente"}
+                                        onChange={() => setUserType("cliente")}
+                                        className={stylesLogin.radioInput}
+                                    />
+                                    Cliente
+                                </label>
+                                <label className={`${stylesFormBaseA.label} ${stylesLogin.radioLabel}`}>
+                                    <input
+                                        type="radio"
+                                        name="userType"
+                                        value="admin"
+                                        checked={userType === "admin"}
+                                        onChange={() => setUserType("admin")}
+                                        className={stylesLogin.radioInput}
+                                    />
+                                    Admin
+                                </label>
+                            </div>
+
+                            <button
+                                type="submit"
+                                className={stylesFormBaseA.buttonBase}
+                            >
                                 <RiLoginBoxLine /> Entrar
                             </button>
 
@@ -117,11 +138,9 @@ function Login() {
                         </Link>
                     </div>
                 </div>
-
             </div>
-        </div >
+        </div>
     );
 }
 
 export default Login;
-

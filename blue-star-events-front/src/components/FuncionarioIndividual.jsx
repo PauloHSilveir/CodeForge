@@ -2,17 +2,24 @@ import stylesGI from "../styles/PacoteIndividual.module.css";
 import stylesTI from "../styles/TransacaoIndividual.module.css";
 import stylesFI from "../styles/FuncionarioIndividual.module.css";
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ModalExcluir from "../components/ModalExcluir";
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
 function FuncionarioIndividual({ nome, email, celular, tipo }) {
+    const navigate = useNavigate();
+
     const [isModalOpen, setModalOpen] = useState(false);
     const [showSucess, setShowSucess] = useState(false);
     const [showFail, setShowFail] = useState(false);
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    const handleEdit = () => {
+        navigate('/editarFuncionario');
+    };
 
     const handleDelete = async () => {
         try {
@@ -69,7 +76,7 @@ function FuncionarioIndividual({ nome, email, celular, tipo }) {
                 </div>
 
                 <div className={stylesTI.itemColuna}>
-                    <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`}>
+                    <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`}  onClick={handleEdit}>
                         EDITAR FUNCIONÁRIO
                     </button>
                 </div>
