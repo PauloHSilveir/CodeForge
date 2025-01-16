@@ -11,7 +11,7 @@ import {
     RiLockPasswordLine,
     RiArrowLeftCircleLine
 } from '@remixicon/react';
-import { useState } from "react";
+
 
 function Login() {
 
@@ -20,9 +20,7 @@ function Login() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const [userType, setUserType] = useState("cliente");
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-
+    
     const handleNavigate = (path) => {
         navigate(path);
     };
