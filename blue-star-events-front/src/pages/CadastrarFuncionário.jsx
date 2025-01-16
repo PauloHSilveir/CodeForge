@@ -25,7 +25,7 @@ function CadastrarFuncionario() {
     const [dataAdmissao, setDataAdmissao] = useState('');
     const [password, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
-    
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -48,7 +48,7 @@ function CadastrarFuncionario() {
                             className={stylesFormBaseA.iconBack}
                             onClick={() => navigate('/gerenciarfuncionarios')}
                         />
-                        
+
                         <div className={stylesFormBaseA.bigText}>
                             INSIRA OS DADOS DO FUNCIONÁRIO
                         </div>
@@ -125,7 +125,7 @@ function CadastrarFuncionario() {
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMoneyDollarCircleLine />
                                 <input
-                                    type="text"
+                                    type="number"
                                     id="salario"
                                     placeholder="Digite o salário"
                                     className={stylesFormBaseA.inputField}
