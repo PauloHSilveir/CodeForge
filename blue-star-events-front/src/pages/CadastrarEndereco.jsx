@@ -16,6 +16,11 @@ import {
 } from '@remixicon/react';
 import ModalCadastrar from "../components/ModalCadastrar";
 
+const formatCEP = (cep) => {
+    const numbers = cep.replace(/\D/g, '');
+    return numbers.replace(/(\d{5})(\d{3})/, '$1-$2');
+};
+
 function CadastrarEndereco() {
     const navigate = useNavigate();
     const [showTermsModal, setShowTermsModal] = useState(false);
@@ -51,7 +56,6 @@ function CadastrarEndereco() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Recuperar os dados do usuário do localStorage
         const userData = JSON.parse(localStorage.getItem('userData'));
 
         if (!userData) {
@@ -60,23 +64,19 @@ function CadastrarEndereco() {
             return;
         }
 
-        // Combinar os dados do usuário e endereço
         const fullData = {
             ...userData,
-            
             rua,
             numero,
             complemento,
             bairro,
             cidade,
-            estado,
-            cep,
-            
+            estado: estado.toUpperCase(),
+            cep: formatCEP(cep),
         };
 
-        // Enviar os dados para o backend
         try {
-            const response = await fetch('http://localhost:1313/user/cadastro', {
+            const response = await fetch('http://localhost:1313/user/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,17 +85,18 @@ function CadastrarEndereco() {
             });
 
             if (response.ok) {
-                // Limpar os dados do localStorage
                 localStorage.removeItem('userData');
+                alert('Cadastro realizado com sucesso!');
                 navigate('/');
             } else {
-                console.error('Erro ao cadastrar');
+                const errorData = await response.json();
+                alert(errorData.msg || 'Erro ao cadastrar. Verifique os dados e tente novamente.');
             }
         } catch (error) {
             console.error('Erro na requisição:', error);
+            alert('Erro ao conectar com o servidor. Tente novamente mais tarde.');
         }
     };
-
     return (
         <div>
             <NavBar />

@@ -42,8 +42,7 @@ function EditarDados() {
         cep: ''
     });
     
-    // Assumindo que você tem o ID do usuário armazenado em algum lugar
-    const userId = '4'; // Substitua pela forma como você armazena o ID do usuário
+    const userId = '5'; // Substitua pela forma como você armazena o ID do usuário
 
     useEffect(() => {
         fetchUserData();
@@ -59,34 +58,35 @@ function EditarDados() {
             setUserData(data.user);
         } catch (error) {
             console.error('Erro:', error);
-            // Adicione tratamento de erro apropriado aqui
         }
     };
 
     const handlePersonalDataSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`${BASE_URL}/user/update/personal/${userId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: userData.name,
-                    cpf: userData.cpf,
-                    email: userData.email,
-                    phone: userData.phone,
-                }),
-            });
+        if (validateCpf(userData.cpf) && validatePhone(userData.phone) && validateEmail(userData.email) && validateCep(userData.cep)) {
+            try {
+                const response = await fetch(`${BASE_URL}/user/update/personal/${userId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: userData.name,
+                        cpf: formatCpf(userData.cpf),
+                        email: userData.email,
+                        phone: formatPhone(userData.phone),
+                    }),
+                });
 
-            if (!response.ok) {
-                throw new Error('Erro ao atualizar dados pessoais');
+                if (!response.ok) {
+                    throw new Error('Erro ao atualizar dados pessoais');
+                }
+
+                alert('Dados pessoais atualizados com sucesso!');
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar dados pessoais');
             }
-
-            alert('Dados pessoais atualizados com sucesso!');
-        } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao atualizar dados pessoais');
+        } else {
+            alert('Dados inválidos');
         }
     };
 
@@ -95,9 +95,7 @@ function EditarDados() {
         try {
             const response = await fetch(`${BASE_URL}/user/update/address/${userId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     rua: userData.rua,
                     numero: userData.numero,
@@ -105,7 +103,7 @@ function EditarDados() {
                     bairro: userData.bairro,
                     cidade: userData.cidade,
                     estado: userData.estado,
-                    cep: userData.cep,
+                    cep: formatCep(userData.cep),
                 }),
             });
 
@@ -122,22 +120,18 @@ function EditarDados() {
 
     const handleDeleteAccount = async () => {
         try {
-            
             const response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
+                headers: { 'Content-Type': 'application/json' }
             });
-            
+
             if (!response.ok) {
                 throw new Error('Erro ao excluir conta');
             }
 
             alert('Conta excluída com sucesso!');
-            navigate('/login'); // ou para onde você quiser redirecionar após a exclusão
+            navigate('/login');
         } catch (error) {
-            
             console.error('Erro:', error);
             alert('Erro ao excluir conta');
         }
@@ -158,6 +152,36 @@ function EditarDados() {
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    // Funções de validação e formatação
+    const validateCpf = (cpf) => {
+        return cpf.replace(/[^\d]/g, '').length === 11;
+    };
+
+    const formatCpf = (cpf) => {
+        return cpf.replace(/[^\d]/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    };
+
+    const validatePhone = (phone) => {
+        return phone.replace(/[^\d]/g, '').length === 11;
+    };
+
+    const formatPhone = (phone) => {
+        return phone.replace(/[^\d]/g, '').replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    };
+
+    const validateCep = (cep) => {
+        return cep.replace(/[^\d]/g, '').length === 8;
+    };
+
+    const formatCep = (cep) => {
+        return cep.replace(/[^\d]/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
+    };
+
+    const validateEmail = (email) => {
+        const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return regex.test(email);
+    };
 
     return (
         <div>
@@ -276,13 +300,14 @@ function EditarDados() {
                         <div className={stylesED.containerDados}>
                             <div className={stylesFormBaseA.legendContainer}>
                                 <div className={stylesFormBaseA.bigText}>
-                                    EDITE SEU ENDEREÇO
+                                    ENDEREÇO
                                 </div>
                             </div>
+
                             <div className={stylesFormBaseA.formContainer}>
                                 <form onSubmit={handleAddressSubmit} className={stylesFormBaseA.baseForm}>
                                     <label htmlFor="rua" className={stylesFormBaseA.label}>
-                                        Logradouro
+                                        Rua
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiRoadMapLine />
@@ -296,14 +321,11 @@ function EditarDados() {
                                         />
                                     </div>
 
-                                    <label
-                                        htmlFor="numero"
-                                        className={stylesFormBaseA.label}
-                                    >
+                                    <label htmlFor="numero" className={stylesFormBaseA.label}>
                                         Número
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
-                                        <RiMapPinUserLine />
+                                        <RiHome8Line />
                                         <input 
                                             type="text" 
                                             id="numero" 
@@ -314,14 +336,11 @@ function EditarDados() {
                                         />
                                     </div>
 
-                                    <label
-                                        htmlFor="complemento"
-                                        className={stylesFormBaseA.label}
-                                    >
+                                    <label htmlFor="complemento" className={stylesFormBaseA.label}>
                                         Complemento
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
-                                        <RiHome8Line />
+                                        <RiMapPinUserLine />
                                         <input 
                                             type="text" 
                                             id="complemento" 
@@ -331,10 +350,7 @@ function EditarDados() {
                                         />
                                     </div>
 
-                                    <label
-                                        htmlFor="bairro"
-                                        className={stylesFormBaseA.label}
-                                    >
+                                    <label htmlFor="bairro" className={stylesFormBaseA.label}>
                                         Bairro
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
@@ -349,10 +365,7 @@ function EditarDados() {
                                         />
                                     </div>
 
-                                    <label
-                                        htmlFor="cidade"
-                                        className={stylesFormBaseA.label}
-                                    >
+                                    <label htmlFor="cidade" className={stylesFormBaseA.label}>
                                         Cidade
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
@@ -367,14 +380,11 @@ function EditarDados() {
                                         />
                                     </div>
 
-                                    <label
-                                        htmlFor="estado"
-                                        className={stylesFormBaseA.label}
-                                    >
+                                    <label htmlFor="estado" className={stylesFormBaseA.label}>
                                         Estado
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
-                                        <RiMapLine />
+                                        <RiMapPinRangeLine />
                                         <input 
                                             type="text" 
                                             id="estado" 
@@ -385,14 +395,11 @@ function EditarDados() {
                                         />
                                     </div>
 
-                                    <label
-                                        htmlFor="cep"
-                                        className={stylesFormBaseA.label}
-                                    >
+                                    <label htmlFor="cep" className={stylesFormBaseA.label}>
                                         CEP
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
-                                        <RiMapPinRangeLine />
+                                        <RiMapLine />
                                         <input 
                                             type="text" 
                                             id="cep" 
@@ -402,6 +409,7 @@ function EditarDados() {
                                             required 
                                         />
                                     </div>
+
                                     <button type="submit" className={stylesFormBaseA.buttonBase}>
                                         Salvar Alterações
                                     </button>
