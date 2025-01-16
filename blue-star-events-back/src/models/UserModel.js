@@ -105,7 +105,23 @@ class User extends Model {
                         msg: "O CEP deve estar no formato XXXXX-XXX",
                     },
                 },
-            }
+            },
+            islogged: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
+            isAdmin: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
+            passwordResetToken: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+            passwordResetExpires: {
+                type: DataTypes.DATE,
+                allowNull: true
+            },
         }, {
             sequelize,
             tableName: 'users',
@@ -127,6 +143,7 @@ class User extends Model {
     }
 
     static associate(models) {
+        this.hasOne(models.Admin, { foreignKey: 'usuario_id', as: 'admin' });
         //this.hasMany(models.Transacoes, { foreignKey: 'user_id', as: 'transacoes' });
     }
 }

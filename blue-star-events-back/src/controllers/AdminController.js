@@ -12,31 +12,27 @@ class AdminController {
         }
     }
 
-    // Busca admin por ID
     async show(req, res) {
-        const { adminId } = req.params;
+        const { id: adminId } = req.params;
 
         try {
+            if (!adminId) {
+                throw new Error('O ID do admin é obrigatório.');
+            }
+
             const admin = await AdminService.getAdminById(adminId);
             return res.status(200).json(admin);
         } catch (error) {
-            console.error(error);
+            console.error('Erro ao buscar admin:', error.message);
             return res.status(404).json({ message: error.message });
         }
     }
 
-    // Cria um novo admin
-    async store(req, res) {
-        const { name, email, password, salario, data_admissao } = req.body;
 
+    // Cria um novo admin
+    async create(req, res) {
         try {
-            const { user, admin } = await AdminService.createAdminAndUser({
-                name,
-                email,
-                password,
-                salario,
-                data_admissao,
-            });
+            const { user, admin } = await AdminService.createAdminAndUser(req.body);
 
             return res.status(201).json({
                 message: 'Admin e usuário criados com sucesso!',
@@ -51,20 +47,27 @@ class AdminController {
 
     // Atualiza os dados de um admin
     async update(req, res) {
-        const { adminId } = req.params;
-        const adminData = req.body;
+        const { id: adminId } = req.params;
+        const { personalData, addressData, adminData } = req.body;
 
         try {
-            const updatedAdmin = await AdminService.updateAdmin(adminId, adminData);
+            const loggedAdminId = req.userId; // Obtido do middleware de autenticação
+            if (parseInt(adminId) !== loggedAdminId) {
+                throw new Error('Você não tem permissão para atualizar esses dados.');
+            }
+
+            const updatedAdmin = await AdminService.updateAdmin(adminId, personalData, addressData, adminData);
+
             return res.status(200).json({
                 message: 'Admin atualizado com sucesso!',
                 admin: updatedAdmin,
             });
         } catch (error) {
-            console.error(error);
+            console.error('Erro ao atualizar admin:', error.message);
             return res.status(400).json({ message: error.message });
         }
     }
+
 
     // Remove um admin
     async delete(req, res) {

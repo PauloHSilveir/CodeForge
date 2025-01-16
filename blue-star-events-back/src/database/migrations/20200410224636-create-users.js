@@ -74,10 +74,10 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
-      isAdmin: {
+      is_admin: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
-    },
+      },
       password_reset_token: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -102,14 +102,6 @@ module.exports = {
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: false,
-      },
-      preco: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-      },
-      tamanho: {
-        type: Sequelize.INTEGER,
         allowNull: false,
       },
       tipo: {
@@ -245,11 +237,11 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      pacote_id: {
+      variante_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'pacotes',
+          model: 'variantes',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -264,6 +256,42 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+
+    // Tabela de pacote_componentes
+    await queryInterface.createTable('variantes', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      pacote_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'pacotes',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      preco: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      tamanho: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -469,7 +497,7 @@ module.exports = {
         preco: 100.0,
         tamanho: 100,
         tipo: 'Casamento',
-        disponibilidade: 3, 
+        disponibilidade: 3,
         imagem: 'pacote1.jpg',
         created_at: new Date(),
         updated_at: new Date(),
@@ -547,7 +575,7 @@ module.exports = {
         preco: 150.00,
         categoria: 'Itens',
         quantidade: 10,
-        imagem: 'cadeira.jpg',  
+        imagem: 'cadeira.jpg',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -557,7 +585,7 @@ module.exports = {
         preco: 200.00,
         categoria: 'Funcionarios',
         quantidade: 5,
-        imagem: 'cozinheiro.jpg',  
+        imagem: 'cozinheiro.jpg',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -567,7 +595,7 @@ module.exports = {
         preco: 180.00,
         categoria: 'Comidas',
         quantidade: 5,
-        imagem: 'coxinha.jpg',  
+        imagem: 'coxinha.jpg',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -575,20 +603,44 @@ module.exports = {
 
     await queryInterface.bulkInsert('pacote_componentes', [
       {
+        variante_id: 1,
+        componente_id: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        variante_id: 1,
+        componente_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        variante_id: 2,
+        componente_id: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    await queryInterface.bulkInsert('variantes', [
+      {
         pacote_id: 1,
-        componente_id: 1,    
+        preco: 100.0,
+        tamanho: 100,
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         pacote_id: 1,
-        componente_id: 2,  
+        preco: 300.0,
+        tamanho: 300,
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        pacote_id: 2,
-        componente_id: 2,  
+        pacote_id: 1,
+        preco: 500.0,
+        tamanho: 500,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -694,6 +746,7 @@ module.exports = {
     await queryInterface.dropTable('admin');
     await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('transacoes');
+    await queryInterface.dropTable('variantes');
     await queryInterface.dropTable('pacote_componentes');
     await queryInterface.dropTable('componentes');
     await queryInterface.dropTable('eventos');

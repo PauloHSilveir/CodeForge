@@ -1,5 +1,6 @@
-const Admin = require('../models/Admin');
-const User = require('../models/User');
+const { sequelize } = require('../database');
+const Admin = require('../models/AdminModel');
+const User = require('../models/UserModel');
 
 class AdminService {
     // Busca todos os admins
@@ -13,61 +14,106 @@ class AdminService {
         });
     }
 
-    // Busca admin por ID
     async getAdminById(adminId) {
-        const admin = await Admin.findByPk(adminId, {
-            include: {
-                model: User,
-                as: 'user',
-                attributes: ['id', 'name', 'email'],
-            },
-        });
+        try {
+            const admin = await Admin.findByPk(adminId, {
+                include: {
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'name', 'email'],
+                },
+            });
 
-        if (!admin) {
-            throw new Error('Admin não encontrado!');
+            if (!admin) {
+                throw new Error('Admin não encontrado!');
+            }
+    
+            return admin;
+        } catch (error) {
+            throw new Error(`Erro ao buscar admin por ID: ${error.message}`);
         }
-
-        return admin;
     }
 
-    // Cria um novo admin
+
     async createAdminAndUser(adminData) {
-        const { name, email, password, salario, data_admissao } = adminData;
-
-        // Valida se o e-mail já está sendo usado
-        const existingUser = await User.findOne({ where: { email } });
-        if (existingUser) {
-            throw new Error('E-mail já está em uso!');
+        const { name, cpf, password, email, phone, rua, numero, complemento, bairro, cidade, estado,
+            cep, isAdmin, salario, data_admissao } = adminData;
+    
+        const transaction = await sequelize.transaction();
+    
+        try {
+            // Valida se o e-mail já está sendo usado
+            const existingUser = await User.findOne({ where: { email }, transaction });
+            if (existingUser) {
+                throw new Error('E-mail já está em uso!');
+            }
+    
+            // Cria o usuário
+            const user = await User.create({
+                name,
+                cpf,
+                password,
+                email,
+                phone,
+                rua,
+                numero,
+                complemento,
+                bairro,
+                cidade,
+                estado,
+                cep,
+                isAdmin,
+            }, { transaction });
+    
+            // Cria o admin
+            const admin = await Admin.create({
+                usuario_id: user.id,
+                salario,
+                data_admissao,
+            }, { transaction });
+    
+            await transaction.commit();
+    
+            return { user, admin };
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
         }
-
-        // Cria o usuário
-        const user = await User.create({
-            name,
-            email,
-            password, // Certifique-se de aplicar hash no password antes de salvar
-        });
-
-        // Cria o admin associado ao usuário
-        const admin = await Admin.create({
-            user_id: user.id,
-            salario,
-            data_admissao,
-        });
-
-        return { user, admin };
     }
 
-    // Atualiza os dados de um admin
-    async updateAdmin(adminId, adminData) {
-        const admin = await Admin.findByPk(adminId);
+    async updateAdmin(adminId, personalData, addressData, adminData) {
+        const transaction = await sequelize.transaction();
 
-        if (!admin) {
-            throw new Error('Admin não encontrado!');
+        try {
+            const admin = await Admin.findByPk(adminId, {
+                include: { model: User, as: 'user' },
+            });
+
+            if (!admin) {
+                throw new Error('Admin não encontrado!');
+            }
+
+            if (personalData) {
+                await admin.user.update(personalData, { transaction });
+            }
+
+            if (addressData) {
+                await admin.user.update(addressData, { transaction });
+            }
+
+            if (adminData) {
+                await admin.update(adminData, { transaction });
+            }
+
+            await transaction.commit();
+
+            return await Admin.findByPk(adminId, {
+                include: { model: User, as: 'user' },
+            });
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
         }
-
-        await admin.update(adminData);
-
-        return admin;
     }
 
     // Remove um admin

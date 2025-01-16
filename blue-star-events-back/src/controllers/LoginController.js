@@ -3,11 +3,12 @@ const authService = require('../services/authService');
 module.exports = {
     // Função para realizar o login
     async login(req, res) {
-        const { email, password, islogged } = req.body;
+        const { email, password, userType, islogged } = req.body;
 
         try {
-            // Realiza a autenticação do usuário
-            const { user, token } = await authService.login(email, password);
+            console.log("Dados recebidos:", email, password, userType, islogged);
+            // Realiza a autenticação do usuário, passando o tipo de usuário
+            const { user, token } = await authService.login(email, password, userType);
 
             // Atualiza o status do usuário para "logado"
             await authService.setLoggedStatus(user.id, islogged);

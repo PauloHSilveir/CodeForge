@@ -12,7 +12,7 @@ function generateToken(params = {}) {
 
 module.exports = {
     // Função para realizar o login
-    async login(email, password) {
+    async login(email, password, userType) {
         const user = await User.findOne({ where: { email } });
 
         if (!user) {
@@ -21,6 +21,10 @@ module.exports = {
 
         if (!bcrypt.compareSync(password, user.password)) {
             throw new Error('E-mail ou senha incorreto!');
+        }
+
+        if (userType !== user.isAdmin) {
+            throw new Error('Tipo de usuário inválido!');
         }
 
         const token = generateToken({ id: user.id });

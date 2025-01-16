@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 class Componente extends Model {
     static init(sequelize) {
         super.init({
-                name: {
+            name: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
                 unique: true,
@@ -68,7 +68,7 @@ class Componente extends Model {
         });
     }
     static associate(models) {
-        this.belongsToMany(models.Pacote, { foreignKey: 'componente_id', through: 'pacote_componentes', as: 'pacotes'});    }
+        this.belongsToMany(models.Variante, { foreignKey: 'componente_id', through: 'pacote_componentes', as: 'variantes'});    }
 }
 
 module.exports = Componente;

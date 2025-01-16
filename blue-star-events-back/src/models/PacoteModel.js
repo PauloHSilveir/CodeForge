@@ -26,25 +26,6 @@ class Pacote extends Model {
                     },
                 },
             },
-            preco: {
-                type: DataTypes.DECIMAL(10, 2),
-                allowNull: false,
-                validate: {
-                    isDecimal: { msg: "O preço deve ser um número válido" },
-                    min: {
-                        args: [0.01],
-                        msg: "O preço deve ser maior que zero",
-                    },
-                },
-            },
-            tamanho: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                validate: {
-                    isInt: { msg: "O tamanho deve ser um número inteiro." },
-                    min: { args: [1], msg: "O tamanho deve ser maior que zero." },
-                },
-            },
             tipo: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -80,7 +61,8 @@ class Pacote extends Model {
 
     static associate(models) {
         this.hasOne(models.Event, { foreignKey: 'pacote_id', as: 'evento' });
-        this.belongsToMany(models.Componente, { foreignKey: 'pacote_id', through: 'pacote_componentes', as: 'componentes'});    }
+        this.hasMany(models.Variante, { foreignKey: 'pacote_id', as: 'variante' });
+        }
 }
 
 module.exports = Pacote;

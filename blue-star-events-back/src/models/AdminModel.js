@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 class Admin extends Model {
     static init(sequelize) {
         super.init({
-            user_id: {
+            usuario_id: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
@@ -32,7 +32,7 @@ class Admin extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+        this.belongsTo(models.User, { foreignKey: 'usuario_id', as: 'user' });
     }
 }
 
