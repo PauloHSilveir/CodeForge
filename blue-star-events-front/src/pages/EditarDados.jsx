@@ -6,6 +6,8 @@ import stylesED from "../styles/EditarDados.module.css";
 import iconImage from "../assets/images/iconPerfil.png";
 import ModalExcluir from "../components/ModalExcluir";
 import { useNavigate } from 'react-router-dom';
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 import {
     RiMailFill,
     RiDeleteBinLine,
@@ -423,6 +425,18 @@ function EditarDados() {
             <ModalExcluir isOpen={isModalOpen} onClose={closeModal} onConfirm={handleDeleteAccount}>
                 <p>DESEJA REALMENTE <strong>EXCLUIR</strong> SUA CONTA<strong> PERMANENTEMENTE</strong>?</p>
             </ModalExcluir>
+
+            <ModalMensagemSucesso
+                title="EXCLUIR CONTA"
+                text="Conta excluída com sucesso! Redirecionando..."
+                isVisible={showSucess}
+            />
+
+            <ModalMensagemFalha
+                title="EXCLUIR CONTA"
+                text="Erro ao excluir a conta!"
+                isVisible={showFail}
+            />
         </div>
     );
 }

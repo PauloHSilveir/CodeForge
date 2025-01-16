@@ -9,3 +9,30 @@
 .forgotPass:hover {
     text-decoration: underline;
 }
+
+.radioGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 1rem 0;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+}
+.radioLabel:hover{
+    cursor: pointer;
+    color:#0c4778;
+}
+
+.radioInput {
+    margin-right: 0.5rem;
+    transform: scale(1.15);
+    transition: transform 0.2s ease;
+}
+
+.radioInput:hover {
+    transform: scale(1.3);
+    cursor: pointer;
+}
