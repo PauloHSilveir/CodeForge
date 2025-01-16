@@ -6,6 +6,8 @@ import stylesED from "../styles/EditarDados.module.css";
 import iconImage from "../assets/images/iconPerfil.png";
 import ModalExcluir from "../components/ModalExcluir";
 import { useNavigate } from 'react-router-dom';
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 import {
     RiMailFill,
     RiDeleteBinLine,
@@ -151,6 +153,8 @@ function EditarDados() {
             [id]: value
         }));
     };
+    const [showSucess, setShowSucess] = useState(false);
+    const [showFail, setShowFail] = useState(false);
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -158,6 +162,28 @@ function EditarDados() {
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    const handleDelete = async () => {
+        try {
+            // Implementar a chamada real para a API de exclusão
+            // await api.delete('/user');
+
+            setShowSucess(true);
+
+            setTimeout(() => {
+                setShowSucess(false);
+                navigate('/login');
+            }, 3000);
+        } catch (error) {
+            console.error("Erro ao excluir conta:", error);
+
+            setShowFail(true);
+
+            setTimeout(() => {
+                setShowFail(false);
+            }, 3000);
+        }
+    };
 
     return (
         <div>
@@ -412,9 +438,28 @@ function EditarDados() {
                 </div>
             </div>
 
-            <ModalExcluir isOpen={isModalOpen} onClose={closeModal} onConfirm={handleDeleteAccount}>
-                <p>DESEJA REALMENTE <strong>EXCLUIR</strong> SUA CONTA<strong> PERMANENTEMENTE</strong>?</p>
+            <ModalExcluir
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onConfirm={handleDelete}
+            >
+                <p>
+                    DESEJA REALMENTE <strong>EXCLUIR</strong> SUA CONTA
+                    <strong> PERMANENTEMENTE</strong>?
+                </p>
             </ModalExcluir>
+
+            <ModalMensagemSucesso
+                title="EXCLUIR CONTA"
+                text="Conta excluída com sucesso! Redirecionando..."
+                isVisible={showSucess}
+            />
+
+            <ModalMensagemFalha
+                title="EXCLUIR CONTA"
+                text="Erro ao excluir a conta!"
+                isVisible={showFail}
+            />
         </div>
     );
 }
