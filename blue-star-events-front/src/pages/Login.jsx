@@ -1,42 +1,56 @@
 import { useState } from 'react';
-//import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
 import NavBar from "../components/Navbar";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesLogin from '../styles/Login.module.css';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import {
     RiLoginBoxLine,
     RiMailLine,
     RiLockPasswordLine,
     RiArrowLeftCircleLine
 } from '@remixicon/react';
-import { useState } from "react";
 
 function Login() {
-
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const [userType, setUserType] = useState("cliente");
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
+    const [userType, setUserType] = useState("false");
 
-    const handleNavigate = (path) => {
-        navigate(path);
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (userType === "cliente") {
-            console.log("Buscando na tabela cliente...");
-        } else {
-            console.log("Buscando na tabela admin...");
-        }
+        try {
+            const response = await fetch('http://localhost:1313/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ email: email, password: senha, userType: userType, islogged: true }),
+            });
 
-        handleNavigate('/');
+            const data = await response.json();
+
+            localStorage.setItem("authToken", data.token);
+
+            if (response.status === 200) {
+                console.log('Logado com sucesso');
+
+                if (userType) {
+                    navigate('/gerenciarsistema');
+                } else {
+                    navigate('/'); 
+                }
+            } else if (response.status === 401) {
+                console.log('Não autorizado');
+                setError({ message: data.message });
+            }
+        } catch (error) {
+            setError({ message: error.message });
+            console.error('Erro ao tentar logar:', error);
+        }
     };
 
     return (
@@ -96,9 +110,9 @@ function Login() {
                                     <input
                                         type="radio"
                                         name="userType"
-                                        value="cliente"
-                                        checked={userType === "cliente"}
-                                        onChange={() => setUserType("cliente")}
+                                        value="false"
+                                        checked={userType === false}
+                                        onChange={() => setUserType(false)} //Cliente
                                         className={stylesLogin.radioInput}
                                     />
                                     Cliente
@@ -107,9 +121,9 @@ function Login() {
                                     <input
                                         type="radio"
                                         name="userType"
-                                        value="admin"
-                                        checked={userType === "admin"}
-                                        onChange={() => setUserType("admin")}
+                                        value="true"
+                                        checked={userType === true}
+                                        onChange={() => setUserType(true)} //Admin
                                         className={stylesLogin.radioInput}
                                     />
                                     Admin

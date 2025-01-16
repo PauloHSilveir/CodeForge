@@ -43,7 +43,7 @@ function EditarDados() {
         estado: '',
         cep: ''
     });
-    
+
     const userId = '5'; // Substitua pela forma como você armazena o ID do usuário
 
     useEffect(() => {
@@ -120,7 +120,7 @@ function EditarDados() {
         }
     };
 
-    const handleDeleteAccount = async () => {
+    const handleDelete = async () => {
         try {
             const response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
                 method: 'DELETE',
@@ -130,12 +130,20 @@ function EditarDados() {
             if (!response.ok) {
                 throw new Error('Erro ao excluir conta');
             }
+            
+            setShowSucess(true);
 
-            alert('Conta excluída com sucesso!');
-            navigate('/login');
+            setTimeout(() => {
+                setShowSucess(false);
+                navigate('/login');
+            }, 3000);
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao excluir conta');
+            setShowFail(true);
+
+            setTimeout(() => {
+                setShowFail(false);
+            }, 3000);
         }
         closeModal();
     };
@@ -157,26 +165,6 @@ function EditarDados() {
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
 
-    const handleDelete = async () => {
-        try {
-            // Implementar a chamada real para a API de exclusão
-            // await api.delete('/user');
-
-            setShowSucess(true);
-
-            setTimeout(() => {
-                setShowSucess(false);
-                navigate('/login');
-            }, 3000);
-        } catch (error) {
-            console.error("Erro ao excluir conta:", error);
-
-            setShowFail(true);
-
-            setTimeout(() => {
-                setShowFail(false);
-            }, 3000);
-        }
     // Funções de validação e formatação
     const validateCpf = (cpf) => {
         return cpf.replace(/[^\d]/g, '').length === 11;
@@ -254,13 +242,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiUserLine />
-                                        <input 
-                                            type="text" 
-                                            id="name" 
+                                        <input
+                                            type="text"
+                                            id="name"
                                             value={userData.name}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -272,13 +260,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiIdCardLine />
-                                        <input 
-                                            type="text" 
-                                            id="cpf" 
+                                        <input
+                                            type="text"
+                                            id="cpf"
                                             value={userData.cpf}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -290,13 +278,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiMailLine />
-                                        <input 
-                                            type="email" 
-                                            id="email" 
+                                        <input
+                                            type="email"
+                                            id="email"
                                             value={userData.email}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -305,13 +293,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiPhoneLine />
-                                        <input 
-                                            type="text" 
-                                            id="phone" 
+                                        <input
+                                            type="text"
+                                            id="phone"
                                             value={userData.phone}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
                                     <button type="submit" className={stylesFormBaseA.buttonBase}>
@@ -335,13 +323,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiRoadMapLine />
-                                        <input 
-                                            type="text" 
-                                            id="rua" 
+                                        <input
+                                            type="text"
+                                            id="rua"
                                             value={userData.rua}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -350,13 +338,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiHome8Line />
-                                        <input 
-                                            type="text" 
-                                            id="numero" 
+                                        <input
+                                            type="text"
+                                            id="numero"
                                             value={userData.numero}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -365,12 +353,12 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiMapPinUserLine />
-                                        <input 
-                                            type="text" 
-                                            id="complemento" 
+                                        <input
+                                            type="text"
+                                            id="complemento"
                                             value={userData.complemento}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
+                                            className={stylesFormBaseA.inputField}
                                         />
                                     </div>
 
@@ -379,13 +367,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiGroup2Line />
-                                        <input 
-                                            type="text" 
-                                            id="bairro" 
+                                        <input
+                                            type="text"
+                                            id="bairro"
                                             value={userData.bairro}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -394,13 +382,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiCommunityLine />
-                                        <input 
-                                            type="text" 
-                                            id="cidade" 
+                                        <input
+                                            type="text"
+                                            id="cidade"
                                             value={userData.cidade}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -409,13 +397,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiMapPinRangeLine />
-                                        <input 
-                                            type="text" 
-                                            id="estado" 
+                                        <input
+                                            type="text"
+                                            id="estado"
                                             value={userData.estado}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
@@ -424,13 +412,13 @@ function EditarDados() {
                                     </label>
                                     <div className={stylesFormBaseA.inputs}>
                                         <RiMapLine />
-                                        <input 
-                                            type="text" 
-                                            id="cep" 
+                                        <input
+                                            type="text"
+                                            id="cep"
                                             value={userData.cep}
                                             onChange={handleInputChange}
-                                            className={stylesFormBaseA.inputField} 
-                                            required 
+                                            className={stylesFormBaseA.inputField}
+                                            required
                                         />
                                     </div>
 
