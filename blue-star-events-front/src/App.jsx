@@ -30,6 +30,7 @@ import ConsultarPacotes from './pages/ConsultarPacotes';
 import CadastrarFuncionario from './pages/CadastrarFuncionário';
 import CadastrarEnderecoFuncionario from './pages/CadastrarEnderecoFuncionario';
 import EditarFuncionario from './pages/EditarFuncionario';
+import DetalhesTransacao from './pages/DetalhesTransacao';
 
 
 function App() {
@@ -67,7 +68,7 @@ function App() {
         <Route path='cadastrarfuncionario' element={<CadastrarFuncionario />}/>
         <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />}/>
         <Route path='editarfuncionario' element={<EditarFuncionario />}/>
-
+        <Route path='detalhestransacao' element={<DetalhesTransacao />}/>
       </Routes>
     </BrowserRouter>
   );
