@@ -32,6 +32,7 @@ import CadastrarEnderecoFuncionario from './pages/CadastrarEnderecoFuncionario';
 import EditarFuncionario from './pages/EditarFuncionario';
 import DetalhesTransacao from './pages/DetalhesTransacao';
 import ContateNos from './pages/ContateNos';
+import VisualizarHistoricoTransacoesCliente from './pages/VisualizarHistoricoTransacoesCliente';
 
 function App() {
   return (
@@ -70,6 +71,8 @@ function App() {
         <Route path='editarfuncionario' element={<EditarFuncionario />}/>
         <Route path='detalhestransacao' element={<DetalhesTransacao />}/>
         <Route path='contatenos' element={<ContateNos />}/>
+        <Route path='historicotransacoes' element={<VisualizarHistoricoTransacoesCliente />}/>
+
       </Routes>
     </BrowserRouter>
   );

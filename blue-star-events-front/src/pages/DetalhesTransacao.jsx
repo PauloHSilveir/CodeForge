@@ -56,11 +56,11 @@ function DetalhesTransacao() {
                     {/*Toda vez que receber os pacotes envolvidos na transação, tem que imprimir essa div */}
                     <div className={stylesDT.transactionDetailsImage}>
                         <div>
-                        <img src={packageImage} alt="Imagem do pacote" className={stylesDT.image} />
+                            <img src={packageImage} alt="Imagem do pacote" className={stylesDT.image} />
                         </div>
                         <div>
-                        <span className={stylesDT.smallTextDark}>Pacote Decoração Pequeno</span><br />
-                        <span className={stylesDT.smallTextLightNotMargin}>Quantidade: 1</span>
+                            <span className={stylesDT.smallTextDark}>Pacote Decoração Pequeno</span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>Quantidade: 1</span>
                         </div>
                     </div>
 

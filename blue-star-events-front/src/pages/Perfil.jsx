@@ -101,7 +101,7 @@ function Perfil() {
                         <div className={stylesPerfil.containerButtons}>
                             <button
                                 className={stylesPerfil.buttonsOptionsBox}
-                                onClick={() => handleNavigate('/historicopedidos')}
+                                onClick={() => handleNavigate('/historicotransacoes')}
                             >
                                 <RiShoppingCart2Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
