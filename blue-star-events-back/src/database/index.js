@@ -9,6 +9,7 @@ const Variante = require('../models/VarianteModel');
 const Transacao = require('../models/TransacaoModel');
 const Pagamento = require('../models/PagamentoModel');
 const Admin = require('../models/AdminModel');
+const VarianteComponente = require('../models/VarianteComponenteModel');
 
 const sequelize = new Sequelize(dbConfig);
 
@@ -18,6 +19,7 @@ Componente.init(sequelize);
 Pacote.init(sequelize);
 Event.init(sequelize);
 Variante.init(sequelize);
+VarianteComponente.init(sequelize);
 //Transacao.init(sequelize);
 //Pagamento.init(sequelize);
 Admin.init(sequelize);
@@ -28,6 +30,7 @@ Pacote.associate && Pacote.associate(sequelize.models);
 Componente.associate && Componente.associate(sequelize.models);
 Event.associate && Event.associate(sequelize.models);
 Variante.associate && Variante.associate(sequelize.models);
+VarianteComponente.associate && VarianteComponente.associate(sequelize.models);
 //Transacao.associate && Transacao.associate(sequelize.models);
 //Pagamento.associate && Pagamento.associate(sequelize.models);
 Admin.associate && Admin.associate(sequelize.models);

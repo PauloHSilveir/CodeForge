@@ -68,7 +68,14 @@ class Componente extends Model {
         });
     }
     static associate(models) {
-        this.belongsToMany(models.Variante, { foreignKey: 'componente_id', through: 'pacote_componentes', as: 'variantes'});    }
+        this.belongsToMany(models.Variante, {
+            through: models.VarianteComponente,
+            foreignKey: 'componente_id',
+            otherKey: 'variante_id',
+            as: 'variantes',
+        });
+
+    }
 }
 
 module.exports = Componente;

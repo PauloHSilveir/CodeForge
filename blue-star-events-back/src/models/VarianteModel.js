@@ -36,7 +36,13 @@ class Variante extends Model {
 
     static associate(models) {
         this.belongsTo(models.Pacote, { foreignKey: 'pacote_id', as: 'pacote' });
-        this.belongsToMany(models.Componente, { foreignKey: 'variante_id', through: 'pacote_componentes', as: 'componentes'});    
+
+        this.belongsToMany(models.Componente, {
+            through: models.VarianteComponente,
+            foreignKey: 'variante_id',
+            otherKey: 'componente_id',
+            as: 'componentes',
+        });
     }
 }
 

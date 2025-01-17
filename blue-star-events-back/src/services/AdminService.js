@@ -20,10 +20,16 @@ class AdminService {
                 include: {
                     model: User,
                     as: 'user',
-                    attributes: ['id', 'name', 'email'],
+                    attributes: [
+                        'id', 'name', 'cpf', 'phone', 
+                        'email', 'rua', 'numero', 
+                        'complemento', 'bairro', 
+                        'cidade', 'estado', 'cep'
+                    ],
                 },
+                attributes: ['salario', 'data_admissao'],
             });
-
+    
             if (!admin) {
                 throw new Error('Admin não encontrado!');
             }
@@ -32,8 +38,7 @@ class AdminService {
         } catch (error) {
             throw new Error(`Erro ao buscar admin por ID: ${error.message}`);
         }
-    }
-
+    }    
 
     async createAdminAndUser(adminData) {
         const { name, cpf, password, email, phone, rua, numero, complemento, bairro, cidade, estado,
