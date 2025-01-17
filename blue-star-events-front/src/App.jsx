@@ -31,7 +31,7 @@ import CadastrarFuncionario from './pages/CadastrarFuncionário';
 import CadastrarEnderecoFuncionario from './pages/CadastrarEnderecoFuncionario';
 import EditarFuncionario from './pages/EditarFuncionario';
 import DetalhesTransacao from './pages/DetalhesTransacao';
-
+import ContateNos from './pages/ContateNos';
 
 function App() {
   return (
@@ -69,6 +69,7 @@ function App() {
         <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />}/>
         <Route path='editarfuncionario' element={<EditarFuncionario />}/>
         <Route path='detalhestransacao' element={<DetalhesTransacao />}/>
+        <Route path='contatenos' element={<ContateNos />}/>
       </Routes>
     </BrowserRouter>
   );
