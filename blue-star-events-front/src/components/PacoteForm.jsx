@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ListaSelecaoPersonalizado from "../components/ListaPacotes2";
+import ListaPacotes2 from "../components/ListaPacotes2";
 import stylesFormBaseA from "../styles/FormBaseA.module.css";
 import stylesFP1 from "../styles/FormularioPacotes1.module.css";
 import { RiArrowLeftCircleLine } from "@remixicon/react";
@@ -18,7 +18,6 @@ const PacoteForm = ({ title, selectType, items, preSelectedItems = [], onSave, b
     };
 
     const handleSaveClick = () => {
-        console.log("Itens selecionados para salvar:", selectedItems);
         onSave(selectedItems);
         navigate(nextPath);
     };
@@ -52,7 +51,7 @@ const PacoteForm = ({ title, selectType, items, preSelectedItems = [], onSave, b
 
                 <div className={stylesCP.containerList}>
                     <div className={stylesCP.mediumText}>{selectType}</div>
-                    <ListaSelecaoPersonalizado
+                    <ListaPacotes2
                         initialItems={items}
                         preSelectedItems={preSelectedItems}
                         onItemsChange={handleItemsChange}
