@@ -33,6 +33,7 @@ import EditarFuncionario from './pages/EditarFuncionario';
 import DetalhesTransacao from './pages/DetalhesTransacao';
 import ContateNos from './pages/ContateNos';
 import VisualizarHistoricoTransacoesCliente from './pages/VisualizarHistoricoTransacoesCliente';
+import DetalhesPedido from './pages/DetalhesPedido';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
         <Route path='detalhestransacao' element={<DetalhesTransacao />}/>
         <Route path='contatenos' element={<ContateNos />}/>
         <Route path='historicotransacoes' element={<VisualizarHistoricoTransacoesCliente />}/>
+        <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} />
 
       </Routes>
     </BrowserRouter>

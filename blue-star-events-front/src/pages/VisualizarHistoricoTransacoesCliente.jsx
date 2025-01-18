@@ -73,9 +73,10 @@ function VisualizarHistoricoTransacoesCliente() {
             data: "15/01/2025",
             status: "Realizado",
             pagamento: "Cartão de Crédito",
+            valor: 11200,
             pacotes: [
-                { nome: "Pacote Festa Infantil", quantidade: 1, image: packageImage },
-                { nome: "Pacote Decoração Temática", quantidade: 2, image: packageImage },
+                { nome: "Pacote Festa Infantil", quantidade: 1, image: packageImage, valor: 5000 },
+                { nome: "Pacote Decoração Temática", quantidade: 2, image: packageImage, valor: 3000 },
             ],
         },
         {
@@ -83,21 +84,24 @@ function VisualizarHistoricoTransacoesCliente() {
             data: "01/12/2024",
             status: "Realizado",
             pagamento: "Pix",
-            pacotes: [{ nome: "Pacote Aniversário Grande", quantidade: 1, image: packageImage }],
+            valor: 3000,
+            pacotes: [{ nome: "Pacote Aniversário Grande", quantidade: 1, image: packageImage, valor: 3000 }],
         },
         {
             id: "000002",
             data: "10/11/2024",
             status: "Concluído",
             pagamento: "Pix",
-            pacotes: [{ nome: "Pacote Aniversário Pequeno", quantidade: 1, image: packageImage }],
+            valor: 3150,
+            pacotes: [{ nome: "Pacote Aniversário Pequeno", quantidade: 1, image: packageImage, valor: 3000 }],
         },
         {
             id: "000001",
             data: "06/08/2024",
             status: "Concluído",
             pagamento: "Pix",
-            pacotes: [{ nome: "Pacote Casamento Básico", quantidade: 1, image: packageImage }],
+            valor: 3120,
+            pacotes: [{ nome: "Pacote Casamento Básico", quantidade: 1, image: packageImage, valor: 3000 }],
         },
     ];
 
@@ -163,7 +167,7 @@ function VisualizarHistoricoTransacoesCliente() {
                                         )}
                                         <button
                                             className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
-                                            onClick={() => handleNavigate(`/detalhes/${transacao.id}`)}
+                                            onClick={() => navigate(`/detalhespedido/${transacao.id}`, { state: { pedido: transacao } })}
                                         >
                                             VER DETALHES
                                         </button>
