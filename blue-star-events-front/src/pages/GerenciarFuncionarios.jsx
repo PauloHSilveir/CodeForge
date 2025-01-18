@@ -1,35 +1,71 @@
 import GerenciarGenerico from "../components/GerenciarGenerico";
-import { RiUser3Line } from "@remixicon/react"; 
+import { RiUser3Line } from "@remixicon/react";
 import FuncionarioIndividual from "../components/FuncionarioIndividual";
+import { useState, useEffect } from "react";
 
-// Dados mockados
-const funcionarios = [
-    { id: 1, nome: "Gabriel Jardim de Souza", email: "gabriel@email.com", celular: "33999887766", tipo: "Administrador"},
-    { id: 2, nome: "Paulo Henrique Dos Anjos Silveira", email: "paulo@email.com", celular: "35999776611", tipo: "Funcionário"},
-    { id: 3, nome: "Thiago Ferreira Azevedo", email: "thiago@email.com", celular: "35999665511", tipo: "Funcionário"},
-];
+const BASE_URL = "http://localhost:1313";
 
 function GerenciarFuncionarios() {
+    const [funcionarios, setFuncionarios] = useState([]);
+
+    useEffect(() => {
+        fetchFuncionarios();
+    }, []);
+
+    const fetchFuncionarios = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/admin`);
+            if (!response.ok) {
+                throw new Error("Erro ao buscar dados dos funcionários.");
+            }
+            const data = await response.json();
+
+            const formattedData = data.map((funcionario) => ({
+                id: funcionario.id,
+                name: funcionario.name,
+                email: funcionario.email,
+                phone: funcionario.phone,
+                data_admissao: new Date(funcionario.admin.data_admissao)
+                    .toISOString()
+                    .split("T")[0],
+            }));
+
+            console.log("Dados formatados:", formattedData);
+            setFuncionarios(formattedData);
+        } catch (error) {
+            console.error("Erro ao buscar dados dos funcionários:", error.message);
+        }
+    };
+
+    const handleDeleteFuncionario = (id) => {
+        // Atualiza o estado para remover o funcionário excluído
+        setFuncionarios((prevFuncionarios) =>
+            prevFuncionarios.filter((funcionario) => funcionario.id !== id)
+        );
+    };
+
     return (
         <GerenciarGenerico
             dados={funcionarios}
             renderItem={(funcionario) => (
                 <FuncionarioIndividual
                     key={funcionario.id}
-                    nome={funcionario.nome}
+                    id={funcionario.id}
+                    nome={funcionario.name}
                     email={funcionario.email}
-                    celular={funcionario.celular}
-                    tipo={funcionario.tipo}
+                    celular={funcionario.phone}
+                    data_admissao={funcionario.data_admissao}
+                    onDelete={handleDeleteFuncionario}
                 />
             )}
             icone={RiUser3Line}
             titulo="FUNCIONÁRIOS CADASTRADOS"
-            placeholder="Pesquisar funcionários"
-            buttonText="ADICIONAR FUNCIONÁRIOS"
+            placeholder="Pesquisar funcionário"
+            buttonText="ADICIONAR FUNCIONÁRIO"
             buttonLink="/cadastrarfuncionario"
             itensPorPagina={30}
-            noItensFound="Nenhuma funcionário encontrado."
-            campoPesquisa="nome"
+            noItensFound="Nenhum funcionário encontrado."
+            campoPesquisa="name"
         />
     );
 }

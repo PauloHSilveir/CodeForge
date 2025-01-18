@@ -8,6 +8,8 @@ import ModalExcluir from "../components/ModalExcluir";
 import { useNavigate } from 'react-router-dom';
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
+import { formatCpf, formatPhone, formatCep } from '../utils/formatters';
+import { jwtDecode } from 'jwt-decode';
 import {
     RiMailFill,
     RiDeleteBinLine,
@@ -30,6 +32,7 @@ const BASE_URL = 'http://localhost:1313';
 function EditarDados() {
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
+    const [userType, setUserType] = useState("");
     const [userData, setUserData] = useState({
         name: '',
         cpf: '',
@@ -44,7 +47,9 @@ function EditarDados() {
         cep: ''
     });
 
-    const userId = '5'; // Substitua pela forma como você armazena o ID do usuário
+    const token = localStorage.getItem('authToken');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
 
     useEffect(() => {
         fetchUserData();
@@ -58,6 +63,11 @@ function EditarDados() {
             }
             const data = await response.json();
             setUserData(data.user);
+            if (data.user.isAdmin === 1) {
+                setUserType("admin");
+            } else {
+                setUserType("user");
+            }
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -65,31 +75,32 @@ function EditarDados() {
 
     const handlePersonalDataSubmit = async (e) => {
         e.preventDefault();
-        if (validateCpf(userData.cpf) && validatePhone(userData.phone) && validateEmail(userData.email) && validateCep(userData.cep)) {
-            try {
-                const response = await fetch(`${BASE_URL}/user/update/personal/${userId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: userData.name,
-                        cpf: formatCpf(userData.cpf),
-                        email: userData.email,
-                        phone: formatPhone(userData.phone),
-                    }),
-                });
 
-                if (!response.ok) {
-                    throw new Error('Erro ao atualizar dados pessoais');
-                }
+        try {
+            const response = await fetch(`${BASE_URL}/user/update/personal/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                },
+                body: JSON.stringify({
+                    name: userData.name,
+                    cpf: formatCpf(userData.cpf),
+                    email: userData.email,
+                    phone: formatPhone(userData.phone),
+                }),
+            });
 
-                alert('Dados pessoais atualizados com sucesso!');
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao atualizar dados pessoais');
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar dados pessoais');
             }
-        } else {
-            alert('Dados inválidos');
+
+            alert('Dados pessoais atualizados com sucesso!');
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao atualizar dados pessoais');
         }
+
     };
 
     const handleAddressSubmit = async (e) => {
@@ -97,7 +108,10 @@ function EditarDados() {
         try {
             const response = await fetch(`${BASE_URL}/user/update/address/${userId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                },
                 body: JSON.stringify({
                     rua: userData.rua,
                     numero: userData.numero,
@@ -122,15 +136,29 @@ function EditarDados() {
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
-            });
+            let response;
+            if (userType === 'admin') {
+                response = await fetch(`${BASE_URL}/admin/delete/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+            } else {
+                response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+            }
 
             if (!response.ok) {
                 throw new Error('Erro ao excluir conta');
             }
-            
+
             setShowSucess(true);
 
             setTimeout(() => {
@@ -164,36 +192,6 @@ function EditarDados() {
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
-
-    // Funções de validação e formatação
-    const validateCpf = (cpf) => {
-        return cpf.replace(/[^\d]/g, '').length === 11;
-    };
-
-    const formatCpf = (cpf) => {
-        return cpf.replace(/[^\d]/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    };
-
-    const validatePhone = (phone) => {
-        return phone.replace(/[^\d]/g, '').length === 11;
-    };
-
-    const formatPhone = (phone) => {
-        return phone.replace(/[^\d]/g, '').replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-    };
-
-    const validateCep = (cep) => {
-        return cep.replace(/[^\d]/g, '').length === 8;
-    };
-
-    const formatCep = (cep) => {
-        return cep.replace(/[^\d]/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
-    };
-
-    const validateEmail = (email) => {
-        const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        return regex.test(email);
-    };
 
     return (
         <div>

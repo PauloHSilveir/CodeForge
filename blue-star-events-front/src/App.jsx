@@ -27,7 +27,7 @@ import CadastrarPacote4 from './pages/CadastrarPacote4';
 import EditarPacotes3 from './pages/EditarPacotes3';
 import EditarPacotes4 from './pages/EditarPacotes4';
 import ConsultarPacotes from './pages/ConsultarPacotes';
-import CadastrarFuncionario from './pages/CadastrarFuncionário';
+import CadastrarFuncionario from './pages/CadastrarFuncionario';
 import CadastrarEnderecoFuncionario from './pages/CadastrarEnderecoFuncionario';
 import EditarFuncionario from './pages/EditarFuncionario';
 
@@ -66,7 +66,7 @@ function App() {
         <Route path='consultarpacotes' element={<ConsultarPacotes />}/>
         <Route path='cadastrarfuncionario' element={<CadastrarFuncionario />}/>
         <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />}/>
-        <Route path='editarfuncionario' element={<EditarFuncionario />}/>
+        <Route path="/editarFuncionario/:userId" element={<EditarFuncionario />} />
 
       </Routes>
     </BrowserRouter>

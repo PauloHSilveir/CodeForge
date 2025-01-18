@@ -1,6 +1,7 @@
 import NavBar from "../components/Navbar";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesCadastrarEndereco from '../styles/CadastrarEndereco.module.css';
+import { formatCep } from '../utils/formatters';
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
 import { useState } from 'react';
@@ -35,9 +36,7 @@ function CadastrarEnderecoFuncionario() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Recuperar os dados do usuário do localStorage
         const userData = JSON.parse(localStorage.getItem('userData'));
-
         if (!userData) {
             setShowFail(true);
 
@@ -48,33 +47,29 @@ function CadastrarEnderecoFuncionario() {
             
         }
 
-        // Combinar os dados do usuário e endereço
         const fullData = {
             ...userData,
-
             rua,
             numero,
             complemento,
             bairro,
             cidade,
-            estado,
-            cep,
-
+            estado: estado.toUpperCase(),
+            cep : formatCep(cep),
+            isAdmin: true
         };
 
-        // Enviar os dados para o backend
         try {
-            /*
-            const response = await fetch('http://localhost:1313/user/cadastro', {
+            const response = await fetch('http://localhost:1313/admin/cadastrar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 },
                 body: JSON.stringify(fullData),
             });
 
             if (response.ok) {
-                // Limpar os dados do localStorage
                 localStorage.removeItem('userData');
                 setShowSucess(true);
 
@@ -91,7 +86,7 @@ function CadastrarEnderecoFuncionario() {
                     navigate('/cadastrarusuario');
                     return;
                 }, 3000);
-            }*/
+            }
         } catch (error) {
             console.error('Erro na requisição:', error);
         }
