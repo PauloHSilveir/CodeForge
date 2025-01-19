@@ -4,6 +4,10 @@ import stylesFormBaseA from "../styles/FormBaseA.module.css";
 import stylesED from "../styles/EditarDados.module.css";
 import stylesEF from "../styles/EditarFuncionario.module.css";
 import { useNavigate } from 'react-router-dom';
+import { formatCpf, formatPhone, formatCep } from '../utils/formatters';
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
+import { useParams } from 'react-router-dom';
 import {
     RiArrowLeftCircleLine,
     RiUserLine,
@@ -20,10 +24,11 @@ import {
     RiMapPinRangeLine,
 } from '@remixicon/react';
 
-//const BASE_URL = 'http://localhost:1313';
+const BASE_URL = 'http://localhost:1313';
 
 function EditarFuncionario() {
     const navigate = useNavigate();
+    const { userId } = useParams();
     const [userData, setUserData] = useState({
         name: '',
         cpf: '',
@@ -40,85 +45,81 @@ function EditarFuncionario() {
         cep: ''
     });
 
-    // Assumindo que você tem o ID do usuário armazenado em algum lugar
-    const userId = '4'; // Substitua pela forma como você armazena o ID do usuário
-
     useEffect(() => {
-        fetchUserData();
-    }, []);
+        fetchUserData(userId);
+    }, [userId]);
 
-    const fetchUserData = async () => {
-        /*try {
-            const response = await fetch(`${BASE_URL}/user/${userId}`);
+    const fetchUserData = async (userId) => {
+        try {
+            const response = await fetch(`${BASE_URL}/admin/${userId}`);
             if (!response.ok) {
                 throw new Error('Erro ao buscar dados do funcionário');
             }
             const data = await response.json();
-            setUserData(data.user);
+            console.log("Dados:", data);
+            setUserData({
+                ...data,
+                salario: data.admin.salario || '',
+                dataAdmissao: new Date(data.admin.data_admissao).toISOString().split('T')[0],
+            });
         } catch (error) {
-            console.error('Erro:', error);
-            // Adicione tratamento de erro apropriado aqui
-        }*/
+            console.error('Erro ao buscar dados do funcionário:', error.message);
+        }
     };
 
-    const handlePersonalDataSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        /*
-       try {
-           const response = await fetch(`${BASE_URL}/user/update/personal/${userId}`, {
-               method: 'PUT',
-               headers: {
-                   'Content-Type': 'application/json',
-               },
-               body: JSON.stringify({
-                   name: userData.name,
-                   cpf: userData.cpf,
-                   email: userData.email,
-                   phone: userData.phone,
-               }),
-           });
 
-           if (!response.ok) {
-               throw new Error('Erro ao atualizar dados pessoais');
-           }
-
-           alert('Dados pessoais atualizados com sucesso!');
-       } catch (error) {
-           console.error('Erro:', error);
-           alert('Erro ao atualizar dados pessoais');
-       }
-           */
-    };
-
-    const handleAddressSubmit = async (e) => {
-        e.preventDefault();
-        /*
         try {
-            const response = await fetch(`${BASE_URL}/user/update/address/${userId}`, {
+            const response = await fetch(`${BASE_URL}/admin/update/personal/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 },
                 body: JSON.stringify({
-                    rua: userData.rua,
-                    numero: userData.numero,
-                    complemento: userData.complemento,
-                    bairro: userData.bairro,
-                    cidade: userData.cidade,
-                    estado: userData.estado,
-                    cep: userData.cep,
+                    personalData: {
+                        name: userData.name,
+                        cpf: formatCpf(userData.cpf),
+                        email: userData.email,
+                        phone: formatPhone(userData.phone),
+                    },
+                    addressData: {
+                        rua: userData.rua,
+                        numero: userData.numero,
+                        complemento: userData.complemento,
+                        bairro: userData.bairro,
+                        cidade: userData.cidade,
+                        estado: userData.estado,
+                        cep: formatCep(userData.cep),
+                    },
+                    adminData: {
+                        salario: userData.salario,
+                        dataAdmissao: userData.dataAdmissao,
+                    },
                 }),
             });
 
             if (!response.ok) {
-                throw new Error('Erro ao atualizar endereço');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Erro ao atualizar suas informações pessoais.');
             }
 
-            alert('Endereço atualizado com sucesso!');
+            setShowSucess(true);
+
+            setTimeout(() => {
+                setShowSucess(false);
+                navigate(-1);
+            }, 1500);
         } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao atualizar endereço');
-        }*/
+            console.error('Erro:', error.message);
+
+            setShowFail(true);
+
+            setTimeout(() => {
+                setShowFail(false);
+            }, 3000);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -128,6 +129,9 @@ function EditarFuncionario() {
             [id]: value
         }));
     };
+
+    const [showSucess, setShowSucess] = useState(false);
+    const [showFail, setShowFail] = useState(false);
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -149,7 +153,7 @@ function EditarFuncionario() {
                             </div>
                         </div>
                         <div className={stylesFormBaseA.formContainer}>
-                            <form onSubmit={handlePersonalDataSubmit} className={stylesFormBaseA.baseForm}>
+                            <form onSubmit={handleSubmit} className={stylesFormBaseA.baseForm}>
                                 <label htmlFor="name" className={stylesFormBaseA.label}>
                                     Nome
                                 </label>
@@ -269,7 +273,7 @@ function EditarFuncionario() {
                             </div>
                         </div>
                         <div className={stylesFormBaseA.formContainer}>
-                            <form onSubmit={handleAddressSubmit} className={stylesFormBaseA.baseForm}>
+                            <form onSubmit={handleSubmit} className={stylesFormBaseA.baseForm}>
                                 <label htmlFor="rua" className={stylesFormBaseA.label}>
                                     Logradouro
                                 </label>
@@ -399,6 +403,18 @@ function EditarFuncionario() {
                     </div>
                 </div>
             </div>
+
+            <ModalMensagemSucesso
+                title="EDITAR CONTA"
+                text="Conta editada com sucesso!"
+                isVisible={showSucess}
+            />
+
+            <ModalMensagemFalha
+                title="EDITAR CONTA"
+                text="Erro ao editar a conta!"
+                isVisible={showFail}
+            />
         </div>
 
     );

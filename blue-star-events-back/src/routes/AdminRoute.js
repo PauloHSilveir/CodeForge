@@ -5,7 +5,7 @@ const authMiddleware = require('../middlewares/auth');
 const router = express.Router();
 
 router.post('/cadastrar', AdminController.create);
-router.put('/update/personal/:id', AdminController.update);
+router.put('/update/personal/:id', authMiddleware, AdminController.update);
 router.get('/', AdminController.index);
 router.get('/:id', AdminController.show);
 router.delete('/delete/:id', AdminController.delete); 

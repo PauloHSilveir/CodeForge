@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/Navbar";
 import GerenciarItensTop from "../components/GerenciarItensTop";
 import Paginacao from "../components/Paginacao";
@@ -16,8 +16,12 @@ function GerenciarGenerico({
     noItensFound,
     campoPesquisa,
 }) {
-    const [itensFiltrados, setItensFiltrados] = useState(dados);
+    const [itensFiltrados, setItensFiltrados] = useState([]);
     const [paginaAtual, setPaginaAtual] = useState(1);
+
+    useEffect(() => {
+        setItensFiltrados(dados);
+    }, [dados]);
 
     const indexInicial = (paginaAtual - 1) * itensPorPagina;
     const itensNaPagina = itensFiltrados.slice(indexInicial, indexInicial + itensPorPagina);
@@ -48,7 +52,7 @@ function GerenciarGenerico({
                     bigText={titulo}
                     buttonText={buttonText}
                     buttonLink={buttonLink}
-                    onSearch={handleSearch} // Passa a função handleSearch para o filho
+                    onSearch={handleSearch}
                 />
 
                 <div className={styles.descriptions}>
@@ -65,7 +69,6 @@ function GerenciarGenerico({
                     paginaAtual={paginaAtual}
                     mudarPagina={mudarPagina}
                 />
-                
             </div>
         </div>
     );

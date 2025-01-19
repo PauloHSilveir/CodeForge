@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { formatCpf, formatPhone, isValidEmail } from '../utils/formatters';
 import NavBar from "../components/Navbar";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesCadastrarUsuario from '../styles/CadastrarUsuario.module.css';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import {
     RiArrowLeftCircleLine,
@@ -25,16 +25,24 @@ function CadastrarFuncionario() {
     const [dataAdmissao, setDataAdmissao] = useState('');
     const [password, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
-
+    const [error, setError] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Salvar os dados no localStorage
-        const userData = { name, cpf, email, phone, salario, dataAdmissao, password };
-        localStorage.setItem('userData', JSON.stringify(userData));
+        if (!isValidEmail(email)) {
+            setError('Por favor, insira um email válido', error);
+            return;
+        }
 
-        // Navegar para a página de endereço
+        if (password !== confirmarSenha) {
+            setError('As senhas não coincidem.', error);
+            return;
+        }
+
+        const userData = { name, cpf: formatCpf(cpf), email: email, phone: formatPhone(phone), salario, data_admissao: dataAdmissao, password };
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
         navigate('/cadastrarenderecofuncionario');
     };
 

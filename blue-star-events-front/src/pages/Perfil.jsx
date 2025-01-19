@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import stylesPerfil from "../styles/Perfil.module.css";
@@ -6,6 +6,7 @@ import ModalExcluir from "../components/ModalExcluir";
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
 import iconImage from "../assets/images/iconPerfil.png";
+import { jwtDecode } from 'jwt-decode';
 import {
     RiMailFill,
     RiEditBoxLine,
@@ -16,11 +17,41 @@ import {
     RiChat4Fill
 } from '@remixicon/react';
 
+const BASE_URL = 'http://localhost:1313';
+
 function Perfil() {
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
     const [showSucess, setShowSucess] = useState(false);
     const [showFail, setShowFail] = useState(false);
+    const [userType, setUserType] = useState("");
+    const [userData, setUserData] = useState({ name: '', email: '' });
+
+    const token = localStorage.getItem('authToken');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/user/${userId}`);
+            if (!response.ok) {
+                throw new Error('Erro ao buscar dados do usuário');
+            }
+            const data = await response.json();
+            setUserData(data.user);
+            if (data.user.isAdmin === 1) {
+                setUserType("admin");
+            } else {
+                setUserType("user");
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -31,8 +62,28 @@ function Perfil() {
 
     const handleDelete = async () => {
         try {
-            // Implementar a chamada real para a API de exclusão
-            // await api.delete('/user');
+            let response;
+            if (userType === 'admin') {
+                response = await fetch(`${BASE_URL}/admin/delete/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+            } else {
+                response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+            }
+
+            if (!response.ok) {
+                throw new Error('Erro ao excluir conta');
+            }
 
             setShowSucess(true);
 
@@ -41,14 +92,14 @@ function Perfil() {
                 navigate('/login');
             }, 3000);
         } catch (error) {
-            console.error("Erro ao excluir conta:", error);
-
+            console.error('Erro:', error);
             setShowFail(true);
 
             setTimeout(() => {
                 setShowFail(false);
             }, 3000);
         }
+        closeModal();
     };
 
     return (
@@ -61,14 +112,12 @@ function Perfil() {
                             <img src={iconImage} alt="Imagem de icone" />
                             <div className={stylesPerfil.leftText}>
                                 <span className={stylesPerfil.bigText}>
-                                    Bem Vindo, Fulano Editor Master
+                                    Bem Vindo, {userData.name}
                                 </span>
 
                                 <div className={stylesPerfil.mailPerfil}>
                                     <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
-                                    <span className={stylesPerfil.mediumText}>
-                                        fulano@gmail.com
-                                    </span>
+                                    <span className={stylesPerfil.mediumText}> {userData.email} </span>
                                 </div>
 
                             </div>
