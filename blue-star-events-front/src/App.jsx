@@ -34,6 +34,8 @@ import DetalhesTransacao from './pages/DetalhesTransacao';
 import ContateNos from './pages/ContateNos';
 import VisualizarHistoricoTransacoesCliente from './pages/VisualizarHistoricoTransacoesCliente';
 import DetalhesPedido from './pages/DetalhesPedido';
+import DetalhesPacote from './pages/DetalhesPacote';
+import Carrinho from './pages/Carrinho';
 
 function App() {
   return (
@@ -74,6 +76,8 @@ function App() {
         <Route path='contatenos' element={<ContateNos />}/>
         <Route path='historicotransacoes' element={<VisualizarHistoricoTransacoesCliente />}/>
         <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} />
+        <Route path="/detalhespacote" element={<DetalhesPacote />} />
+        <Route path="/carrinho" element={<Carrinho />} />
 
       </Routes>
     </BrowserRouter>

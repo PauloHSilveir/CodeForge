@@ -1,6 +1,6 @@
 import { RiSearchLine } from "@remixicon/react";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Paginacao from "../components/Paginacao";
 import styles from "../styles/ConsultarPacotes.module.css";
@@ -19,13 +19,13 @@ const mapTamanhoParaAbreviacao = {
 
 // Dados mockados
 const pacotes = [
-    { id: 1, nome: "Pacote Aniversário Grande", descricao: "descricao teste", tamanho: "grande", valor: 1000.40, imagem: packageImage1 },
+    { id: 1, nome: "Pacote Aniversário Grande", descricao: "Inclui decoração temática completa, mesa de doces, bolo personalizado, iluminação especial, som ambiente e espaço para até 100 convidados. Ideal para festas memoráveis e cheias de alegria!", tamanho: "grande", valor: 1000.40, imagem: packageImage1 },
     { id: 2, nome: "Pacote Mega Casamento", descricao: "descricao teste", tamanho: "mega", valor: 2500.40, imagem: packageImage2 },
     { id: 3, nome: "Pacote Festa de Criança", descricao: "descricao teste", tamanho: "pequeno", valor: 1000.40, imagem: packageImage1 },
     { id: 4, nome: "Pacote Viagem Internacional", descricao: "descricao teste", tamanho: "medio", valor: 1000.40, imagem: packageImage1 },
     { id: 5, nome: "Pacote Férias na Praia", descricao: "descricao teste", tamanho: "mini", valor: 1000.90, imagem: packageImage1 },
     { id: 6, nome: "Pacote Viagem Aventura", descricao: "descricao teste", tamanho: "mini", valor: 300.25, imagem: packageImage1 },
-    { id: 7, nome: "Pacote Casamento Romântico", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage2 },
+    { id: 7, nome: "Pacote Casamento Romântico", descricao: "Decoração elegante, cerimonialista, buffet premium, bolo nupcial, iluminação, DJ, e espaço sofisticado para até 200 convidados. Perfeito para tornar seu grande dia inesquecível!", tamanho: "mini", valor: 1000.40, imagem: packageImage2 },
     { id: 8, nome: "Pacote Aniversário Infantil", descricao: "descricao teste", tamanho: "mini", valor: 1000, imagem: packageImage1 },
     { id: 9, nome: "Pacote Viagem Europa", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
     { id: 10, nome: "Pacote Lua de Mel", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
@@ -52,6 +52,7 @@ const pacotes = [
 ];
 
 function ConsultarPacotes() {
+    const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [itensFiltrados, setItensFiltrados] = useState(pacotes);
     const [paginaAtual, setPaginaAtual] = useState(1);
@@ -155,6 +156,10 @@ function ConsultarPacotes() {
     const indexInicial = (paginaAtual - 1) * itensPorPagina;
     const itensNaPagina = itensFiltrados.slice(indexInicial, indexInicial + itensPorPagina);
 
+    const handleClick = (pacote) => {
+        navigate("/detalhespacote", { state: pacote });
+    };
+
     return (
         <div>
             <NavBar />
@@ -248,7 +253,7 @@ function ConsultarPacotes() {
                     <div className={styles.bot}>
                         {itensNaPagina.length > 0 ? (
                             itensNaPagina.map((pacote) => (
-                                <div key={pacote.id} className={styles.packageCard}>
+                                <div key={pacote.id} className={styles.packageCard}  onClick={() => handleClick(pacote)}>
                                     <img
                                         src={pacote.imagem}
                                         alt={pacote.nome}
