@@ -1,67 +1,65 @@
 const Componente = require('../models/ComponenteModel');
+const PacoteComponente = require('../models/PacoteComponenteModel');
 const { Op } = require('sequelize');
 
 class ComponenteService {
   async create(componenteData) {
-  try {
-    
-    // Validações básicas
-    if (!componenteData.name) {
-      throw new Error('O nome do componente é obrigatório');
-    }
-    if (!componenteData.description) {
-      throw new Error('A descrição do componente é obrigatória');
-    }
-    if (!componenteData.preco) {
-      throw new Error('O preço do componente é obrigatório');
-    }
-    if (!componenteData.quantidade) {
-      throw new Error('A quantidade do componente é obrigatória');
-    }
-    if (!componenteData.pacote_id) {
-      throw new Error('O pacote associado é obrigatório');
-    }
-    if (!componenteData.categoria) {
-      throw new Error('A categoria do componente é obrigatória');
-    }
-    if (!componenteData.imagem) {
-      throw new Error('A imagem do componente é obrigatória');
-    }
-    
-    
-    // Validar nome único
-    const existingComponent = await Componente.findOne({
-      where: { name: componenteData.name }
-    });
+    try {
 
-    if (existingComponent) {
-      throw new Error('Já existe um componente com este nome');
-    }
+      // Validações básicas
+      if (!componenteData.name) {
+        throw new Error('O nome do componente é obrigatório');
+      }
+      if (!componenteData.description) {
+        throw new Error('A descrição do componente é obrigatória');
+      }
+      if (!componenteData.preco) {
+        throw new Error('O preço do componente é obrigatório');
+      }
+      if (!componenteData.quantidade) {
+        throw new Error('A quantidade do componente é obrigatória');
+      }
+      if (!componenteData.categoria) {
+        throw new Error('A categoria do componente é obrigatória');
+      }
+      if (!componenteData.imagem) {
+        throw new Error('A imagem do componente é obrigatória');
+      }
 
-    // Validar preço e quantidade
-    if (componenteData.preco <= 0) {
-      throw new Error('O preço deve ser maior que zero');
-    }
-    if (componenteData.quantidade < 0) {
-      throw new Error('A quantidade não pode ser negativa');
-    }
 
-    // Criar o componente
-    const componente = await Componente.create(componenteData);
+      // Validar nome único
+      const existingComponent = await Componente.findOne({
+        where: { name: componenteData.name }
+      });
 
-    return {
-      message: 'Componente criado com sucesso',
-      componente
-    };
-  } catch (error) {
-    throw new Error(error.message);
+      if (existingComponent) {
+        throw new Error('Já existe um componente com este nome');
+      }
+
+      // Validar preço e quantidade
+      if (componenteData.preco <= 0) {
+        throw new Error('O preço deve ser maior que zero');
+      }
+      if (componenteData.quantidade < 0) {
+        throw new Error('A quantidade não pode ser negativa');
+      }
+
+      // Criar o componente
+      const componente = await Componente.create(componenteData);
+
+      return {
+        message: 'Componente criado com sucesso',
+        componente
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
-}
 
   async Update(id, componenteData) {
     try {
       const componente = await Componente.findByPk(id);
-      
+
       if (!componente) {
         throw new Error('componente não encontrado');
       }
@@ -69,12 +67,12 @@ class ComponenteService {
       // Validar nome único se estiver sendo atualizado
       if (componenteData.name && componenteData.name !== componente.name) {
         const existingcomponente = await Componente.findOne({
-          where: { 
+          where: {
             name: componenteData.name,
             id: { [Op.ne]: id }
           }
         });
-        
+
         if (existingcomponente) {
           throw new Error('Já existe um componente com este nome');
         }
@@ -99,32 +97,38 @@ class ComponenteService {
     }
   }
 
-  async DeleteComponente(id, packageStatus = false) {
+  async DeleteComponente(componenteId) {
     try {
-      const componente = await Componente.findByPk(id);
-      
-      if (!componente) {
-        throw new Error('componente não encontrado');
+      // Verifique se o componente está associado a algum pacote pacote_componentes
+      const pacoteComponente = await PacoteComponente.findOne({
+        where: {
+          componente_id: componenteId
+        }
+      });
+
+      // Se o componente está associado a algum pacote (ou variante), não pode ser deletado
+      if (pacoteComponente) {
+        return { error: 'O componente não pode ser deletado, pois está associado a um pacote.' };
       }
 
-      if (componente.pacote_id) {
-        throw new Error('Não é possível excluir o componente pois está vinculado a um pacote existente');
+      // Deletar o componente se não estiver relacionado a nenhum pacote
+      const componente = await Componente.findByPk(componenteId);
+      if (componente) {
+        await componente.destroy();
+        return { success: 'Componente deletado com sucesso.' };
       }
 
-      await componente.destroy();
-      
-      return {
-        message: 'componente excluído com sucesso'
-      };
+      return { error: 'Componente não encontrado.' };
     } catch (error) {
-      throw new Error(error.message);
+      console.error(error);
+      return { error: 'Ocorreu um erro ao tentar deletar o componente.' };
     }
   }
 
   async FindById(id) {
     try {
       const componente = await Componente.findByPk(id);
-      
+
       if (!componente) {
         throw new Error('componente não encontrado');
       }

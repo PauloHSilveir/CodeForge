@@ -1,13 +1,17 @@
 const { Model, DataTypes } = require('sequelize');
 
-class VarianteComponente extends Model {
+class PacoteComponente extends Model {
     static init(sequelize) {
         super.init({
-            variante_id: {
+            pacote_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
             componente_id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            quantidade_componente: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
@@ -18,9 +22,9 @@ class VarianteComponente extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.Variante, { foreignKey: 'variante_id', as: 'variante' });
+        this.belongsTo(models.Pacote, { foreignKey: 'pacote_id', as: 'pacote' });
         this.belongsTo(models.Componente, { foreignKey: 'componente_id', as: 'componente' });
     }
 }
 
-module.exports = VarianteComponente;
+module.exports = PacoteComponente;

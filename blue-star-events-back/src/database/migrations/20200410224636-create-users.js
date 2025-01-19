@@ -87,7 +87,7 @@ module.exports = {
         allowNull: true,
       },
     });
-
+   
     // Tabela de pacotes
     await queryInterface.createTable('pacotes', {
       id: {
@@ -99,6 +99,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: false,
       },
       description: {
         type: Sequelize.STRING,
@@ -108,11 +109,19 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      preco:{
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
       disponibilidade: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
       imagem: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      tamanho: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -229,8 +238,8 @@ module.exports = {
       },
     });
 
-    // Tabela de variantes
-    await queryInterface.createTable('variantes', {
+    // Tabela de pacote_componentes
+    await queryInterface.createTable('pacote_componentes', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -247,42 +256,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      preco: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-      },
-      tamanho: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      created_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updated_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-    });
-
-    // Tabela de pacote_componentes
-    await queryInterface.createTable('pacote_componentes', {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-      },
-      variante_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'variantes',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       componente_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
@@ -292,6 +265,10 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      quantidade_componente: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -429,7 +406,7 @@ module.exports = {
         allowNull: false,
       },
     });
-
+    
     await queryInterface.bulkInsert('users', [
       {
         name: 'João Silva',
@@ -490,13 +467,17 @@ module.exports = {
       },
     ]);
 
+    
+    
     await queryInterface.bulkInsert('pacotes', [
       {
         name: 'Pacote 1',
         description: 'Descrição do Pacote 1',
         tipo: 'Casamento',
+        preco: 100.00,
         disponibilidade: 3,
         imagem: 'pacote1.jpg',
+        tamanho: 'Grande',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -504,8 +485,10 @@ module.exports = {
         name: 'Pacote 2',
         description: 'Descrição do Pacote 2',
         tipo: 'Casamento',
+        preco: 200.00,
         disponibilidade: 10,
         imagem: 'pacote2.jpg',
+        tamanho: 'Médio',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -513,13 +496,17 @@ module.exports = {
         name: 'Pacote 3',
         description: 'Descrição do Pacote 3',
         tipo: 'Casamento',
+        preco: 300.00,
         disponibilidade: 30,
         imagem: 'pacote3.jpg',
+        tamanho: 'Pequeno',
         created_at: new Date(),
         updated_at: new Date(),
       },
     ]);
 
+  
+    
     await queryInterface.bulkInsert('eventos', [
       {
         pacote_id: 1,
@@ -561,7 +548,7 @@ module.exports = {
         updated_at: new Date(),
       },
     ]);
-
+    
     await queryInterface.bulkInsert('componentes', [
       {
         name: 'Cadeira de escritório',
@@ -595,51 +582,31 @@ module.exports = {
       },
     ]);
 
-    await queryInterface.bulkInsert('variantes', [
-      {
-        pacote_id: 1,
-        preco: 100.0,
-        tamanho: 100,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        pacote_id: 1,
-        preco: 300.0,
-        tamanho: 300,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        pacote_id: 1,
-        preco: 500.0,
-        tamanho: 500,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ]);
-
+   
     await queryInterface.bulkInsert('pacote_componentes', [
       {
-        variante_id: 1,
+        pacote_id: 1,
         componente_id: 1,
+        quantidade_componente: 90,
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        variante_id: 1,
+        pacote_id: 1,
         componente_id: 2,
+        quantidade_componente: 50,
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        variante_id: 2,
+        pacote_id: 2,
         componente_id: 2,
+        quantidade_componente: 30,
         created_at: new Date(),
         updated_at: new Date(),
       },
     ]);
-
+    
     await queryInterface.bulkInsert('transacoes', [
       {
         id: 1,
@@ -672,7 +639,7 @@ module.exports = {
         updated_at: new Date(),
       },
     ]);
-
+    
     // Inserir dados na tabela "pagamentos"
     await queryInterface.bulkInsert('pagamentos', [
       {
@@ -706,7 +673,7 @@ module.exports = {
         updated_at: new Date(),
       },
     ]);
-
+    
     // Inserir dados na tabela "admin"
     await queryInterface.bulkInsert('admin', [
       {
@@ -741,7 +708,6 @@ module.exports = {
     await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('transacoes');
     await queryInterface.dropTable('pacote_componentes');
-    await queryInterface.dropTable('variantes');
     await queryInterface.dropTable('componentes');
     await queryInterface.dropTable('eventos');
     await queryInterface.dropTable('pacotes');

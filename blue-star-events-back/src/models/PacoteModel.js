@@ -6,7 +6,7 @@ class Pacote extends Model {
             name: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
-                unique: true,
+                unique: false,
                 validate: {
                     notEmpty: { msg: "O nome não pode estar vazio" },
                     len: {
@@ -33,6 +33,10 @@ class Pacote extends Model {
                     notEmpty: { msg: "O tipo do evento não pode estar vazio." },
                 },
             },
+            preco: {
+                type: DataTypes.DECIMAL,
+                allowNull: false,
+            },
             disponibilidade: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -50,7 +54,17 @@ class Pacote extends Model {
                 validate: {
                     notEmpty: { msg: "A imagem deve ser válida" },
                 },
-            }
+            },
+            tamanho: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    isIn: {
+                        args: [['Mini', 'Pequeno', 'Médio', 'Grande', 'Mega']],
+                        msg: "Tamanho inválido"
+                    }
+                }
+            },
         },
             {
                 sequelize,
@@ -61,8 +75,13 @@ class Pacote extends Model {
 
     static associate(models) {
         this.hasOne(models.Event, { foreignKey: 'pacote_id', as: 'evento' });
-        this.hasMany(models.Variante, { foreignKey: 'pacote_id', as: 'variante' });
-        }
+        this.belongsToMany(models.Componente, {
+            through: models.PacoteComponente,
+            foreignKey: 'pacote_id',
+            otherKey: 'componente_id',
+            as: 'componentes'
+        });
+    }
 }
 
 module.exports = Pacote;
