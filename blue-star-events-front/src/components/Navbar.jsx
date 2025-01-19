@@ -11,10 +11,22 @@ import {
   RiUserLine,
   RiMoneyDollarBoxLine,
   RiBox3Line,
-  RiSofaLine
+  RiSofaLine,
+  RiShoppingCart2Line
 } from '@remixicon/react';
 import stylesNavbar from '../styles/Navbar.module.css';
 import { Link } from 'react-router-dom';
+
+const CartIcon = ({ cartItems }) => (
+  <li>
+    <Link to="/carrinho" className={stylesNavbar.nav__link}>
+      <div className={stylesNavbar.cart}>
+        <RiShoppingCart2Line className={stylesNavbar.cart__icon} />
+        {cartItems > 0 && <span className={stylesNavbar.cart__count}>{cartItems}</span>}
+      </div>
+    </Link>
+  </li>
+);
 
 const Logo = () => (
   <Link to="/" className={stylesNavbar.nav__logo}>
@@ -84,8 +96,7 @@ const UserDropdown = () => (
 const ManageSystemDropdown = () => (
   <li className={stylesNavbar.dropdown__item}>
     <div className={stylesNavbar.nav__link}>
-      <Link to="/gerenciarsistema" className={stylesNavbar.nav__link}>Gerenciar Sistema</Link>
-      <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
+    <Link to="/gerenciarsistema"  className={`${stylesNavbar.nav__link} ${stylesNavbar.nav__link__GS}`}>Gerenciar Sistema</Link><RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
     </div>
     <ul className={stylesNavbar.dropdown__menu}>
       <li>
@@ -114,6 +125,7 @@ const ManageSystemDropdown = () => (
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartItems, setCartItems] = useState(1); 
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -128,7 +140,7 @@ const Navbar = () => {
         </div>
         <div
           className={`${stylesNavbar.nav__menu} ${
-            menuOpen ? stylesNavbar['show-menu'] : stylesNavbar['show-icon']
+            menuOpen ? stylesNavbar['show-menu'] : ''
           }`}
           id="nav-menu"
         >
@@ -139,6 +151,7 @@ const Navbar = () => {
             <li>
               <Link to="/contatenos" className={stylesNavbar.nav__link}>Contate-nos</Link>
             </li>
+            <CartIcon cartItems={cartItems} />
           </ul>
         </div>
       </nav>
