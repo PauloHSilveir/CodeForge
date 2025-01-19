@@ -51,8 +51,7 @@ class AdminController {
         const { personalData, addressData, adminData } = req.body;
 
         try {
-            const loggedAdminId = req.userId;
-            console.log('Admin ID:', parseInt(adminId));
+            const loggedAdminId = req.userId; // Obtido do middleware de autenticação
             if (parseInt(adminId) !== loggedAdminId) {
                 throw new Error('Você não tem permissão para atualizar esses dados.');
             }
@@ -72,10 +71,10 @@ class AdminController {
 
     // Remove um admin
     async delete(req, res) {
-        const { id } = req.params;
+        const { adminId } = req.params;
 
         try {
-            await AdminService.deleteAdmin(id);
+            await AdminService.deleteAdmin(adminId);
             return res.status(200).json({ message: 'Admin deletado com sucesso!' });
         } catch (error) {
             console.error(error);
