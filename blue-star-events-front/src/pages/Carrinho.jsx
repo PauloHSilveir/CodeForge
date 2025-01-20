@@ -24,8 +24,9 @@ function Carrinho() {
     };
 
     const handleNavigate = (path) => {
-        navigate(path);
+        navigate(path, { state: { subtotal } });
     };
+    
 
     return (
         <div>

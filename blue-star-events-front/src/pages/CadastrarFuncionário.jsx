@@ -30,11 +30,9 @@ function CadastrarFuncionario() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Salvar os dados no localStorage
         const userData = { name, cpf, email, phone, salario, dataAdmissao, password };
         localStorage.setItem('userData', JSON.stringify(userData));
 
-        // Navegar para a página de endereço
         navigate('/cadastrarenderecofuncionario');
     };
 

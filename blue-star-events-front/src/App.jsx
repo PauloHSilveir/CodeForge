@@ -36,6 +36,7 @@ import VisualizarHistoricoTransacoesCliente from './pages/VisualizarHistoricoTra
 import DetalhesPedido from './pages/DetalhesPedido';
 import DetalhesPacote from './pages/DetalhesPacote';
 import Carrinho from './pages/Carrinho';
+import Pagamento from './pages/Pagamento';
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
         <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} />
         <Route path="/detalhespacote" element={<DetalhesPacote />} />
         <Route path="/carrinho" element={<Carrinho />} />
+        <Route path="/pagamento" element={<Pagamento />} />
 
       </Routes>
     </BrowserRouter>

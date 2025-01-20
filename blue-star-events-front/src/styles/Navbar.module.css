@@ -90,7 +90,7 @@ a {
 .nav__logo {
   display: inline-flex;
   align-items: center;
-  column-gap: 0.25rem;
+  gap: 0.25rem;
   color: #FFF;
   stroke: #1383ED;
   stroke-width: 0.0625rem;

@@ -44,7 +44,7 @@ const PacoteForm = ({ title, selectType, items, preSelectedItems = [], onSave, b
                 <div className={stylesFormBaseA.legendContainer}>
                     <RiArrowLeftCircleLine
                         className={stylesFormBaseA.iconBack}
-                        onClick={handleBackClick}  // Chame diretamente a função
+                        onClick={handleBackClick} 
                     />
                     <div className={stylesFormBaseA.bigText}>{title}</div>
                 </div>
