@@ -1,6 +1,6 @@
 import { RiSearchLine } from "@remixicon/react";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Paginacao from "../components/Paginacao";
 import styles from "../styles/ConsultarPacotes.module.css";
@@ -8,7 +8,6 @@ import stylesGIT from "../styles/GerenciarItensTop.module.css";
 import packageImage1 from "../assets/images/Aniversario.png";
 import packageImage2 from "../assets/images/Casamento.png";
 
-// Abreviação dos tamanhos
 const mapTamanhoParaAbreviacao = {
     mini: "MN",
     pequeno: "PQ",
@@ -17,65 +16,80 @@ const mapTamanhoParaAbreviacao = {
     mega: "MG",
 };
 
-// Dados mockados
-const pacotes = [
-    { id: 1, nome: "Pacote Aniversário Grande", descricao: "descricao teste", tamanho: "grande", valor: 1000.40, imagem: packageImage1 },
-    { id: 2, nome: "Pacote Mega Casamento", descricao: "descricao teste", tamanho: "mega", valor: 2500.40, imagem: packageImage2 },
-    { id: 3, nome: "Pacote Festa de Criança", descricao: "descricao teste", tamanho: "pequeno", valor: 1000.40, imagem: packageImage1 },
-    { id: 4, nome: "Pacote Viagem Internacional", descricao: "descricao teste", tamanho: "medio", valor: 1000.40, imagem: packageImage1 },
-    { id: 5, nome: "Pacote Férias na Praia", descricao: "descricao teste", tamanho: "mini", valor: 1000.90, imagem: packageImage1 },
-    { id: 6, nome: "Pacote Viagem Aventura", descricao: "descricao teste", tamanho: "mini", valor: 300.25, imagem: packageImage1 },
-    { id: 7, nome: "Pacote Casamento Romântico", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage2 },
-    { id: 8, nome: "Pacote Aniversário Infantil", descricao: "descricao teste", tamanho: "mini", valor: 1000, imagem: packageImage1 },
-    { id: 9, nome: "Pacote Viagem Europa", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 10, nome: "Pacote Lua de Mel", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 11, nome: "Pacote Aniversário Temático", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 12, nome: "Pacote Festa de Formatura", descricao: "descricao teste", tamanho: "grande", valor: 1000.40, imagem: packageImage1 },
-    { id: 13, nome: "Pacote Casamento no Campo", descricao: "descricao teste", tamanho: "medio", valor: 1000.40, imagem: packageImage2 },
-    { id: 14, nome: "Pacote Fim de Semana Relaxante", descricao: "descricao teste", tamanho: "pequeno", valor: 1000.40, imagem: packageImage1 },
-    { id: 15, nome: "Pacote Cruzeiro Tropical", descricao: "descricao teste", tamanho: "grande", valor: 1000.40, imagem: packageImage1 },
-    { id: 16, nome: "Pacote Aniversário Vip", descricao: "descricao teste", tamanho: "medio", valor: 1000.40, imagem: packageImage1 },
-    { id: 17, nome: "Pacote Festa de Empresa", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 18, nome: "Pacote Viagem para a Disney", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 19, nome: "Pacote Festa de Natal", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 20, nome: "Pacote Aventura na Selva", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 21, nome: "Pacote Aniversário com Temática Nerd", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 22, nome: "Pacote Viagem de Luxo", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 23, nome: "Pacote Festa Teen", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 24, nome: "Pacote Viagem para o Japão", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 25, nome: "Pacote Festival Gastronômico", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 26, nome: "Pacote Festa de 15 Anos", descricao: "descricao teste", tamanho: "mega", valor: 1000.40, imagem: packageImage1 },
-    { id: 27, nome: "Pacote Férias de Inverno", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 28, nome: "Pacote Festa Anos 80", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 29, nome: "Pacote Viagem para a África", descricao: "descricao teste", tamanho: "mini", valor: 1000.40, imagem: packageImage1 },
-    { id: 30, nome: "Pacote Aniversário Hollywoodiano", descricao: "descricao teste", tamanho: "mini", valor: 2000, imagem: packageImage1 },
-];
+const BASE_URL = 'http://localhost:1313';
 
 function ConsultarPacotes() {
+    const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
-    const [itensFiltrados, setItensFiltrados] = useState(pacotes);
+    const [pacotes, setPacotes] = useState([]); // Store original pacotes
+    const [itensFiltrados, setItensFiltrados] = useState([]);
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [ordem, setOrdem] = useState("padrao");
 
-    const precosDisponiveis = pacotes.map(pacote => pacote.valor);
-    const precoMinimo = 0;
-    const precoMaximo = Math.max(...precosDisponiveis);
-    const [precoMin, setPrecoMin] = useState(precoMinimo);
-    const [precoMax, setPrecoMax] = useState(precoMaximo);
+    const [precoMin, setPrecoMin] = useState(0);
+    const [precoMax, setPrecoMax] = useState(0);
+    const [precoMinRange, setPrecoMinRange] = useState(0); // For the range input
+    const [precoMaxRange, setPrecoMaxRange] = useState(0); // For the range input
 
     const [tamanhosSelecionados, setTamanhosSelecionados] = useState([]);
     const itensPorPagina = 15;
 
-
     const tamanhosOrdenados = ["mini", "pequeno", "medio", "grande", "mega"];
-    const tamanhosDisponiveis = tamanhosOrdenados.filter((tamanho) =>
-        pacotes.some((pacote) => pacote.tamanho === tamanho)
-    );
+    const [tamanhosDisponiveis, setTamanhosDisponiveis] = useState([]);
+
+    // Fetch initial data
+    useEffect(() => {
+        const fetchPacotes = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/pacote`);
+                if (!response.ok) {
+                    throw new Error("Erro ao carregar pacotes");
+                }
+                const data = await response.json();
+
+                // Transform API data to match our format
+                const pacotesFormatados = data.map(pacote => ({
+                    id: pacote.id,
+                    nome: pacote.name,
+                    descricao: pacote.description,
+                    tamanho: pacote.tamanho.toLowerCase(),
+                    preco: parseFloat(pacote.preco),
+                    imagem: pacote.imagem || 
+                           (pacote.name.toLowerCase().includes('casamento') ? packageImage2 : packageImage1)
+                }));
+
+                setPacotes(pacotesFormatados);
+                setItensFiltrados(pacotesFormatados);
+
+                // Set price ranges
+                const precos = pacotesFormatados.map(p => p.preco);
+                const minPreco = Math.min(...precos);
+                const maxPreco = Math.max(...precos);
+                setPrecoMin(minPreco);
+                setPrecoMax(maxPreco);
+                setPrecoMinRange(minPreco);
+                setPrecoMaxRange(maxPreco);
+
+                // Set available sizes
+                const tamanhosDisp = tamanhosOrdenados.filter(tamanho =>
+                    pacotesFormatados.some(p => p.tamanho === tamanho)
+                );
+                setTamanhosDisponiveis(tamanhosDisp);
+            } catch (error) {
+                console.error("Erro ao carregar pacotes:", error);
+                // Set empty states in case of error
+                setPacotes([]);
+                setItensFiltrados([]);
+            }
+        };
+
+        fetchPacotes();
+    }, []);
 
     const aplicarFiltros = () => {
-        let filtrados = pacotes;
+        let filtrados = [...pacotes];
 
-        // Filtro de pesquisa
+        // Search filter
         if (searchQuery) {
             const query = searchQuery.trim().toLowerCase();
             filtrados = filtrados.filter((pacote) =>
@@ -84,26 +98,32 @@ function ConsultarPacotes() {
             );
         }
 
-        // Filtro de preço
+        // Price filter
         filtrados = filtrados.filter((pacote) =>
-            pacote.valor >= precoMin && pacote.valor <= precoMax
+            pacote.preco >= precoMinRange && pacote.preco <= precoMaxRange
         );
 
-        // Filtro de tamanho
+        // Size filter
         if (tamanhosSelecionados.length > 0) {
             filtrados = filtrados.filter((pacote) =>
                 tamanhosSelecionados.includes(pacote.tamanho)
             );
         }
 
+        // Apply current sort
+        if (ordem === "crescente") {
+            filtrados.sort((a, b) => a.preco - b.preco);
+        } else if (ordem === "decrescente") {
+            filtrados.sort((a, b) => b.preco - a.preco);
+        }
+
         setItensFiltrados(filtrados);
         setPaginaAtual(1);
-        setOrdem("padrao");
     };
 
     useEffect(() => {
         aplicarFiltros();
-    }, [precoMin, precoMax, tamanhosSelecionados]);
+    }, [precoMinRange, precoMaxRange, tamanhosSelecionados, searchQuery, ordem]);
 
     const handleSearch = () => {
         aplicarFiltros();
@@ -111,9 +131,6 @@ function ConsultarPacotes() {
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
-        if (event.target.value === "") {
-            aplicarFiltros();
-        }
     };
 
     const handleKeyDown = (event) => {
@@ -123,23 +140,7 @@ function ConsultarPacotes() {
     };
 
     const handleSortChange = (event) => {
-        const selectedOrder = event.target.value;
-        setOrdem(selectedOrder);
-
-        const sortedItems = [...itensFiltrados];
-        if (selectedOrder === "crescente") {
-            sortedItems.sort((a, b) => a.valor - b.valor);
-        } else if (selectedOrder === "decrescente") {
-            sortedItems.sort((a, b) => b.valor - a.valor);
-        } else {
-            const sortedItems = pacotes.filter(pacote =>
-                itensFiltrados.some(item => item.id === pacote.id)
-            );
-            setItensFiltrados(sortedItems);
-            return;
-        }
-
-        setItensFiltrados(sortedItems);
+        setOrdem(event.target.value);
     };
 
     const handleTamanhoChange = (tamanho) => {
@@ -155,6 +156,10 @@ function ConsultarPacotes() {
     const indexInicial = (paginaAtual - 1) * itensPorPagina;
     const itensNaPagina = itensFiltrados.slice(indexInicial, indexInicial + itensPorPagina);
 
+    const handleClick = (pacote) => {
+        navigate("/detalhespacote", { state: pacote });
+    };
+
     return (
         <div>
             <NavBar />
@@ -163,31 +168,31 @@ function ConsultarPacotes() {
                     <div className={styles.filterSection}>
                         <p className={styles.mediumText}>Preço</p>
                         <div>
-                            <label className={styles.normalText}>MIN: <br/></label>
+                            <label className={styles.normalText}>MIN: <br /></label>
                             <input
                                 type="range"
-                                min={precoMinimo}
-                                max={precoMaximo}
+                                min={precoMin}
+                                max={precoMax}
                                 step="0.01"
-                                value={precoMin}
-                                onChange={(e) => setPrecoMin(Number(e.target.value))}
+                                value={precoMinRange}
+                                onChange={(e) => setPrecoMinRange(Number(e.target.value))}
                                 className={styles.slider}
                             />
                             <br />
                             <label className={styles.normalText}>MAX: <br /></label>
                             <input
                                 type="range"
-                                min={precoMinimo}
-                                max={precoMaximo}
+                                min={precoMin}
+                                max={precoMax}
                                 step="0.01"
-                                value={precoMax}
-                                onChange={(e) => setPrecoMax(Number(e.target.value))}
+                                value={precoMaxRange}
+                                onChange={(e) => setPrecoMaxRange(Number(e.target.value))}
                                 className={styles.slider}
                             />
                             <div>
-                                <span className={styles.normalText}> 
-                                    R$ {precoMin.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span> - <span className={styles.normalText}>R$ {precoMax.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                <span className={styles.normalText}>
+                                    R$ {precoMinRange.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span> - <span className={styles.normalText}>R$ {precoMaxRange.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                             </div>
                         </div>
 
@@ -231,16 +236,16 @@ function ConsultarPacotes() {
                         <div className={styles.orderContainer}>
                             <p className={styles.bigText}>Resultados</p>
                             <div className={styles.selectItem}>
-                            <select
-                                name="ordenar"
-                                id="ordenar"
-                                onChange={handleSortChange}
-                                value={ordem}
-                            >
-                                <option value="padrao">Padrão da loja</option>
-                                <option value="crescente">Preço crescente</option>
-                                <option value="decrescente">Preço decrescente</option>
-                            </select>
+                                <select
+                                    name="ordenar"
+                                    id="ordenar"
+                                    onChange={handleSortChange}
+                                    value={ordem}
+                                >
+                                    <option value="padrao">Padrão da loja</option>
+                                    <option value="crescente">Preço crescente</option>
+                                    <option value="decrescente">Preço decrescente</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -248,7 +253,7 @@ function ConsultarPacotes() {
                     <div className={styles.bot}>
                         {itensNaPagina.length > 0 ? (
                             itensNaPagina.map((pacote) => (
-                                <div key={pacote.id} className={styles.packageCard}>
+                                <div key={pacote.id} className={styles.packageCard} onClick={() => handleClick(pacote)}>
                                     <img
                                         src={pacote.imagem}
                                         alt={pacote.nome}
@@ -259,7 +264,7 @@ function ConsultarPacotes() {
                                             {pacote.nome} - {mapTamanhoParaAbreviacao[pacote.tamanho]}
                                         </p>
                                         <p className={styles.boldText}>
-                                            R$ {pacote.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                            R$ {pacote.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                         </p>
                                     </div>
                                 </div>

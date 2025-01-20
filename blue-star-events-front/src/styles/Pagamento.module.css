@@ -1,0 +1,144 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("../assets/fonts/Inter/static/Inter_18pt-Regular.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.pagamentoOpcoes {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.75rem;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.opcaoPagamento {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    background-color: #fff;
+    border: 0.0625rem solid #d9d9d9;
+    padding: 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.opcaoPagamento:hover {
+    border-color: #1383ED;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: medium;
+    width: 100%;
+    color: #000000;
+}
+
+.radioInput {
+    accent-color: #0A5A9C;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.formularioPagamento {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    opacity: 0;
+    transform: translateY(-1.25rem);
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.formularioPagamento.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.formTitle {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    color: #222222;
+    font-weight: 600;
+}
+
+.formInfo {
+    font-size: 1rem;
+    color: #5a6c7d;
+    line-height: 1.6;
+}
+
+.formularioPagamento form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formularioPagamento label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: medium;
+    color: #222222;
+    margin-bottom: 0.3125rem;
+    display: block;
+    text-align: left;
+}
+
+.formularioPagamento input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 0.0625rem solid #d9d9d9;
+    border-radius: 0.3125rem;
+    font-size: 1rem;
+    color: #2d3748;
+    transition: all 0.2s ease;
+}
+
+.formularioPagamento input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.formularioPagamento input:hover {
+    border-color: #cbd5e0;
+}
+
+.formularioPagamento input::placeholder {
+    color: #a0aec0;
+}
+
+@media (max-width: 768px) {
+    .opcaoPagamento {
+        padding: 1rem;
+    }
+
+    .formularioPagamento {
+        padding: 1rem;
+    }
+
+    .radioLabel {
+        font-size: 1rem;
+    }
+
+    .formTitle {
+        font-size: 1.1rem;
+    }
+}

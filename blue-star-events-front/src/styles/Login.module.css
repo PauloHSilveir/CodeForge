@@ -30,6 +30,7 @@
     margin-right: 0.5rem;
     transform: scale(1.15);
     transition: transform 0.2s ease;
+    accent-color: #0A5A9C;
 }
 
 .radioInput:hover {

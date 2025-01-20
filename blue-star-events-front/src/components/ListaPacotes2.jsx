@@ -1,40 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import stylesOP2 from "../styles/ListaSelecaoPersonalizado.module.css";
 
-const ListaPacotes2 = ({ 
-    initialItems, 
+const ListaPacotes2 = ({
+    initialItems,
     onItemsChange,
-    preSelectedItems = [] 
+    preSelectedItems = []
 }) => {
-    const [items, setItems] = useState(() => {
-        return initialItems.map((item) => {
-            const preSelected = preSelectedItems.find((selected) => selected.id === item.id);
-            return {
-                ...item,
-                quantity: preSelected ? preSelected.quantity : 0
-            };
+    const preSelectedMap = React.useMemo(() => {
+        const map = new Map();
+        preSelectedItems.forEach(item => {
+            map.set(item.id, item.quantity);
         });
+        return map;
+    }, [preSelectedItems]);
+
+    const [items, setItems] = useState(() => {
+        return initialItems.map(item => ({
+            ...item,
+            quantity: preSelectedMap.get(item.id) || 0
+        }));
     });
 
-    const handleCheckboxChange = (id) => {
+    const handleCheckboxChange = useCallback((id) => {
         setItems(prevItems => {
-            const updatedItems = prevItems.map((item) =>
-                item.id === id ? { ...item, quantity: item.quantity > 0 ? 0 : 1 } : item
+            const updatedItems = prevItems.map(item =>
+                item.id === id
+                    ? { ...item, quantity: item.quantity > 0 ? 0 : 1 }
+                    : item
             );
             onItemsChange(updatedItems.filter(item => item.quantity > 0));
             return updatedItems;
         });
-    };
+    }, [onItemsChange]);
 
-    const handleQuantityChange = (id, quantity) => {
+    const handleQuantityChange = useCallback((id, quantity) => {
         setItems(prevItems => {
-            const updatedItems = prevItems.map((item) =>
-                item.id === id ? { ...item, quantity: Math.max(0, quantity) } : item
+            const updatedItems = prevItems.map(item =>
+                item.id === id
+                    ? { ...item, quantity: Math.max(0, quantity) }
+                    : item
             );
             onItemsChange(updatedItems.filter(item => item.quantity > 0));
             return updatedItems;
         });
-    };
+    }, [onItemsChange]);
 
     return (
         <div className={stylesOP2.itemContainer}>

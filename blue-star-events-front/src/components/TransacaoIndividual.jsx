@@ -1,7 +1,23 @@
 import stylesGI from "../styles/PacoteIndividual.module.css";
 import stylesTI from "../styles/TransacaoIndividual.module.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function TransacaoIndividual({ id, valor, data, cliente, status }) {
+    const navigate = useNavigate();
+    const handleDetails = () => {
+        navigate('/detalhestransacao', {
+            state: {
+                transacaoData: {
+                    id,
+                    valor,
+                    data,
+                    cliente,
+                    status
+                }
+            }
+        });
+    };
     return (
         <div className={`${stylesGI.descriptionItem} ${stylesTI.descriptionItem}`}>
             <div className={stylesTI.descriptionItemTop}>
@@ -25,8 +41,10 @@ function TransacaoIndividual({ id, valor, data, cliente, status }) {
                     <span className={stylesGI.mediumTextDark}>Status: </span>
                     <span className={stylesGI.mediumTextLight}>{status}</span>
                 </div>
-                <div className={stylesTI.itemColuna}>    
-                    <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`}>DETALHES</button>
+                <div className={stylesTI.itemColuna}>
+                    <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`} onClick={handleDetails}>
+                        DETALHES
+                    </button>
                 </div>
             </div>
         </div>

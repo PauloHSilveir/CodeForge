@@ -30,7 +30,13 @@ import ConsultarPacotes from './pages/ConsultarPacotes';
 import CadastrarFuncionario from './pages/CadastrarFuncionario';
 import CadastrarEnderecoFuncionario from './pages/CadastrarEnderecoFuncionario';
 import EditarFuncionario from './pages/EditarFuncionario';
-
+import DetalhesTransacao from './pages/DetalhesTransacao';
+import ContateNos from './pages/ContateNos';
+import VisualizarHistoricoTransacoesCliente from './pages/VisualizarHistoricoTransacoesCliente';
+import DetalhesPedido from './pages/DetalhesPedido';
+import DetalhesPacote from './pages/DetalhesPacote';
+import Carrinho from './pages/Carrinho';
+import Pagamento from './pages/Pagamento';
 
 function App() {
   return (
@@ -67,6 +73,13 @@ function App() {
         <Route path='cadastrarfuncionario' element={<CadastrarFuncionario />}/>
         <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />}/>
         <Route path="/editarFuncionario/:userId" element={<EditarFuncionario />} />
+        <Route path='detalhestransacao' element={<DetalhesTransacao />}/>
+        <Route path='contatenos' element={<ContateNos />}/>
+        <Route path='historicotransacoes' element={<VisualizarHistoricoTransacoesCliente />}/>
+        <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} />
+        <Route path="/detalhespacote" element={<DetalhesPacote />} />
+        <Route path="/carrinho" element={<Carrinho />} />
+        <Route path="/pagamento" element={<Pagamento />} />
 
       </Routes>
     </BrowserRouter>

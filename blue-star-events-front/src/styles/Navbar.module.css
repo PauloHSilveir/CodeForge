@@ -90,7 +90,7 @@ a {
 .nav__logo {
   display: inline-flex;
   align-items: center;
-  column-gap: 0.25rem;
+  gap: 0.25rem;
   color: #FFF;
   stroke: #1383ED;
   stroke-width: 0.0625rem;
@@ -163,6 +163,14 @@ a {
 
 .nav__link:hover {
   background-color: var(--black-color-light);
+}
+
+.nav__link__GS {
+  padding: 0rem 0rem;
+}
+
+.nav__link__GS:hover {
+  opacity: 0.8;
 }
 
 .show-menu {
@@ -283,4 +291,37 @@ a {
     pointer-events: initial;
     transition: top 0.3s;
   }
+}
+
+.cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart__link {
+  color: var(--white-color);
+  display: flex;
+  align-items: center;
+  transition: color 0.3s;
+}
+
+.cart__icon {
+  font-size: 1.5rem;
+}
+
+.cart__count {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  background-color: #1383ED;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

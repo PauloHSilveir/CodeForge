@@ -1,0 +1,223 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.bigText {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.priceText {
+    font-size: 1.5rem;
+    font-weight: medium;
+    margin-bottom: 2rem;
+    color: #5d5c5c;
+}
+
+.mediumText {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.1rem;
+    color: #000000;
+}
+
+.smallText {
+    font-size: 1rem;
+    font-weight: medium;
+    margin-bottom: 2rem;
+    color: #000000;
+}
+
+.quantityText {
+    font-size: 1rem;
+    font-weight: medium;
+    color: #000000;
+    margin-right: 1rem;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 100%;
+    padding: 2rem;
+}
+
+.container {
+    display: flex;
+    margin-top: 5.5rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.containerPackage {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    border: solid 0.0625rem #D9D9D9;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.containerImage {
+    flex: 1;
+    min-width: 22rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.packageImage {
+    width: 100%;
+    height: 100%;
+}
+
+.containerText {
+    flex: 2;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Poppins', sans-serif;
+}
+
+.containerInfos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 80%;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.column {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 30%;
+}
+
+.infoList {
+    list-style: none;
+    padding: 0;
+}
+
+.listItem {
+    margin-bottom: 0.5rem;
+}
+
+.itemName {
+    font-weight: bold;
+}
+
+.listItem {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.quantitySection {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.quantitySelect {
+    padding: 0.3rem;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.buttonSection {
+    display: flex;
+    gap: 1rem;
+}
+
+.buttons {
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 1%;
+    transition: transform 0.3s ease;
+}
+
+.buttons:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.addToCartButton {
+    background-color: #0A5A9C;
+    color: #fff;
+}
+
+.addToCartButton:hover {
+    background-color: #0c4778;
+}
+
+.backButton {
+    background-color: #fff;
+    color: #0A5A9C;
+    border-width: 0.125rem;
+    border-color: #0A5A9C;
+}
+
+.backButton:hover {
+    background-color: #fafafa;
+    color: #0c4778;
+    border-color: #0c4778;
+}
+
+@media (max-width: 1200px) {
+    .column {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .column {
+        max-width: 48%;
+    }
+}
+
+@media (max-width: 768px) {
+    .containerInfos {
+        justify-content: center;
+    }
+
+    .column {
+        max-width: 100%; 
+    }
+}
+
+@media (max-width: 480px) {
+    .containerPackage {
+        flex-direction: column; 
+        align-items: center;
+    }
+
+    .containerImage {
+        margin-bottom: 1rem;
+    }
+
+    .containerText {
+        text-align: center;
+    }
+
+    .buttonSection {
+        display: flex;
+        flex-direction: column;
+       
+    }}

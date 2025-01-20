@@ -1,0 +1,263 @@
+import React, { useState, useEffect } from 'react';
+import NavBar from "../components/Navbar";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import ModalExcluir from "../components/ModalExcluir";
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
+import stylesPerfil from "../styles/Perfil.module.css";
+import stylesDT from "../styles/DetalhesTransacao.module.css";
+import styles from "../styles/HistoricoTransacoesCliente.module.css";
+import stylesPI from "../styles/PacoteIndividual.module.css";
+import stylesGIT from "../styles/GerenciarItensTop.module.css";
+import iconImage from "../assets/images/iconPerfil.png";
+import { RiShoppingCart2Line } from '@remixicon/react';
+
+function DetalhesPedido() {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const [pedido, setPedido] = useState(null);
+
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [showSucess, setShowSucess] = useState(false);
+    const [showFail, setShowFail] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
+    useEffect(() => {
+        if (location.state?.pedido) {
+            setPedido(location.state.pedido);
+        }
+    }, [location.state]);
+
+    const handleNavigate = (path) => {
+        navigate(path);
+    };
+
+    const openModal = (orderId) => {
+        setSelectedOrder(orderId);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => setModalOpen(false);
+
+    const handleDelete = async () => {
+        try {
+            console.log(`Pedido ${selectedOrder} cancelado.`);
+            setShowSucess(true);
+
+            setTimeout(() => {
+                setShowSucess(false);
+                setModalOpen(false);
+                navigate("/historico-pedidos");
+            }, 3000);
+        } catch (error) {
+            console.error("Erro ao excluir pedido:", error);
+            setShowFail(true);
+
+            setTimeout(() => {
+                setShowFail(false);
+            }, 3000);
+        }
+    };
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case "Concluído":
+                return "green";
+            case "Realizado":
+                return "orange";
+            case "Cancelado":
+                return "red";
+            default:
+                return "black";
+        }
+    };
+    const calcularSubtotal = (pacotes) => {
+        return pacotes.reduce((total, pacote) => total + (pacote.valor * pacote.quantidade), 0);
+    };
+
+    const calcularFrete = (valorTotal, subtotal) => {
+        return valorTotal - subtotal;
+    };
+
+    if (!pedido) {
+        return (
+            <div>
+                <NavBar />
+                <div className={stylesPerfil.container}>
+                    <div className={stylesPerfil.PerfilBox}>
+                        <p>Pedido não encontrado. Retorne à página anterior.</p>
+                        <button
+                            className={stylesGIT.adicPac}
+                            onClick={() => navigate('/historicotransacoes')}
+                        >
+                            VOLTAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            <NavBar />
+            <div className={stylesPerfil.container}>
+                <div className={stylesPerfil.PerfilBox}>
+                    <div className={stylesPerfil.leftPerfil}>
+                        <img src={iconImage} alt="Imagem de ícone" />
+                        <div className={stylesPerfil.leftText}>
+                            <span className={stylesPerfil.bigText}>
+                                Bem Vindo, Fulano Editor Master
+                            </span>
+                            <div className={stylesPerfil.mailPerfil}>
+                                <span className={stylesPerfil.mediumText}>
+                                    fulano@gmail.com
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={stylesPerfil.optionBox}>
+                    <div className={stylesGIT.topTitle}>
+                        <div className={stylesGIT.title}>
+                            <RiShoppingCart2Line className={stylesGIT.blueIcon} />
+                            <span className={stylesGIT.bigText}>DETALHES DO PEDIDO</span>
+                        </div>
+                        <button
+                            className={stylesGIT.adicPac}
+                            onClick={() => navigate('/historicotransacoes')}
+                        >
+                            VOLTAR
+                        </button>
+                    </div>
+
+                    <div className={`${stylesDT.detailsContainer} ${styles.detailsContainer}`}>
+                        <div className={stylesDT.transactionDetails}>
+                            <div className={styles.transacaoHeader}>
+                                <div>
+                                    <span className={stylesDT.smallTextDark}>
+                                        Pedido:
+                                    </span>
+                                    <span className={stylesDT.smallTextLight}>
+                                        {pedido.id} - {pedido.data}
+                                    </span>
+                                </div>
+                                <div className={styles.containerButtons}>
+                                    {pedido.status === "Realizado" && (
+                                        <>
+                                            <button
+                                                className={`${stylesPI.buttons} ${stylesPI.excPac}`}
+                                                onClick={() => openModal(pedido.id)}
+                                            >
+                                                CANCELAR PEDIDO
+                                            </button>
+
+                                            <button
+                                                className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
+                                                onClick={() => handleNavigate('/detalhespedido')}
+                                            >
+                                                EDITAR PEDIDO
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={stylesDT.transactionDetails}>
+                            <div
+                                className={`${stylesDT.smallTextDark} ${styles.transacaoStatus} ${styles[getStatusColor(pedido.status)]}`}
+                            >
+                                Pedido {pedido.status}.
+                            </div>
+                        </div>
+
+                        <div className={stylesDT.transactionDetails}>
+                            <span className={stylesDT.smallTextDark}>
+                                Pagamento via {pedido.pagamento}.
+                            </span>
+                        </div>
+
+                        <div className={stylesDT.transactionDetails}>
+                            <span className={stylesDT.smallTextDark}>
+                                Exibir recibo
+                            </span>
+                        </div>
+
+                        {pedido.pacotes.map((pacote, index) => (
+                            <div key={index} className={stylesDT.transactionDetailsImage}>
+                                <div>
+                                    <img src={pacote.image} alt="Imagem do pacote" className={stylesDT.image} />
+                                </div>
+                                <div>
+                                    <span className={stylesDT.smallTextDark}>{pacote.nome}</span><br />
+                                    <span className={stylesDT.smallTextLightNotMargin}>
+                                        Quantidade: {pacote.quantidade}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+
+                        <div className={stylesDT.transactionDetails}>
+                            <span className={stylesDT.smallTextDark}>Resumo do Pedido:</span><br />
+                            <div>
+                                <div className={stylesDT.transactionDetailsRow}>
+                                    <span className={stylesDT.smallTextLightNotMargin}>Subtotal do(s) item(ns):</span>
+                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}</span>
+                                </div>
+                                <div className={stylesDT.transactionDetailsRow}>
+                                    <span className={stylesDT.smallTextLightNotMargin}>Frete e Manuseio:</span>
+                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularFrete(pedido.valor, calcularSubtotal(pedido.pacotes)).toFixed(2)}</span>
+                                </div>
+                                <div className={stylesDT.transactionDetailsRow}>
+                                    <span className={stylesDT.smallTextLightNotMargin}>Total:</span>
+                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {pedido.valor.toFixed(2)}</span>
+                                </div>
+                                <div className={stylesDT.transactionDetailsRow}>
+                                    <span className={stylesDT.smallTextDark}>Total Geral:</span>
+                                    <span className={stylesDT.smallTextDark}>R$ {pedido.valor.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/*Depois ajeitar o endereço*/}
+                        <div className={stylesDT.transactionDetails}>
+                            <span className={stylesDT.smallTextDark}>Endereço: </span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>Rua Salomão Pinheiro Costa 697</span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>Higienópolis</span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>São Paulo</span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>Brasil</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ModalExcluir
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onConfirm={handleDelete}
+            >
+                <p>
+                    DESEJA REALMENTE <strong>CANCELAR</strong> O PEDIDO
+                    <strong> {selectedOrder}</strong>?
+                </p>
+            </ModalExcluir>
+
+            <ModalMensagemSucesso
+                title="CANCELAR PEDIDO"
+                text="Pedido cancelado com sucesso!"
+                isVisible={showSucess}
+            />
+
+            <ModalMensagemFalha
+                title="CANCELAR PEDIDO"
+                text="Erro ao cancelar o pedido!"
+                isVisible={showFail}
+            />
+        </div>
+    );
+}
+
+export default DetalhesPedido;

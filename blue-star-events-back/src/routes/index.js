@@ -7,8 +7,9 @@ const forgotPasswordRouter = require('./redefinirSenhaRoute');
 const ComponenteRouter = require('./ComponenteRoute');
 const pacoteRouter = require('./pacoteRoute');
 const AdminRouter = require('./AdminRoute');
+const CarrinhoRouter = require('./CarrinhoRoute');
 
-const authMiddleware = require('../middlewares/auth');
+//const authMiddleware = require('../middlewares/auth');
 
 app.use(express.json());
 
@@ -18,5 +19,6 @@ app.use('/user', forgotPasswordRouter);
 app.use('/componente', ComponenteRouter);
 app.use('/pacote', pacoteRouter);
 app.use('/admin', AdminRouter);
+app.use('/carrinho', CarrinhoRouter);
 
 module.exports = app;

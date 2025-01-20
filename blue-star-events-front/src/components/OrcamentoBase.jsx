@@ -1,20 +1,18 @@
 import React from "react";
 import NavBar from "../components/Navbar";
-import stylesFormBaseA from "../styles/FormBaseA.module.css";
 import stylesOP1 from "../styles/OrcamentoBase.module.css";
 import { RiFileTextLine } from "@remixicon/react";
 
-const OrcamentoBase = ({ title, children, subtotal, nextPath, prevPath, handleNavigate, nextButtonText }) => {
+const OrcamentoBase = ({ title, children, subtotal, IconDetails, nextPath, prevPath, handleNavigate, nextButtonText, prevButtonText }) => {
     return (
         <div>
             <NavBar />
             <div className={stylesOP1.container}>
-                <div className={`${stylesFormBaseA.legendContainer} ${stylesOP1.legendContainer}`}>
-                    <div className={stylesFormBaseA.bigText}>CRIANDO PACOTE PERSONALIZADO</div>
-                </div>
                 <div className={stylesOP1.infos}>
                     <div className={stylesOP1.details}>
-                        <div className={stylesOP1.mediumText}>{title}</div>
+                        <div className={stylesOP1.mediumText}>
+                            {IconDetails && <IconDetails className={stylesOP1.icon} />}{title}
+                        </div>
                         {children}
                     </div>
                     <div className={stylesOP1.resumo}>
@@ -47,7 +45,7 @@ const OrcamentoBase = ({ title, children, subtotal, nextPath, prevPath, handleNa
                             className={`${stylesOP1.buttons} ${stylesOP1.voltar}`}
                             onClick={() => handleNavigate(prevPath)}
                         >
-                            VOLTAR
+                            {prevButtonText}
                         </button>
                     </div>
                 </div>

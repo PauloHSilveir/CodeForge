@@ -87,7 +87,7 @@ module.exports = {
         allowNull: true,
       },
     });
-   
+
     // Tabela de pacotes
     await queryInterface.createTable('pacotes', {
       id: {
@@ -109,7 +109,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      preco:{
+      preco: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
@@ -280,6 +280,52 @@ module.exports = {
       },
     });
 
+    // Tabela do carrinho
+    await queryInterface.createTable('carrinho', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      usuario_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      pacote_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'pacotes',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      quantidade: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      preco_unitario: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+
     await queryInterface.createTable('transacoes', {
       id: {
         type: Sequelize.INTEGER,
@@ -406,7 +452,7 @@ module.exports = {
         allowNull: false,
       },
     });
-    
+
     await queryInterface.bulkInsert('users', [
       {
         name: 'João Silva',
@@ -469,7 +515,7 @@ module.exports = {
         password_reset_expires: null,
       },
     ]);
-    
+
     await queryInterface.bulkInsert('pacotes', [
       {
         name: 'Pacote 1',
@@ -478,7 +524,7 @@ module.exports = {
         preco: 100.00,
         disponibilidade: 3,
         imagem: 'pacote1.jpg',
-        tamanho: 'Grande',
+        tamanho: 'grande',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -489,7 +535,7 @@ module.exports = {
         preco: 200.00,
         disponibilidade: 10,
         imagem: 'pacote2.jpg',
-        tamanho: 'Médio',
+        tamanho: 'medio',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -500,14 +546,14 @@ module.exports = {
         preco: 300.00,
         disponibilidade: 30,
         imagem: 'pacote3.jpg',
-        tamanho: 'Pequeno',
+        tamanho: 'pequeno',
         created_at: new Date(),
         updated_at: new Date(),
       },
     ]);
 
-  
-    
+
+
     await queryInterface.bulkInsert('eventos', [
       {
         pacote_id: 1,
@@ -549,7 +595,7 @@ module.exports = {
         updated_at: new Date(),
       },
     ]);
-    
+
     await queryInterface.bulkInsert('componentes', [
       {
         name: 'Cadeira de escritório',
@@ -583,7 +629,7 @@ module.exports = {
       },
     ]);
 
-   
+
     await queryInterface.bulkInsert('pacote_componentes', [
       {
         pacote_id: 1,
@@ -607,7 +653,37 @@ module.exports = {
         updated_at: new Date(),
       },
     ]);
-    
+
+    await queryInterface.bulkInsert('carrinho', [
+      {
+        id: 1,
+        usuario_id: 1,
+        pacote_id: 1,
+        quantidade: 1,
+        preco_unitario: 150.00,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 2,
+        usuario_id: 2,
+        pacote_id: 2,
+        quantidade: 1,
+        preco_unitario: 200.00,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 3,
+        usuario_id: 2,
+        pacote_id: 3,
+        quantidade: 1,
+        preco_unitario: 200.00,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
     await queryInterface.bulkInsert('transacoes', [
       {
         id: 1,
@@ -640,7 +716,7 @@ module.exports = {
         updated_at: new Date(),
       },
     ]);
-    
+
     // Inserir dados na tabela "pagamentos"
     await queryInterface.bulkInsert('pagamentos', [
       {
@@ -674,7 +750,7 @@ module.exports = {
         updated_at: new Date(),
       },
     ]);
-    
+
     // Inserir dados na tabela "admin"
     await queryInterface.bulkInsert('admin', [
       {
@@ -708,6 +784,7 @@ module.exports = {
     await queryInterface.dropTable('admin');
     await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('transacoes');
+    await queryInterface.dropTable('carrinho');
     await queryInterface.dropTable('pacote_componentes');
     await queryInterface.dropTable('componentes');
     await queryInterface.dropTable('eventos');

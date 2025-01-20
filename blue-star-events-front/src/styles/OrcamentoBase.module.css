@@ -22,7 +22,11 @@
     font-weight: bold;
     font-size: 1.3rem;
     margin-bottom: 1rem;
-    text-align: center;
+    text-align: start;
+    gap: 0.5rem;
+    width: 80%;
+    display: flex;
+    align-items: center;
 }
 
 .icon {
@@ -60,8 +64,7 @@
 .resumo .mediumText {
     margin-bottom: 1.5rem;
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: start;
 }
 
 .summaryTable {
