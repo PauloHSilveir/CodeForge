@@ -68,11 +68,11 @@ class Componente extends Model {
         });
     }
     static associate(models) {
-        this.belongsToMany(models.Variante, {
-            through: models.VarianteComponente,
+        this.belongsToMany(models.Pacote, {
+            through: models.PacoteComponente,
             foreignKey: 'componente_id',
-            otherKey: 'variante_id',
-            as: 'variantes',
+            otherKey: 'pacote_id',
+            as: 'pacotes',
         });
 
     }

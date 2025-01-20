@@ -1,77 +1,61 @@
 const PacoteService = require('../services/PacoteService');
 
 module.exports = {
-    async GetAll(req, res) {
+    async getAll(req, res) {
         try {
             const pacotes = await PacoteService.getAll();
             return res.status(200).json(pacotes);
         } catch (error) {
-            console.error('Erro ao buscar pacotes:', error);
-            return res.status(500).json({ error: 'Erro ao buscar pacotes' });
+            console.error('Erro em getAll:', error);
+            return res.status(500).json({ error: error.message });
         }
     },
 
-    // Criar um novo pacote
-    async Store(req, res) {
-        const { name, description, preco, tamanho, tipo, disponibilidade, imagem } = req.body;
-
+    async create(req, res) {
         try {
-            const pacote = await PacoteService.create({ name, description, preco, tamanho, tipo, disponibilidade, imagem });
+            const pacote = await PacoteService.create(req.body);
             return res.status(201).json({
-                status: 1,
-                message: 'Pacote criado com sucesso!',
-                pacote,
+                message: 'Pacote criado com sucesso',
+                pacote
             });
         } catch (error) {
-            console.error('Erro ao criar pacote:', error);
+            console.error('Erro em create:', error);
             return res.status(400).json({ error: error.message });
         }
     },
 
-    // Atualizar pacote existente
-    async Update(req, res) {
-        const { id } = req.params;
-        const { name, description, preco, tamanho, tipo, disponibilidade, imagem } = req.body;
-
+    async getById(req, res) {
         try {
-            const pacote = await PacoteService.update(id, { name, description, preco, tamanho, tipo, disponibilidade, imagem });
-            return res.status(200).json({
-                status: 1,
-                message: 'Pacote atualizado com sucesso!',
-                pacote,
-            });
-        } catch (error) {
-            console.error('Erro ao atualizar pacote:', error);
-            return res.status(400).json({ error: error.message });
-        }
-    },
-
-    // Excluir um pacote
-    async Delete(req, res) {
-        const { id } = req.params;
-
-        try {
-            await PacoteService.delete(id);
-            return res.status(200).json({
-                status: 1,
-                message: 'Pacote excluído com sucesso!',
-            });
-        } catch (error) {
-            console.error('Erro ao excluir pacote:', error);
-            return res.status(400).json({ error: error.message });
-        }
-    },
-
-    // Buscar um pacote por ID
-    async GetOne(req, res) {
-        const { id } = req.params;
-
-        try {
-            const pacote = await PacoteService.getById(id);
+            const pacote = await PacoteService.getById(req.params.id);
             return res.status(200).json(pacote);
         } catch (error) {
-            console.error('Erro ao buscar pacote:', error);
+            console.error('Erro em getById:', error);
+            return res.status(404).json({ error: error.message });
+        }
+    },
+
+    async update(req, res) {
+        try {
+            const pacote = await PacoteService.update(req.params.id, req.body);
+            return res.status(200).json({
+                message: 'Pacote atualizado com sucesso',
+                pacote
+            });
+        } catch (error) {
+            console.error('Erro em update:', error);
             return res.status(400).json({ error: error.message });
         }
     },
+
+    async delete(req, res) {
+        try {
+            await PacoteService.delete(req.params.id);
+            return res.status(200).json({
+                message: 'Pacote deletado com sucesso'
+            });
+        } catch (error) {
+            console.error('Erro em delete:', error);
+            return res.status(400).json({ error: error.message });
+        }
+    }
 };

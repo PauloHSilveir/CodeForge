@@ -3,10 +3,10 @@ const router = express.Router();
 const pacoteController = require('../controllers/PacoteController'); 
 const authMiddleware = require('../middlewares/auth');
 
-router.get('/:id',  pacoteController.GetOne);
-router.get('/', pacoteController.GetAll);
-router.post('/cadastrar', pacoteController.Store);
-router.delete('/delete/:id', pacoteController.Delete);
-router.put('/update/:id', pacoteController.Update);
+router.get('/:id',  pacoteController.getById);
+router.get('/', pacoteController.getAll);
+router.post('/cadastrar', pacoteController.create);
+router.delete('/delete/:id', pacoteController.delete);
+router.put('/update/:id', pacoteController.update);
 
 module.exports = router;
