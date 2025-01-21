@@ -75,6 +75,7 @@ class Pacote extends Model {
 
     static associate(models) {
         this.hasOne(models.Event, { foreignKey: 'pacote_id', as: 'evento' });
+        this.hasOne(models.Carrinho, { foreignKey: 'pacote_id', as: 'carrinho' });
         this.belongsToMany(models.Componente, {
             through: models.PacoteComponente,
             foreignKey: 'pacote_id',

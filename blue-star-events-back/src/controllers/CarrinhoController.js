@@ -3,14 +3,7 @@ const CarrinhoService = require("../services/CarrinhoService");
 class CarrinhoController {
     static async addToCart(req, res) {
         try {
-            const { usuario_id, pacote_id, quantidade, preco_unitario } = req.body;
-
-            const cartItem = await CarrinhoService.addToCart({
-                usuario_id,
-                pacote_id,
-                quantidade,
-                preco_unitario
-            });
+            const cartItem = await CarrinhoService.addToCart(req.body);
 
             return res.status(201).json({
                 success: true,

@@ -144,6 +144,7 @@ class User extends Model {
 
     static associate(models) {
         this.hasOne(models.Admin, { foreignKey: 'usuario_id', as: 'admin' });
+        this.hasOne(models.Carrinho, { foreignKey: 'usuario_id', as: 'carrinho' });
         //this.hasMany(models.Transacoes, { foreignKey: 'user_id', as: 'transacoes' });
     }
 }

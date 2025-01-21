@@ -2,15 +2,22 @@ const Carrinho = require("../models/CarrinhoModel");
 const CustomError = require("../utils/CustomError");
 
 class CarrinhoService {
-    static async addToCart({ usuario_id, pacote_id, quantidade, preco_unitario }) {
+    static async addToCart(carrinhoData) {
         try {
+            const { usuario_id, pacote_id, quantidade, preco_unitario } = carrinhoData;
+
             const [item, created] = await Carrinho.findOrCreate({
                 where: { usuario_id, pacote_id },
                 defaults: {
                     quantidade,
                     preco_unitario
                 }
+            }).catch(err => {
+                console.error('Erro SQL:', err);
+                throw err;
             });
+
+            console.log('Resultado da operação:', { created, item });
 
             if (!created) {
                 item.quantidade += quantidade;
@@ -20,7 +27,8 @@ class CarrinhoService {
 
             return item;
         } catch (error) {
-            throw new CustomError("Erro ao adicionar item ao carrinho", 500);
+            console.error('Erro detalhado:', error);
+            throw new Error(`Erro ao adicionar item ao carrinho: ${error.message}`);
         }
     }
 
