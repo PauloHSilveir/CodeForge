@@ -9,8 +9,8 @@ import packageImage1 from "../assets/images/Aniversario.png";
 function Carrinho() {
     const navigate = useNavigate();
     const [itensCarrinho, setItensCarrinho] = useState([
-        { id: 1, nome: "Pacote Aniversário Pequeno", preco: 2000.0, quantidade: 1 },
-        { id: 2, nome: "Pacote Aniversário Grande", preco: 10000.0, quantidade: 1 },
+        { id: 1, nome: "Pacote Aniversário Pequeno", preco: 2000.0, quantidade: 1, imagem: packageImage1},
+        { id: 2, nome: "Pacote Aniversário Grande", preco: 10000.0, quantidade: 1, imagem: packageImage1}
     ]);
 
     const subtotal = itensCarrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
@@ -24,7 +24,12 @@ function Carrinho() {
     };
 
     const handleNavigate = (path) => {
-        navigate(path, { state: { subtotal } });
+        navigate(path, { 
+            state: { 
+                subtotal, 
+                itensCarrinho
+            } 
+        });
     };
     
 
@@ -56,7 +61,7 @@ function Carrinho() {
                         <div key={item.id} className={styles.itemCart}>
                             <div className={styles.itemCartDetails}>
                                 <img
-                                    src={packageImage1}
+                                    src={item.imagem}
                                     alt="Icone Pacote"
                                     className={styles.imagemItem}
                                 />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import Paginacao from "../components/Paginacao"; // Importando o componente de paginação
+import Paginacao from "../components/Paginacao";
 import stylesPerfil from "../styles/Perfil.module.css";
 import stylesDT from "../styles/DetalhesTransacao.module.css";
 import styles from "../styles/HistoricoTransacoesCliente.module.css";

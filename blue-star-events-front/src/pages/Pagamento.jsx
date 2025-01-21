@@ -9,15 +9,23 @@ function Pagamento() {
     const navigate = useNavigate();
     const location = useLocation();
     const subtotal = location.state?.subtotal || 0;
+    const itensCarrinho = location.state?.itensCarrinho || [];
+
 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
     const handleNavigate = (path) => {
-        navigate(path);
+        navigate(path, {
+            state: {
+                subtotal,
+                itensCarrinho,
+                selectedPaymentMethod
+            }
+        });
     };
 
     const handlePaymentSelection = (method) => {
-        setSelectedPaymentMethod((prevMethod) => (prevMethod === method ? "" : method)); // Fecha se clicar novamente
+        setSelectedPaymentMethod((prevMethod) => (prevMethod === method ? "" : method));
     };
 
     return (
@@ -27,13 +35,13 @@ function Pagamento() {
                 title="FORMA DE PAGAMENTO"
                 subtotal={subtotal}
                 IconDetails={RiBankCardLine}
-                nextPath="/confirmacaopedido"
+                nextPath="/confirmacaopagamento"
                 prevPath="/carrinho"
                 handleNavigate={handleNavigate}
                 nextButtonText="CONFIRMAR PAGAMENTO"
                 prevButtonText="VOLTAR"
             >
-                {/* Opções de pagamento */}
+
                 <div className={styles.pagamentoOpcoes}>
                     <div className={styles.opcaoPagamento}>
                         <label className={styles.radioLabel}>

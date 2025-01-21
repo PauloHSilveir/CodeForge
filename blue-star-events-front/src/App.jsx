@@ -37,6 +37,7 @@ import DetalhesPedido from './pages/DetalhesPedido';
 import DetalhesPacote from './pages/DetalhesPacote';
 import Carrinho from './pages/Carrinho';
 import Pagamento from './pages/Pagamento';
+import ConfirmacaoPagamento from './pages/ConfirmacaoPagamento';
 
 function App() {
   return (
@@ -80,7 +81,7 @@ function App() {
         <Route path="/detalhespacote" element={<DetalhesPacote />} />
         <Route path="/carrinho" element={<Carrinho />} />
         <Route path="/pagamento" element={<Pagamento />} />
-
+        <Route path="/confirmacaopagamento" element={<ConfirmacaoPagamento />} />
       </Routes>
     </BrowserRouter>
   );

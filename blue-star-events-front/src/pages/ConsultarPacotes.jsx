@@ -65,7 +65,7 @@ function ConsultarPacotes() {
     const [precoMax, setPrecoMax] = useState(precoMaximo);
 
     const [tamanhosSelecionados, setTamanhosSelecionados] = useState([]);
-    const itensPorPagina = 15;
+    const itensPorPagina = 24;
 
 
     const tamanhosOrdenados = ["mini", "pequeno", "medio", "grande", "mega"];
