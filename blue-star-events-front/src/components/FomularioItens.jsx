@@ -11,8 +11,8 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
     const [formData, setFormData] = useState({
         nome: initialData.nome || "",
         descricao: initialData.descricao || "",
-        quantidade: initialData.quantidade || "",
         valor: initialData.valor || "",
+        categoria: initialData.categoria || "",
         imagem: initialData.imagem || null,
     });
 
@@ -72,23 +72,6 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
                             required
                         />
                     </div>
-
-                    <label htmlFor="quantidade" className={stylesFormBaseA.label}>
-                        Quantidade
-                    </label>
-                    <div className={stylesFormBaseA.inputs}>
-                        <input
-                            id="quantidade"
-                            name="quantidade"
-                            value={formData.quantidade}
-                            onChange={handleChange}
-                            type="number"
-                            className={stylesFormBaseA.inputField}
-                            placeholder="Digite a quantidade de itens"
-                            required
-                        />
-                    </div>
-
                     <label htmlFor="valor" className={stylesFormBaseA.label}>
                         Valor
                     </label>
@@ -104,7 +87,20 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
                             required
                         />
                     </div>
-
+                    <label htmlFor="categoria" className={stylesFormBaseA.label}>
+                        Categoria
+                    </label>
+                    <div className={stylesFormBaseA.inputs}>
+                        <input
+                            id="categoria"
+                            name="categoria"
+                            value={formData.categoria}
+                            onChange={handleChange}
+                            className={stylesFormBaseA.inputField}
+                            placeholder="Digite a categoria do item"
+                            required
+                        />
+                    </div>
                     <label htmlFor="imagem" className={stylesFormBaseA.label}>
                         Imagem
                     </label>

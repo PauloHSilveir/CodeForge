@@ -44,17 +44,6 @@ class Componente extends Model {
                     notEmpty: { msg: "A categoria não pode estar vazia" },
                 },
             },
-            quantidade: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                validate: {
-                    isInt: { msg: "A quantidade deve ser um número inteiro" },
-                    min: {
-                        args: [0],
-                        msg: "A quantidade não pode ser negativa",
-                    },
-                },
-            },
             imagem: {
                 type: DataTypes.STRING,
                 allowNull: false,

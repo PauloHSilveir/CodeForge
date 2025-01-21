@@ -4,8 +4,8 @@ class ComponenteController {
      //metodo para cadastrar um novo componente
      async Create(req, res) {
         try {
-            const { name, description, preco, quantidade, categoria, imagem } = req.body;
-            const componenteData = { name, description, preco, quantidade, categoria, imagem };
+            const { name, description, preco, categoria, imagem } = req.body;
+            const componenteData = { name, description, preco, categoria, imagem };
 
             const componente = await componenteService.create(componenteData);
             res.status(200).send({componente});

@@ -220,10 +220,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      quantidade: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
       imagem: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -552,8 +548,6 @@ module.exports = {
       },
     ]);
 
-
-
     await queryInterface.bulkInsert('eventos', [
       {
         pacote_id: 1,
@@ -602,7 +596,6 @@ module.exports = {
         description: 'Cadeira de escritório confortável',
         preco: 150.00,
         categoria: 'Itens',
-        quantidade: 10,
         imagem: 'cadeira.jpg',
         created_at: new Date(),
         updated_at: new Date(),
@@ -612,7 +605,6 @@ module.exports = {
         description: 'Cozinheira de mão cheia',
         preco: 200.00,
         categoria: 'Funcionarios',
-        quantidade: 5,
         imagem: 'cozinheiro.jpg',
         created_at: new Date(),
         updated_at: new Date(),
@@ -622,7 +614,6 @@ module.exports = {
         description: 'Coxinha de frango',
         preco: 180.00,
         categoria: 'Comidas',
-        quantidade: 5,
         imagem: 'coxinha.jpg',
         created_at: new Date(),
         updated_at: new Date(),
