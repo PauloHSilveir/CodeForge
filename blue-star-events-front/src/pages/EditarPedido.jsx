@@ -14,11 +14,12 @@ function EditarPedido() {
     const navigate = useNavigate();
     const location = useLocation();
     const [pedido, setPedido] = useState(null);
-    const [editado, setEditado] = useState(false);
+    const [pedidoOriginal, setPedidoOriginal] = useState(null);
 
     useEffect(() => {
         if (location.state?.pedido) {
             setPedido(location.state.pedido);
+            setPedidoOriginal(JSON.parse(JSON.stringify(location.state.pedido)));
         }
     }, [location.state]);
 
@@ -26,14 +27,12 @@ function EditarPedido() {
         const atualizado = { ...pedido };
         atualizado.pacotes[index].quantidade = novaQuantidade;
         setPedido(atualizado);
-        setEditado(true);
     };
 
     const handleRemoverPacote = (index) => {
         const atualizado = { ...pedido };
         atualizado.pacotes.splice(index, 1);
         setPedido(atualizado);
-        setEditado(true);
     };
 
     const handleSalvarAlteracoes = () => {
@@ -42,7 +41,8 @@ function EditarPedido() {
     };
 
     const handleCancelarEdicao = () => {
-        navigate(`/detalhespedido/${pedido.id}`, { state: { pedido } });
+        setPedido(pedidoOriginal);
+        navigate(`/detalhespedido/${pedido.id}`, { state: { pedido: pedidoOriginal } });
     };
 
     const calcularSubtotal = (pacotes) => {
@@ -79,7 +79,6 @@ function EditarPedido() {
                             <span className={stylesPerfil.bigText}>
                                 Bem Vindo, Fulano Editor Master
                             </span>
-
                             <div className={stylesPerfil.mailPerfil}>
                                 <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
                                 <span className={stylesPerfil.mediumText}>
@@ -106,7 +105,7 @@ function EditarPedido() {
                             <button
                                 className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
                                 onClick={handleSalvarAlteracoes}
-                                disabled={!editado}
+                                disabled={JSON.stringify(pedido) === JSON.stringify(pedidoOriginal)} // Desabilita se não houver alteração
                             >
                                 SALVAR ALTERAÇÕES
                             </button>
@@ -171,7 +170,7 @@ function EditarPedido() {
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextDark}>Total:</span>
                                     <span className={stylesDT.smallTextDark}>
-                                        R$ {pedido.valor.toFixed(2)}
+                                        R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}
                                     </span>
                                 </div>
                             </div>
