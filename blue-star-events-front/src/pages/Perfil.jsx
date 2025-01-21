@@ -130,22 +130,7 @@ function Perfil() {
                                     </span>
                                 </div>
                             </button>
-                            <button
-                                className={stylesPerfil.buttonsOptionsBox}
-                                onClick={() => handleNavigate('/avaliacoes')}
-                            >
-                                <RiChat4Fill className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
-                                <div className={stylesPerfil.textsButtonsOptions}>
-                                    <span className={stylesPerfil.mediumText}>
-                                        AVALIAÇÕES
-                                    </span>
-
-                                    <span className={stylesPerfil.smallText}>
-                                        <br />Avalie seus pedidos e visualize suas avaliações e comentários.
-                                    </span>
-                                </div>
-                            </button>
-
+                            
                         </div>
                     </div>
                 </div>

@@ -38,9 +38,9 @@ function Home() {
                     </button>
                     <button
                         className={`${stylesHome.buttonsHome} ${stylesHome.orcPer}`}
-                        onClick={() => handleNavigate('/orcamentopersonalizado1')}
+                        onClick={() => handleNavigate('/contatenos')}
                     >
-                        Obter Orçamento Personalizado
+                        Entre em Contato Conosco
                     </button>
 
                 </div>

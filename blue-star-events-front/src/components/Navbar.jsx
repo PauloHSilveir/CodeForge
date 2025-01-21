@@ -46,26 +46,6 @@ const MenuToggle = ({ menuOpen, toggleMenu }) => (
   </div>
 );
 
-const PackagesDropdown = () => (
-  <li className={stylesNavbar.dropdown__item}>
-    <div className={stylesNavbar.nav__link}>
-      Contratar um pacote <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
-    </div>
-    <ul className={stylesNavbar.dropdown__menu}>
-      <li>
-        <Link to="/consultarpacotes" className={stylesNavbar.dropdown__link}>
-          <RiFileLine /> Padrão
-        </Link>
-      </li>
-      <li>
-        <Link to="/orcamentopersonalizado1" className={stylesNavbar.dropdown__link}>
-          <RiFileEditLine /> Personalizado
-        </Link>
-      </li>
-    </ul>
-  </li>
-);
-
 const UserDropdown = ({ isLoggedIn, handleLogout }) => (
   <li className={stylesNavbar.dropdown__item}>
     <div className={stylesNavbar.nav__link}>
@@ -143,7 +123,6 @@ const ManageSystemDropdown = () => (
   </li>
 );
 
-// Navbar principal
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartItems, setCartItems] = useState(1);
@@ -185,11 +164,13 @@ const Navbar = () => {
           id="nav-menu"
         >
           <ul className={stylesNavbar.nav__list}>
-            <PackagesDropdown />
+            <Link to="/consultarpacotes" className={`${stylesNavbar.nav__link} ${stylesNavbar.nav__link__GS}`}>
+              Consultar Pacotes
+            </Link>
             <UserDropdown isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
             <ManageSystemDropdown />
             <li>
-              <Link to="/contatenos" className={stylesNavbar.nav__link}>
+              <Link to="/contatenos" className={`${stylesNavbar.nav__link} ${stylesNavbar.nav__link__GS}`}>
                 Contate-nos
               </Link>
             </li>

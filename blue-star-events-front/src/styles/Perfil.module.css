@@ -165,12 +165,12 @@
 
 .buttonsOptionsBox {
     display: inline-flex;
-    width: 28vw;
+    width: 46.2vw;
     height: 7.5rem;
     background-color: transparent;
     align-items: center;
     justify-content: center;
-    gap: 0.25rem;
+    gap: 1.5rem;
     font-family: 'Poppins', sans-serif;
     font-size: 1.25rem;
     font-weight: bolder;
@@ -192,7 +192,7 @@
     line-height: 0.9rem;
     text-align: start;
     padding-left: 1rem;
-    width: 53%;
+    width: 43%;
 }
 
 .blueIcon {
