@@ -3,19 +3,44 @@ import NavBar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import FormularioItens from "../components/FomularioItens";
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
 function CadastrarItem() {
     const navigate = useNavigate();
-    const [showMessage, setShowMessage] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
 
-    const handleCreate = (data) => {
-        console.log("Dados do item:", data);
-        setShowMessage(true);
+    const handleCreate = async (data) => {
+        try {
+            const response = await fetch('http://localhost:1313/componente/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: data.nome,
+                    description: data.descricao,
+                    preco: parseFloat(data.valor),
+                    categoria: data.categoria,
+                    imagem: data.imagem instanceof File ? data.imagem.name : data.imagem
+                }),
+            });
 
-        setTimeout(() => {
-            setShowMessage(false);
-            navigate('/gerenciaritens');
-        }, 3000);
+            if (response.ok) {
+                setShowSuccess(true);
+                setTimeout(() => {
+                    setShowSuccess(false);
+                    navigate('/gerenciaritens');
+                }, 3000);
+            } else {
+                throw new Error('Erro ao cadastrar');
+            }
+        } catch (error) {
+            setShowError(true);
+            setTimeout(() => {
+                setShowError(false);
+            }, 3000);
+        }
     };
 
     return (
@@ -23,8 +48,13 @@ function CadastrarItem() {
             <NavBar />
             <ModalMensagemSucesso
                 title="CADASTRAR ITEM"
-                text="Cadastrado com sucesso! Redirecionando..." 
-                isVisible={showMessage} 
+                text="Cadastrado com sucesso! Redirecionando..."
+                isVisible={showSuccess}
+            />
+            <ModalMensagemFalha
+                title="CADASTRAR ITEM"
+                text="Erro ao cadastrar item! Verifique os dados e tente novamente."
+                isVisible={showError}
             />
             <FormularioItens
                 onSubmit={handleCreate}
@@ -35,4 +65,4 @@ function CadastrarItem() {
     );
 }
 
-export default CadastrarItem;
+export default CadastrarItem

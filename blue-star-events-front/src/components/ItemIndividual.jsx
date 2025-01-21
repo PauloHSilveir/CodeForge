@@ -5,7 +5,7 @@ import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
 import { useNavigate } from 'react-router-dom';
 
-function ItemIndividual({ id, nome, descricao, quantidade, valor, imagem }) {
+function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, imagem, onDelete }) {
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
     const [showSucess, setShowSucess] = useState(false);
@@ -21,8 +21,8 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, imagem }) {
                     id,
                     nome,
                     descricao,
-                    quantidade,
                     valor,
+                    categoria,
                     imagem
                 }
             }
@@ -31,23 +31,27 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, imagem }) {
 
     const handleDelete = async () => {
         try {
-            // Implementar a chamada real para a API de exclusão
-            // await api.delete('/user');
+            const response = await fetch(`http://localhost:1313/componente/delete/${id}`, {
+                method: 'DELETE',
+            });
 
-            setShowSucess(true);
-
-            setTimeout(() => {
-                setShowSucess(false);
-            }, 2000);
+            if (response.ok) {
+                setShowSucess(true);
+                setTimeout(() => {
+                    setShowSucess(false);
+                    onDelete(); // Recarrega a lista após deletar
+                }, 2000);
+            } else {
+                throw new Error('Erro ao deletar');
+            }
         } catch (error) {
             console.error("Erro ao excluir item:", error);
-
             setShowFail(true);
-
             setTimeout(() => {
                 setShowFail(false);
             }, 3000);
         }
+        closeModal();
     };
 
     return (
@@ -75,8 +79,8 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, imagem }) {
 
             <div className={stylesGI.descriptionItemTop}>
                 <div className={stylesGI.idTop}>
-                    <span className={stylesGI.mediumTextDark}>Quantidade Disponível: </span>
-                    <span className={stylesGI.mediumTextLight}>{quantidade}</span>
+                    <span className={stylesGI.mediumTextDark}>Categoria: </span>
+                    <span className={stylesGI.mediumTextLight}>{categoria}</span>
                 </div>
             </div>
 

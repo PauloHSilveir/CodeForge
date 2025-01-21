@@ -16,9 +16,6 @@ class ComponenteService {
       if (!componenteData.preco) {
         throw new Error('O preço do componente é obrigatório');
       }
-      if (!componenteData.quantidade) {
-        throw new Error('A quantidade do componente é obrigatória');
-      }
       if (!componenteData.categoria) {
         throw new Error('A categoria do componente é obrigatória');
       }
@@ -39,9 +36,6 @@ class ComponenteService {
       // Validar preço e quantidade
       if (componenteData.preco <= 0) {
         throw new Error('O preço deve ser maior que zero');
-      }
-      if (componenteData.quantidade < 0) {
-        throw new Error('A quantidade não pode ser negativa');
       }
 
       // Criar o componente
@@ -81,9 +75,6 @@ class ComponenteService {
       // Validar preço e quantidade se estiverem sendo atualizados
       if (componenteData.preco && componenteData.preco <= 0) {
         throw new Error('O preço deve ser maior que zero');
-      }
-      if (componenteData.quantidade && componenteData.quantidade < 0) {
-        throw new Error('A quantidade não pode ser negativa');
       }
 
       await componente.update(componenteData);
