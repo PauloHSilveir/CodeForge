@@ -1,34 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PacoteForm from "../components/PacoteForm";
+import { useNavigate } from "react-router-dom";
+import { usePackage } from "../context/PackageContext";
 
 const CadastrarPacote4 = () => {
-    const foods = [
-        { id: 1, name: "MINI BRUCHETTAS", price: 3 },
-        { id: 2, name: "BOLINHAS DE QUEIJO", price: 2 },
-        { id: 3, name: "COXINHAS", price: 2.5 },
-        { id: 4, name: "MINI QUICHES", price: 3.5 },
-        { id: 5, name: "PASTÉIS", price: 3 },
-        { id: 6, name: "ESPETINHOS", price: 4 },
-        { id: 7, name: "EMPADAS", price: 3.5 },
-        { id: 8, name: "MINI PIZZAS", price: 4.5 },
-        { id: 9, name: "CHURRASCO", price: 5 },
-        { id: 10, name: "RISOTOS", price: 6 },
-        { id: 11, name: "FEIJOADA", price: 5.5 },
-        { id: 12, name: "STROGONOFF", price: 5 },
-        { id: 13, name: "FRICASSÉ", price: 4 },
-        { id: 14, name: "MOQUECA", price: 7 },
-        { id: 15, name: "SUSHI E SASHIMI", price: 10 },
-        { id: 16, name: "TACOS OU BURRITOS", price: 4 },
-        { id: 17, name: "HAMBÚRGUERES", price: 5 },
-        { id: 18, name: "SALADAS", price: 3 },
-        { id: 19, name: "ARROZ", price: 2 },
-        { id: 20, name: "BATATA FRITA", price: 2.5 },
-        { id: 21, name: "FAROFA", price: 2 },
-        { id: 22, name: "POLENTAS", price: 3 }
-    ];
+    const [foods, setFoods] = useState([]);
+    const { packageData, addComponents } = usePackage();
+    const navigate = useNavigate();
 
-    const handleSave = (selectedItems) => {
-        console.log("Comidas selecionadas para salvar:", selectedItems);
+    useEffect(() => {
+        const fetchFoods = async () => {
+            try {
+                const response = await fetch('http://localhost:1313/componente');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch foods');
+                }
+                const data = await response.json();
+                
+                const foodComponents = data
+                    .filter(item => item.categoria === 'Comidas')
+                    .map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.preco
+                    }));
+                
+                setFoods(foodComponents);
+            } catch (error) {
+                console.error('Error ao buscar comidas', error);
+                // Handle error (show message to user, etc.)
+            }
+        };
+
+        fetchFoods();
+    }, []);
+
+    const handleSave = async (selectedItems) => {
+        addComponents(selectedItems);
+        
+        try {
+            const response = await fetch('http://localhost:1313/pacote/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(packageData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Falha ao criar pacote');
+            }
+
+            navigate('/gerenciarpacotes');
+        } catch (error) {
+            console.error('Erro ao criar pacote', error);
+        }
     };
 
     return (

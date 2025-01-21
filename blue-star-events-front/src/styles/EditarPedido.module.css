@@ -1,0 +1,25 @@
+.butonsTop {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.remPac {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.input {
+    width: 3rem;
+    padding: 0.25rem;
+    border: 0.0625rem solid #d9d9d9;
+    border-radius: 0.25rem;
+    margin-left: 0.5rem;
+}
+
+.input:focus {
+    border: 0.0625rem solid #1383ED;
+    outline: none;
+    box-shadow: 0 0 0.0625rem #1383ED; 
+}

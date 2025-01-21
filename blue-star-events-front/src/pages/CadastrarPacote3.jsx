@@ -1,26 +1,42 @@
 import React from "react";
 import PacoteForm from "../components/PacoteForm";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { usePackage } from "../context/PackageContext";
 
 const CadastrarPacote3 = () => {
-    const items = [
-        { id: 1, name: "MESA", price: 50 },
-        { id: 2, name: "CADEIRA", price: 25 },
-        { id: 3, name: "TENDA", price: 500 },
-        { id: 4, name: "TALHERES", price: 2 },
-        { id: 5, name: "TOALHA DE MESA", price: 20 },
-        { id: 6, name: "ARRANJOS DECORATIVOS", price: 150 },
-        { id: 7, name: "ILUMINAÇÃO", price: 300 },
-        { id: 8, name: "SOM E MICROFONES", price: 400 },
-        { id: 9, name: "PISTA DE DANÇA", price: 600 },
-        { id: 10, name: "MÁQUINA DE FUMAÇA", price: 200 },
-        { id: 11, name: "VENTILADORES", price: 80 },
-        { id: 12, name: "PALCO", price: 800 },
-        { id: 13, name: "GERADOR DE ENERGIA", price: 1000 },
-        { id: 14, name: "CABINE DE FOTOS", price: 500 }
-    ];
+    const [items, setItems] = useState([]);
+    const { addComponents } = usePackage();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchItems = async () => {
+            try {
+                const response = await fetch('http://localhost:1313/componente');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch items');
+                }
+                const data = await response.json();
+                
+                const itemComponents = data.filter(item => item.categoria === 'Itens')
+                    .map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.preco
+                    }));
+                
+                setItems(itemComponents);
+            } catch (error) {
+                console.error('Erro ao buscar itens', error);
+            }
+        };
+
+        fetchItems();
+    }, []);
 
     const handleSave = (selectedItems) => {
-        console.log("Itens selecionados para salvar:", selectedItems);
+        addComponents(selectedItems);
+        navigate('/cadastrarpacotes4');
     };
 
     return (

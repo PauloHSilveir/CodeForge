@@ -2,12 +2,15 @@ import React from "react";
 import NavBar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import FormularioPacotes1 from "../components/FormularioPacotes1";
+import { usePackage } from "../context/PackageContext";
 
 function CadastrarPacote1() {
     const navigate = useNavigate();
+    const { updatePackageData } = usePackage();
 
-    const handleCreate = (data) => {
-        console.log("Dados do cadastro:", data);
+    const handleCreate = (formData) => {
+        console.log(formData);
+        updatePackageData(formData);
         navigate('/cadastrarpacotes2');
     };
 

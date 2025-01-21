@@ -11,9 +11,10 @@ const FormularioPacotes1 = ({ initialData = {}, onSubmit, mode, onBack }) => {
     const [formData, setFormData] = useState({
         nome: initialData.nome || "",
         descricao: initialData.descricao || "",
-        tamanho: initialData.tamanho || "",
-        valor: initialData.valor || "",
+        tipo: initialData.tipo || "",
+        disponibilidade: initialData.disponibilidade || "",
         imagem: initialData.imagem || null,
+        tamanho: initialData.tamanho || "",
     });
 
     const handleChange = (e) => {
@@ -73,6 +74,21 @@ const FormularioPacotes1 = ({ initialData = {}, onSubmit, mode, onBack }) => {
                         />
                     </div>
 
+                    <label htmlFor="tipo" className={stylesFormBaseA.label}>
+                        Tipo
+                    </label>
+                    <div className={stylesFormBaseA.inputs}>
+                        <input
+                            id="tipo"
+                            name="tipo"
+                            value={formData.tipo}
+                            onChange={handleChange}
+                            className={stylesFormBaseA.inputField}
+                            placeholder="Digite o tipo do pacote"
+                            required
+                        />
+                    </div>
+
                     <label htmlFor="tamanho" className={stylesFormBaseA.label}>
                         Tamanho
                     </label>
@@ -96,18 +112,18 @@ const FormularioPacotes1 = ({ initialData = {}, onSubmit, mode, onBack }) => {
                         </select>
                     </div>
 
-                    <label htmlFor="valor" className={stylesFormBaseA.label}>
-                        Valor
+                    <label htmlFor="disponibilidade" className={stylesFormBaseA.label}>
+                        Disponibilidade
                     </label>
                     <div className={stylesFormBaseA.inputs}>
                         <input
-                            id="valor"
-                            name="valor"
-                            value={formData.valor}
+                            id="disponibilidade"
+                            name="disponibilidade"
+                            value={formData.disponibilidade}
                             onChange={handleChange}
                             type="number"
                             className={stylesFormBaseA.inputField}
-                            placeholder="Digite o valor do pacote"
+                            placeholder="Digite a disponibilidade do pacote"
                             required
                         />
                     </div>

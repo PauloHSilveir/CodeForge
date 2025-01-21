@@ -34,6 +34,7 @@ function Login() {
             const data = await response.json();
 
             localStorage.setItem("authToken", data.token);
+            localStorage.setItem("isLoggedIn", true);
 
             if (response.status === 200) {
                 console.log('Logado com sucesso');

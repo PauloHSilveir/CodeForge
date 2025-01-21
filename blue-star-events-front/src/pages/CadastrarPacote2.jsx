@@ -1,25 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PacoteForm from "../components/PacoteForm";
+import { useNavigate } from "react-router-dom";
+import { usePackage } from "../context/PackageContext";
 
 const CadastrarPacote2 = () => {
-    const professionals = [
-        { id: 1, name: "CERIMONIALISTA", price: 4500 },
-        { id: 2, name: "DECORADOR", price: 3500 },
-        { id: 3, name: "CHEFE DE COZINHA", price: 5000 },
-        { id: 4, name: "GARÇOM", price: 1200 },
-        { id: 5, name: "BARTENDER", price: 1500 },
-        { id: 6, name: "DJ", price: 3000 },
-        { id: 7, name: "BANDA MUSICAL", price: 8000 },
-        { id: 8, name: "FOTÓGRAFO", price: 2500 },
-        { id: 9, name: "VIDEOMAKER", price: 3000 },
-        { id: 10, name: "SEGURANÇA", price: 1000 },
-        { id: 11, name: "RECEPCIONISTA", price: 800 },
-        { id: 12, name: "MOTORISTA", price: 900 },
-        { id: 13, name: "FAXINEIRO", price: 700 },
-    ];
+    const [professionals, setProfessionals] = useState([]);
+    const { addComponents } = usePackage();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchProfessionals = async () => {
+            try {
+                const response = await fetch('http://localhost:1313/componente');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch professionals');
+                }
+                const data = await response.json();
+                console.log(data.componente);
+                    const professionalComponents = data.componente
+                        .map(item => ({
+                            id: item.id,
+                            name: item.name,
+                            price: item.preco
+                        }));
+                    
+                    setProfessionals(professionalComponents);
+                
+            } catch (error) {
+                console.error('Erro ao buscar funcionários:', error);
+                setProfessionals([]); // Define um array vazio em caso de erro
+            }
+        };
+
+        fetchProfessionals();
+    }, []);
 
     const handleSave = (selectedItems) => {
-        console.log("Profissionais selecionados para salvar:", selectedItems);
+        addComponents(selectedItems);
+        navigate('/cadastrarpacotes3');
     };
 
     return (

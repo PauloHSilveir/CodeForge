@@ -32,7 +32,7 @@ function ConsultarPacotes() {
     const [precoMaxRange, setPrecoMaxRange] = useState(0); // For the range input
 
     const [tamanhosSelecionados, setTamanhosSelecionados] = useState([]);
-    const itensPorPagina = 15;
+    const itensPorPagina = 24;
 
     const tamanhosOrdenados = ["mini", "pequeno", "medio", "grande", "mega"];
     const [tamanhosDisponiveis, setTamanhosDisponiveis] = useState([]);
