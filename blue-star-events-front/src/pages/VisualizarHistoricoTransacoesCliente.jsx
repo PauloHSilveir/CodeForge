@@ -11,7 +11,7 @@ import ModalExcluir from "../components/ModalExcluir";
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
 import iconImage from "../assets/images/iconPerfil.png";
-import { RiShoppingCart2Line } from '@remixicon/react';
+import { RiShoppingCart2Line, RiMailFill } from '@remixicon/react';
 import packageImage from "../assets/images/Aniversario.png"
 
 function VisualizarHistoricoTransacoesCliente() {
@@ -73,7 +73,8 @@ function VisualizarHistoricoTransacoesCliente() {
             data: "15/01/2025",
             status: "Realizado",
             pagamento: "Cartão de Crédito",
-            valor: 11200,
+            valor: 11000,
+            frete: 200,
             pacotes: [
                 { nome: "Pacote Festa Infantil", quantidade: 1, image: packageImage, valor: 5000 },
                 { nome: "Pacote Decoração Temática", quantidade: 2, image: packageImage, valor: 3000 },
@@ -85,6 +86,7 @@ function VisualizarHistoricoTransacoesCliente() {
             status: "Realizado",
             pagamento: "Pix",
             valor: 3000,
+            frete: 0,
             pacotes: [{ nome: "Pacote Aniversário Grande", quantidade: 1, image: packageImage, valor: 3000 }],
         },
         {
@@ -92,7 +94,7 @@ function VisualizarHistoricoTransacoesCliente() {
             data: "10/11/2024",
             status: "Concluído",
             pagamento: "Pix",
-            valor: 3150,
+            valor: 3000,
             pacotes: [{ nome: "Pacote Aniversário Pequeno", quantidade: 1, image: packageImage, valor: 3000 }],
         },
         {
@@ -100,7 +102,8 @@ function VisualizarHistoricoTransacoesCliente() {
             data: "06/08/2024",
             status: "Concluído",
             pagamento: "Pix",
-            valor: 3120,
+            valor: 3000,
+            frete: 120,
             pacotes: [{ nome: "Pacote Casamento Básico", quantidade: 1, image: packageImage, valor: 3000 }],
         },
     ];
@@ -121,7 +124,9 @@ function VisualizarHistoricoTransacoesCliente() {
                             <span className={stylesPerfil.bigText}>
                                 Bem Vindo, Fulano Editor Master
                             </span>
+
                             <div className={stylesPerfil.mailPerfil}>
+                                <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
                                 <span className={stylesPerfil.mediumText}>
                                     fulano@gmail.com
                                 </span>
@@ -129,6 +134,7 @@ function VisualizarHistoricoTransacoesCliente() {
                         </div>
                     </div>
                 </div>
+
 
                 <div className={stylesPerfil.optionBox}>
                     <div className={stylesGIT.topTitle}>

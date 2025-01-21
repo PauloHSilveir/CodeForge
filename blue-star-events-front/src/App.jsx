@@ -38,6 +38,7 @@ import DetalhesPacote from './pages/DetalhesPacote';
 import Carrinho from './pages/Carrinho';
 import Pagamento from './pages/Pagamento';
 import ConfirmacaoPagamento from './pages/ConfirmacaoPagamento';
+import EditarPedido from './pages/EditarPedido';
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
         <Route path="/carrinho" element={<Carrinho />} />
         <Route path="/pagamento" element={<Pagamento />} />
         <Route path="/confirmacaopagamento" element={<ConfirmacaoPagamento />} />
+        <Route path="/editarpedido/:pedidoId" element={<EditarPedido />} />
       </Routes>
     </BrowserRouter>
   );

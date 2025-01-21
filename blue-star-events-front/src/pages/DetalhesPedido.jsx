@@ -10,7 +10,7 @@ import styles from "../styles/HistoricoTransacoesCliente.module.css";
 import stylesPI from "../styles/PacoteIndividual.module.css";
 import stylesGIT from "../styles/GerenciarItensTop.module.css";
 import iconImage from "../assets/images/iconPerfil.png";
-import { RiShoppingCart2Line } from '@remixicon/react';
+import { RiShoppingCart2Line, RiMailFill } from '@remixicon/react';
 
 function DetalhesPedido() {
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ function DetalhesPedido() {
             setTimeout(() => {
                 setShowSucess(false);
                 setModalOpen(false);
-                navigate("/historico-pedidos");
+                navigate("/historicotransacoes");
             }, 3000);
         } catch (error) {
             console.error("Erro ao excluir pedido:", error);
@@ -76,9 +76,6 @@ function DetalhesPedido() {
         return pacotes.reduce((total, pacote) => total + (pacote.valor * pacote.quantidade), 0);
     };
 
-    const calcularFrete = (valorTotal, subtotal) => {
-        return valorTotal - subtotal;
-    };
 
     if (!pedido) {
         return (
@@ -105,12 +102,14 @@ function DetalhesPedido() {
             <div className={stylesPerfil.container}>
                 <div className={stylesPerfil.PerfilBox}>
                     <div className={stylesPerfil.leftPerfil}>
-                        <img src={iconImage} alt="Imagem de ícone" />
+                        <img src={iconImage} alt="Imagem de icone" />
                         <div className={stylesPerfil.leftText}>
                             <span className={stylesPerfil.bigText}>
                                 Bem Vindo, Fulano Editor Master
                             </span>
+
                             <div className={stylesPerfil.mailPerfil}>
+                                <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
                                 <span className={stylesPerfil.mediumText}>
                                     fulano@gmail.com
                                 </span>
@@ -156,7 +155,7 @@ function DetalhesPedido() {
 
                                             <button
                                                 className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
-                                                onClick={() => handleNavigate('/detalhespedido')}
+                                                onClick={() => navigate(`/editarpedido/${pedido.id}`, { state: { pedido } })}
                                             >
                                                 EDITAR PEDIDO
                                             </button>
@@ -209,19 +208,19 @@ function DetalhesPedido() {
                                 </div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextLightNotMargin}>Frete e Manuseio:</span>
-                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularFrete(pedido.valor, calcularSubtotal(pedido.pacotes)).toFixed(2)}</span>
+                                    <span className={stylesDT.smallTextLightNotMargin}>R$ 0,00</span>
                                 </div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextLightNotMargin}>Total:</span>
-                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {pedido.valor.toFixed(2)}</span>
+                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}</span>
                                 </div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextDark}>Total Geral:</span>
-                                    <span className={stylesDT.smallTextDark}>R$ {pedido.valor.toFixed(2)}</span>
+                                    <span className={stylesDT.smallTextDark}>R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         {/*Depois ajeitar o endereço*/}
                         <div className={stylesDT.transactionDetails}>
                             <span className={stylesDT.smallTextDark}>Endereço: </span><br />
