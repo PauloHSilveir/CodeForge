@@ -104,11 +104,11 @@ const FormularioPacotes1 = ({ initialData = {}, onSubmit, mode, onBack }) => {
                             <option value="" disabled>
                                 Selecione o tamanho
                             </option>
-                            <option value="mini">Mini (até 30 pessoas)</option>
-                            <option value="pequeno">Pequeno (31 a 100 pessoas)</option>
-                            <option value="medio">Médio (101 a 300 pessoas)</option>
-                            <option value="grande">Grande (301 a 1000 pessoas)</option>
-                            <option value="mega">Mega (mais de 1000 pessoas)</option>
+                            <option value="Mini">Mini (até 30 pessoas)</option>
+                            <option value="Pequeno">Pequeno (31 a 100 pessoas)</option>
+                            <option value="Médio">Médio (101 a 300 pessoas)</option>
+                            <option value="Grande">Grande (301 a 1000 pessoas)</option>
+                            <option value="Mega">Mega (mais de 1000 pessoas)</option>
                         </select>
                     </div>
 

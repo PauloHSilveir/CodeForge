@@ -17,14 +17,16 @@ const CadastrarPacote3 = () => {
                     throw new Error('Failed to fetch items');
                 }
                 const data = await response.json();
-                
-                const itemComponents = data.filter(item => item.categoria === 'Itens')
+
+                const itemComponents = data.componente
+                    .filter(item => item.categoria === 'Itens')
                     .map(item => ({
                         id: item.id,
                         name: item.name,
-                        price: item.preco
+                        price: item.preco,
+                        quantity: 0
                     }));
-                
+
                 setItems(itemComponents);
             } catch (error) {
                 console.error('Erro ao buscar itens', error);

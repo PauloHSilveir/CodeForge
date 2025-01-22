@@ -16,16 +16,18 @@ const CadastrarPacote2 = () => {
                     throw new Error('Failed to fetch professionals');
                 }
                 const data = await response.json();
-                console.log(data.componente);
-                    const professionalComponents = data.componente
-                        .map(item => ({
-                            id: item.id,
-                            name: item.name,
-                            price: item.preco
-                        }));
-                    
-                    setProfessionals(professionalComponents);
                 
+                const professionalComponents = data.componente
+                    .filter(item => item.categoria === 'Funcionarios')
+                    .map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.preco,
+                        quantity: 0
+                    }));
+
+                setProfessionals(professionalComponents);
+
             } catch (error) {
                 console.error('Erro ao buscar funcionários:', error);
                 setProfessionals([]); // Define um array vazio em caso de erro
