@@ -10,12 +10,17 @@ import {
     RiArrowLeftCircleLine
 } from '@remixicon/react';
 import { useState } from "react";
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
 function Login() {
     const navigate = useNavigate();
     const [userType, setUserType] = useState("cliente");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+
+    const [showSucessLogin, setShowSucessLogin] = useState(false);
+    const [showShortPassword, setShowShortPassword] = useState(false);
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -24,14 +29,31 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (senha.length < 8) {
+            setShowShortPassword(true);
+
+            setTimeout(() => {
+                setShowShortPassword(false);
+            }, 1500);
+
+            return;
+        }
+
         if (userType === "cliente") {
             console.log("Buscando na tabela cliente...");
         } else {
             console.log("Buscando na tabela admin...");
         }
 
-        handleNavigate('/');
+        setShowSucessLogin(true);
+
+        setTimeout(() => {
+            setShowSucessLogin(false);
+            handleNavigate('/');
+        }, 1500);
+
     };
+
 
     return (
         <div>
@@ -132,6 +154,17 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <ModalMensagemSucesso
+                title="FAZER LOGIN"
+                text="Login realizado com sucesso! Redirecionando..."
+                isVisible={showSucessLogin}
+            />
+
+            <ModalMensagemFalha
+                title="SENHA INVÁLIDA"
+                text="A senha deve conter no mínimo 8 caracteres!"
+                isVisible={showShortPassword}
+            />
         </div>
     );
 }
