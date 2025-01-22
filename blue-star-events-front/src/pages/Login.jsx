@@ -10,6 +10,8 @@ import {
     RiLockPasswordLine,
     RiArrowLeftCircleLine
 } from '@remixicon/react';
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -20,6 +22,16 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (senha.length < 8) {
+            setShowShortPassword(true);
+
+            setTimeout(() => {
+                setShowShortPassword(false);
+            }, 1500);
+
+            return;
+        }
 
         try {
             const response = await fetch('http://localhost:1313/user/login', {
@@ -37,13 +49,18 @@ function Login() {
             localStorage.setItem("isLoggedIn", true);
 
             if (response.status === 200) {
-                console.log('Logado com sucesso');
+                setShowSucessLogin(true);
 
-                if (userType) {
-                    navigate('/gerenciarsistema');
-                } else {
-                    navigate('/'); 
-                }
+                setTimeout(() => {
+                    setShowSucessLogin(false);
+                    if (userType) {
+                        navigate('/gerenciarsistema');
+                    } else {
+                        navigate('/');
+                    }
+                }, 1500);
+
+                
             } else if (response.status === 401) {
                 console.log('Não autorizado');
                 setError({ message: data.message });
@@ -53,6 +70,11 @@ function Login() {
             console.error('Erro ao tentar logar:', error);
         }
     };
+
+    const [showSucessLogin, setShowSucessLogin] = useState(false);
+    const [showShortPassword, setShowShortPassword] = useState(false);
+    
+
 
     return (
         <div>
@@ -154,6 +176,17 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <ModalMensagemSucesso
+                title="FAZER LOGIN"
+                text="Login realizado com sucesso! Redirecionando..."
+                isVisible={showSucessLogin}
+            />
+
+            <ModalMensagemFalha
+                title="SENHA INVÁLIDA"
+                text="A senha deve conter no mínimo 8 caracteres!"
+                isVisible={showShortPassword}
+            />
         </div>
     );
 }

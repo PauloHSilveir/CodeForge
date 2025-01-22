@@ -36,7 +36,7 @@ function GerenciarSistema() {
                                 onClick={() => handleNavigate('/gerenciarpacotes')}
                             >
                                 <RiBox3Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
-                                <div className={`${stylesPerfil.textButtonsOptions} ${stylesGS.textButtonsOptions}`}>
+                                <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>
                                         GERENCIAR PACOTES
                                     </span>
@@ -52,7 +52,7 @@ function GerenciarSistema() {
                                 onClick={() => handleNavigate('/gerenciaritens')}
                             >
                                 <RiSurroundSoundLine className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
-                                <div className={`${stylesPerfil.textButtonsOptions} ${stylesGS.textButtonsOptions}`}>
+                                <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>
                                         GERENCIAR ITENS
                                     </span>
@@ -68,7 +68,7 @@ function GerenciarSistema() {
                                 onClick={() => handleNavigate('/gerenciarfuncionarios')}
                             >
                                 <RiUser3Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
-                                <div className={`${stylesPerfil.textButtonsOptions} ${stylesGS.textButtonsOptions}`}>
+                                <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>
                                         GERENCIAR FUNCIONÁRIOS
                                     </span>
@@ -84,7 +84,7 @@ function GerenciarSistema() {
                                 onClick={() => handleNavigate('/gerenciartransacoes')}
                             >
                                 <RiMoneyDollarCircleLine className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
-                                <div className={`${stylesPerfil.textButtonsOptions} ${stylesGS.textButtonsOptions}`}>
+                                <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>
                                         GERENCIAR TRANSAÇÕES
                                     </span>
