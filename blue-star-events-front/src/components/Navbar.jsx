@@ -105,13 +105,13 @@ const ManageSystemDropdown = () => (
         </Link>
       </li>
       <li>
-        <Link to="/gerenciaritens" className={stylesNavbar.dropdown__link}>
-          <RiSofaLine /> Itens
+        <Link to="/gerenciar-componentes" className={stylesNavbar.dropdown__link}>
+          <RiSofaLine /> Componentes
         </Link>
       </li>
       <li>
         <Link to="/gerenciarfuncionarios" className={stylesNavbar.dropdown__link}>
-          <RiUserLine /> Funcionários
+          <RiUserLine /> Administradores
         </Link>
       </li>
       <li>

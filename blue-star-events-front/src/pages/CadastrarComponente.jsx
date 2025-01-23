@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import NavBar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import FormularioItens from "../components/FomularioItens";
+import FormularioComponentes from "../components/FormularioComponentes";
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
-function CadastrarItem() {
+function CadastrarComponente() {
     const navigate = useNavigate();
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
@@ -30,8 +30,8 @@ function CadastrarItem() {
                 setShowSuccess(true);
                 setTimeout(() => {
                     setShowSuccess(false);
-                    navigate('/gerenciaritens');
-                }, 3000);
+                    navigate('/gerenciar-componentes');
+                }, 1500);
             } else {
                 throw new Error('Erro ao cadastrar');
             }
@@ -39,7 +39,7 @@ function CadastrarItem() {
             setShowError(true);
             setTimeout(() => {
                 setShowError(false);
-            }, 3000);
+            }, 1500);
         }
     };
 
@@ -47,22 +47,22 @@ function CadastrarItem() {
         <div>
             <NavBar />
             <ModalMensagemSucesso
-                title="CADASTRAR ITEM"
+                title="CADASTRAR COMPONENTE"
                 text="Cadastrado com sucesso! Redirecionando..."
                 isVisible={showSuccess}
             />
             <ModalMensagemFalha
-                title="CADASTRAR ITEM"
-                text="Erro ao cadastrar item! Verifique os dados e tente novamente."
+                title="CADASTRAR COMPONENTE"
+                text="Erro ao cadastrar componente! Verifique os dados e tente novamente."
                 isVisible={showError}
             />
-            <FormularioItens
+            <FormularioComponentes
                 onSubmit={handleCreate}
                 mode="create"
-                onBack={() => navigate('/gerenciarItens')}
+                onBack={() => navigate('/gerenciar-componentes')}
             />
         </div>
     );
 }
 
-export default CadastrarItem
+export default CadastrarComponente

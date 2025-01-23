@@ -21,15 +21,15 @@ const BASE_URL = 'http://localhost:1313';
 function ConsultarPacotes() {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
-    const [pacotes, setPacotes] = useState([]); // Store original pacotes
+    const [pacotes, setPacotes] = useState([]);
     const [itensFiltrados, setItensFiltrados] = useState([]);
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [ordem, setOrdem] = useState("padrao");
 
     const [precoMin, setPrecoMin] = useState(0);
     const [precoMax, setPrecoMax] = useState(0);
-    const [precoMinRange, setPrecoMinRange] = useState(0); // For the range input
-    const [precoMaxRange, setPrecoMaxRange] = useState(0); // For the range input
+    const [precoMinRange, setPrecoMinRange] = useState(0);
+    const [precoMaxRange, setPrecoMaxRange] = useState(0);
 
     const [tamanhosSelecionados, setTamanhosSelecionados] = useState([]);
     const itensPorPagina = 24;
@@ -37,7 +37,6 @@ function ConsultarPacotes() {
     const tamanhosOrdenados = ["mini", "pequeno", "medio", "grande", "mega"];
     const [tamanhosDisponiveis, setTamanhosDisponiveis] = useState([]);
 
-    // Fetch initial data
     useEffect(() => {
         const fetchPacotes = async () => {
             try {
@@ -47,7 +46,6 @@ function ConsultarPacotes() {
                 }
                 const data = await response.json();
 
-                // Transform API data to match our format
                 const pacotesFormatados = data.map(pacote => ({
                     id: pacote.id,
                     nome: pacote.name,
@@ -61,7 +59,6 @@ function ConsultarPacotes() {
                 setPacotes(pacotesFormatados);
                 setItensFiltrados(pacotesFormatados);
 
-                // Set price ranges
                 const precos = pacotesFormatados.map(p => p.preco);
                 const minPreco = Math.min(...precos);
                 const maxPreco = Math.max(...precos);
@@ -70,14 +67,12 @@ function ConsultarPacotes() {
                 setPrecoMinRange(minPreco);
                 setPrecoMaxRange(maxPreco);
 
-                // Set available sizes
                 const tamanhosDisp = tamanhosOrdenados.filter(tamanho =>
                     pacotesFormatados.some(p => p.tamanho === tamanho)
                 );
                 setTamanhosDisponiveis(tamanhosDisp);
             } catch (error) {
                 console.error("Erro ao carregar pacotes:", error);
-                // Set empty states in case of error
                 setPacotes([]);
                 setItensFiltrados([]);
             }

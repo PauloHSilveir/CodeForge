@@ -49,16 +49,16 @@ function GerenciarSistema() {
 
                             <button
                                 className={`${stylesPerfil.buttonsOptionsBox} ${stylesGS.buttonsOptionsBox}`}
-                                onClick={() => handleNavigate('/gerenciaritens')}
+                                onClick={() => handleNavigate('/gerenciar-componentes')}
                             >
                                 <RiSurroundSoundLine className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>
-                                        GERENCIAR ITENS
+                                        GERENCIAR COMPONENTES
                                     </span>
 
                                     <span className={stylesPerfil.smallText}>
-                                        <br />Adicione, edite, remova e visualize os itens disponíveis no sistema.
+                                        <br />Adicione, edite, remova e visualize os componentes disponíveis no sistema.
                                     </span>
                                 </div>
                             </button>
@@ -70,11 +70,11 @@ function GerenciarSistema() {
                                 <RiUser3Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>
-                                        GERENCIAR FUNCIONÁRIOS
+                                        GERENCIAR ADMINISTRADORES
                                     </span>
 
                                     <span className={stylesPerfil.smallText}>
-                                        <br />Cadastre novos funcionários, atualize informações ou gerencie permissões.
+                                        <br />Cadastre novos administradores, atualize informações ou gerencie permissões.
                                     </span>
                                 </div>
                             </button>

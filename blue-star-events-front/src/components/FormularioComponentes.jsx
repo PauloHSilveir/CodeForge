@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import stylesFormBaseA from '../styles/FormBaseA.module.css';
 import stylesUpload from '../styles/Upload.module.css';
 import stylesFP1 from '../styles/FormularioPacotes1.module.css';
+import stylesLogin from '../styles/Login.module.css';
 import {
     RiArrowLeftCircleLine,
     RiUpload2Line
 } from '@remixicon/react';
 
-const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
+const FormularioComponentes = ({ initialData = {}, onSubmit, mode, onBack }) => {
+    const [categoryType, setCategoryType] = useState(initialData.categoria || "");
+
     const [formData, setFormData] = useState({
         nome: initialData.nome || "",
         descricao: initialData.descricao || "",
@@ -16,6 +19,10 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
         imagem: initialData.imagem || null,
     });
 
+    useEffect(() => {
+        setCategoryType(formData.categoria);
+    }, [formData.categoria]);
+
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
         if (type === "file") {
@@ -23,6 +30,11 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
         } else {
             setFormData({ ...formData, [name]: value });
         }
+    };
+
+    const handleCategoryChange = (category) => {
+        setCategoryType(category);
+        setFormData({ ...formData, categoria: category });
     };
 
     const handleSubmit = (e) => {
@@ -38,7 +50,7 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
                     onClick={onBack}
                 />
                 <div className={stylesFormBaseA.bigText}>
-                    {mode === "edit" ? "EDITANDO ITEM" : "CRIANDO NOVO ITEM"}
+                    {mode === "edit" ? "EDITANDO COMPONENTE" : "CRIANDO NOVO COMPONENTE"}
                 </div>
             </div>
             <div className={stylesFormBaseA.formContainer}>
@@ -53,7 +65,7 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
                             value={formData.nome}
                             onChange={handleChange}
                             className={stylesFormBaseA.inputField}
-                            placeholder="Digite o nome do item"
+                            placeholder="Digite o nome do componente"
                             required
                         />
                     </div>
@@ -73,7 +85,7 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
                         />
                     </div>
                     <label htmlFor="valor" className={stylesFormBaseA.label}>
-                        Valor
+                        Preço
                     </label>
                     <div className={stylesFormBaseA.inputs}>
                         <input
@@ -83,24 +95,47 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
                             onChange={handleChange}
                             type="number"
                             className={stylesFormBaseA.inputField}
-                            placeholder="Digite o valor do pacote"
+                            placeholder="Digite o preço do componente"
                             required
                         />
                     </div>
-                    <label htmlFor="categoria" className={stylesFormBaseA.label}>
-                        Categoria
-                    </label>
-                    <div className={stylesFormBaseA.inputs}>
-                        <input
-                            id="categoria"
-                            name="categoria"
-                            value={formData.categoria}
-                            onChange={handleChange}
-                            className={stylesFormBaseA.inputField}
-                            placeholder="Digite a categoria do item"
-                            required
-                        />
+
+                    <div className={stylesLogin.radioGroup}>
+                        <label className={`${stylesFormBaseA.label} ${stylesLogin.radioLabel}`}>
+                            <input
+                                type="radio"
+                                name="categoryType"
+                                value="Item"
+                                checked={categoryType === "Item"}
+                                onChange={() => handleCategoryChange("Item")}
+                                className={stylesLogin.radioInput}
+                            />
+                            Item
+                        </label>
+                        <label className={`${stylesFormBaseA.label} ${stylesLogin.radioLabel}`}>
+                            <input
+                                type="radio"
+                                name="categoryType"
+                                value="Funcionário"
+                                checked={categoryType === "Funcionário"}
+                                onChange={() => handleCategoryChange("Funcionário")}
+                                className={stylesLogin.radioInput}
+                            />
+                            Funcionário
+                        </label>
+                        <label className={`${stylesFormBaseA.label} ${stylesLogin.radioLabel}`}>
+                            <input
+                                type="radio"
+                                name="categoryType"
+                                value="Comida"
+                                checked={categoryType === "Comida"}
+                                onChange={() => handleCategoryChange("Comida")}
+                                className={stylesLogin.radioInput}
+                            />
+                            Comida
+                        </label>
                     </div>
+
                     <label htmlFor="imagem" className={stylesFormBaseA.label}>
                         Imagem
                     </label>
@@ -122,7 +157,7 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
                         </div>
                     </div>
                     <button type="submit" className={stylesFormBaseA.buttonBase}>
-                        {mode === "edit" ? "EDITAR ITEM" : "CRIAR ITEM"}
+                        {mode === "edit" ? "EDITAR COMPONENTE" : "CRIAR COMPONENTE"}
                     </button>
                 </form>
             </div>
@@ -130,4 +165,4 @@ const FormularioItens = ({ initialData = {}, onSubmit, mode, onBack }) => {
     );
 };
 
-export default FormularioItens;
+export default FormularioComponentes;
