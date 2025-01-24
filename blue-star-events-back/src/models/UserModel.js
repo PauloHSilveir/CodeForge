@@ -26,7 +26,7 @@ class User extends Model {
                     },
                 },
             },
-            phone: {  // Mantido como phone para consistência
+            phone: { 
                 type: DataTypes.STRING(15),
                 allowNull: false,
                 validate: {
@@ -145,7 +145,7 @@ class User extends Model {
     static associate(models) {
         this.hasOne(models.Admin, { foreignKey: 'usuario_id', as: 'admin' });
         this.hasOne(models.Carrinho, { foreignKey: 'usuario_id', as: 'carrinho' });
-        //this.hasMany(models.Transacoes, { foreignKey: 'user_id', as: 'transacoes' });
+        this.hasMany(models.Transacao, { foreignKey: 'usuario_id', as: 'transacoes' });
     }
 }
 

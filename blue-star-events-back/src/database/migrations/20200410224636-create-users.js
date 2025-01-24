@@ -322,6 +322,39 @@ module.exports = {
       },
     });
 
+    await queryInterface.createTable('pagamentos', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      data: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      metodo_pagamento: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      valor: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+
     await queryInterface.createTable('transacoes', {
       id: {
         type: Sequelize.INTEGER,
@@ -329,21 +362,21 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      pacote_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'pacotes',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       usuario_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      pagamento_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'pagamentos',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -371,7 +404,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable('pagamentos', {
+    await queryInterface.createTable('transacao_pacote', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -380,7 +413,7 @@ module.exports = {
       },
       transacao_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'transacoes',
           key: 'id',
@@ -388,20 +421,19 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      data: {
-        type: Sequelize.DATE,
-        allowNull: false,
+      pacote_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'pacotes',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
-      metodo_pagamento: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      valor: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-      },
-      status: {
-        type: Sequelize.STRING,
+      
+      quantidade_pacote: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       created_at: {
@@ -675,44 +707,9 @@ module.exports = {
       },
     ]);
 
-    await queryInterface.bulkInsert('transacoes', [
-      {
-        id: 1,
-        pacote_id: 1,
-        usuario_id: 1,
-        data: new Date(),
-        valor: 150.00,
-        status: 'completo',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: 2,
-        pacote_id: 2,
-        usuario_id: 2,
-        data: new Date(),
-        valor: 200.00,
-        status: 'pendente',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: 3,
-        pacote_id: 3,
-        usuario_id: 3,
-        data: new Date(),
-        valor: 300.00,
-        status: 'falha',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ]);
-
-    // Inserir dados na tabela "pagamentos"
     await queryInterface.bulkInsert('pagamentos', [
       {
         id: 1,
-        transacao_id: 1,
         data: new Date(),
         metodo_pagamento: 'cartao_credito',
         valor: 150.00,
@@ -722,7 +719,6 @@ module.exports = {
       },
       {
         id: 2,
-        transacao_id: 2,
         data: new Date(),
         metodo_pagamento: 'cartao_credito',
         valor: 200.00,
@@ -732,11 +728,76 @@ module.exports = {
       },
       {
         id: 3,
-        transacao_id: 3,
         data: new Date(),
         metodo_pagamento: 'pix',
         valor: 300.00,
         status: 'falhou',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 4,
+        data: new Date(),
+        metodo_pagamento: 'pix',
+        valor: 300.00,
+        status: 'pago',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    await queryInterface.bulkInsert('transacoes', [
+      {
+        id: 1,
+        usuario_id: 1,
+        pagamento_id: 1,
+        data: new Date(),
+        valor: 150.00,
+        status: 'completo',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 2,
+        usuario_id: 2,
+        pagamento_id: 2,
+        data: new Date(),
+        valor: 200.00,
+        status: 'pendente',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 3,
+        usuario_id: 3,
+        pagamento_id: 3,
+        data: new Date(),
+        valor: 300.00,
+        status: 'falha',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+
+    await queryInterface.bulkInsert('transacao_pacote', [
+      {
+        transacao_id: 1,
+        pacote_id: 1,
+        quantidade_pacote: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        transacao_id: 2,
+        pacote_id: 2,
+        quantidade_pacote: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        transacao_id: 3,
+        pacote_id: 3,
+        quantidade_pacote: 3,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -773,12 +834,13 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('admin');
-    await queryInterface.dropTable('pagamentos');
+    await queryInterface.dropTable('transacao_pacote');
     await queryInterface.dropTable('transacoes');
     await queryInterface.dropTable('carrinho');
     await queryInterface.dropTable('pacote_componentes');
     await queryInterface.dropTable('componentes');
     await queryInterface.dropTable('eventos');
+    await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('pacotes');
     await queryInterface.dropTable('users');
 

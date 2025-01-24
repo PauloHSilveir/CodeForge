@@ -82,6 +82,7 @@ class Pacote extends Model {
             otherKey: 'componente_id',
             as: 'componentes'
         });
+        this.hasMany(models.TransacaoPacote, { foreignKey: 'pacote_id', as: 'transacao_pacote' });
     }
 }
 

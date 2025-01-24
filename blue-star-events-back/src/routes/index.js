@@ -8,6 +8,7 @@ const ComponenteRouter = require('./ComponenteRoute');
 const pacoteRouter = require('./pacoteRoute');
 const AdminRouter = require('./AdminRoute');
 const CarrinhoRouter = require('./CarrinhoRoute');
+const TransacaoRouter = require('./TransacaoRoute');
 
 //const authMiddleware = require('../middlewares/auth');
 
@@ -20,5 +21,6 @@ app.use('/componente', ComponenteRouter);
 app.use('/pacote', pacoteRouter);
 app.use('/admin', AdminRouter);
 app.use('/carrinho', CarrinhoRouter);
+app.use('/transacao', TransacaoRouter);
 
 module.exports = app;
