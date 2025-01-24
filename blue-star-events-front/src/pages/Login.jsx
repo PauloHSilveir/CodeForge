@@ -16,20 +16,29 @@ import ModalMensagemFalha from "../components/ModalMensagemFalha";
 function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
     const [userType, setUserType] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [showSucessLogin, setShowSucessLogin] = useState(false);
+
+    const navigate = useNavigate();
+
+    const showModalFail = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModal(true);
+
+        setTimeout(() => {
+            setShowModal(false);
+        }, 2000);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (senha.length < 8) {
-            setShowShortPassword(true);
-
-            setTimeout(() => {
-                setShowShortPassword(false);
-            }, 1500);
-
+            showModalFail('SENHA INVÁLIDA', 'A senha deve conter no mínimo 8 caracteres!');
             return;
         }
 
@@ -46,7 +55,6 @@ function Login() {
             const data = await response.json();
 
             if (response.status === 200) {
-
                 localStorage.setItem("authToken", data.token);
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem("userType", userType ? "admin" : "client");
@@ -61,18 +69,14 @@ function Login() {
                         navigate('/');
                     }
                 }, 1500);
-            } else if (response.status === 401) {
-                console.log('Não autorizado');
-                setError({ message: data.message });
+            } else {
+                showModalFail('ERRO DE LOGIN', data.message || 'Erro ao tentar fazer login. Verifique suas credenciais.');
             }
         } catch (error) {
-            setError({ message: error.message });
             console.error('Erro ao tentar logar:', error);
+            showModalFail('ERRO DE CONEXÃO', 'Não foi possível conectar ao servidor. Tente novamente mais tarde.');
         }
     };
-
-    const [showSucessLogin, setShowSucessLogin] = useState(false);
-    const [showShortPassword, setShowShortPassword] = useState(false);
 
     return (
         <div>
@@ -88,7 +92,6 @@ function Login() {
                             ACESSE SUA CONTA
                         </div>
                     </div>
-                    {error && <div className="error">{error.message}</div>}
                     <div className={stylesFormBaseA.formContainer}>
                         <form
                             onSubmit={handleSubmit}
@@ -174,6 +177,7 @@ function Login() {
                     </div>
                 </div>
             </div>
+            
             <ModalMensagemSucesso
                 title="FAZER LOGIN"
                 text="Login realizado com sucesso! Redirecionando..."
@@ -181,9 +185,9 @@ function Login() {
             />
 
             <ModalMensagemFalha
-                title="SENHA INVÁLIDA"
-                text="A senha deve conter no mínimo 8 caracteres!"
-                isVisible={showShortPassword}
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModal}
             />
         </div>
     );
