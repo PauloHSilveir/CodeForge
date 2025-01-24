@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './utils/ProtectedRoute';
 
 import Home from './pages/Home'
 import Login from './pages/Login';
@@ -51,41 +51,44 @@ function App() {
           <Route path='/criarnovasenha' element={<CriarNovaSenha />} />
           <Route path='/cadastrarusuario' element={<CadastrarUsuario />} />
           <Route path='/cadastrarendereco' element={<CadastrarEndereco />} />
-          <Route path='contatenos' element={<ContateNos />} />
+          <Route path='/contatenos' element={<ContateNos />} />
+          <Route path='/consultarpacotes' element={<ConsultarPacotes />} />
+          <Route path="/detalhespacote" element={<DetalhesPacote />} />
 
           {/*Cliente */}
-          <Route path='/perfil' element={<Perfil />} />
-          
-          <Route path='/editardados' element={<EditarDados />} />
-          <Route path='consultarpacotes' element={<ConsultarPacotes />} />
-          <Route path='historicotransacoes' element={<VisualizarHistoricoTransacoesCliente />} />
-          <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} />
-          <Route path="/detalhespacote" element={<DetalhesPacote />} />
-          <Route path="/carrinho" element={<Carrinho />} />
-          <Route path="/pagamento" element={<Pagamento />} />
-          <Route path="/confirmacaopagamento" element={<ConfirmacaoPagamento />} />
-          <Route path="/editarpedido/:pedidoId" element={<EditarPedido />} />
+          <Route element={<ProtectedRoute allowedRoles={[false]} />}>
+            <Route path='/perfil' element={<Perfil />} />
+            <Route path='/editardados' element={<EditarDados />} />
+            <Route path='historicotransacoes' element={<VisualizarHistoricoTransacoesCliente />} />
+            <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} />
+            <Route path="/carrinho" element={<Carrinho />} />
+            <Route path="/pagamento" element={<Pagamento />} />
+            <Route path="/confirmacaopagamento" element={<ConfirmacaoPagamento />} />
+            <Route path="/editarpedido/:pedidoId" element={<EditarPedido />} />
+          </Route>
 
           {/*Admin */}
-          <Route path='/gerenciarsistema' element={<GerenciarSistema />} />
-          <Route path='/gerenciarpacotes' element={<GerenciarPacotes />} />
-          <Route path='/cadastrarpacotes1' element={<CadastrarPacote1 />} />
-          <Route path='/cadastrarpacotes2' element={<CadastrarPacote2 />} />
-          <Route path='/cadastrarpacotes3' element={<CadastrarPacote3 />} />
-          <Route path='/cadastrarpacotes4' element={<CadastrarPacote4 />} />
-          <Route path='editarpacote1' element={<EditarPacotes1 />} />
-          <Route path='editarpacote2' element={<EditarPacotes2 />} />
-          <Route path='editarpacote3' element={<EditarPacotes3 />} />
-          <Route path='editarpacote4' element={<EditarPacotes4 />} />
-          <Route path='/gerenciar-componentes' element={<GerenciarComponentes />} />
-          <Route path='cadastrar-componentes' element={<CadastrarComponente />} />
-          <Route path='editar-componente' element={<EditarComponente />} />
-          <Route path='/gerenciarfuncionarios' element={<GerenciarFuncionarios />} />
-          <Route path='cadastrarfuncionario' element={<CadastrarFuncionario />} />
-          <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />} />
-          <Route path='editarfuncionario' element={<EditarFuncionario />} />
-          <Route path='/gerenciartransacoes' element={<VisualizarHistoricoTransacoesADM />} />
-          <Route path='detalhestransacao' element={<DetalhesTransacao />} />
+          <Route element={<ProtectedRoute allowedRoles={[true]} />}>
+            <Route path='/gerenciarsistema' element={<GerenciarSistema />} />
+            <Route path='/gerenciarpacotes' element={<GerenciarPacotes />} />
+            <Route path='/cadastrarpacotes1' element={<CadastrarPacote1 />} />
+            <Route path='/cadastrarpacotes2' element={<CadastrarPacote2 />} />
+            <Route path='/cadastrarpacotes3' element={<CadastrarPacote3 />} />
+            <Route path='/cadastrarpacotes4' element={<CadastrarPacote4 />} />
+            <Route path='editarpacote1' element={<EditarPacotes1 />} />
+            <Route path='editarpacote2' element={<EditarPacotes2 />} />
+            <Route path='editarpacote3' element={<EditarPacotes3 />} />
+            <Route path='editarpacote4' element={<EditarPacotes4 />} />
+            <Route path='/gerenciar-componentes' element={<GerenciarComponentes />} />
+            <Route path='cadastrar-componentes' element={<CadastrarComponente />} />
+            <Route path='editar-componente' element={<EditarComponente />} />
+            <Route path='/gerenciarfuncionarios' element={<GerenciarFuncionarios />} />
+            <Route path='cadastrarfuncionario' element={<CadastrarFuncionario />} />
+            <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />} />
+            <Route path='editarfuncionario' element={<EditarFuncionario />} />
+            <Route path='/gerenciartransacoes' element={<VisualizarHistoricoTransacoesADM />} />
+            <Route path='detalhestransacao' element={<DetalhesTransacao />} />
+          </Route>
         </Routes>
       </PackageProvider>
     </BrowserRouter>

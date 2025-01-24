@@ -18,7 +18,7 @@ function Login() {
     const [senha, setSenha] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const [userType, setUserType] = useState("false");
+    const [userType, setUserType] = useState(false); // Default para cliente
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,17 +40,20 @@ function Login() {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ email: email, password: senha, userType: userType, islogged: true }),
+                body: JSON.stringify({ email: email, password: senha, userType: userType, islogged:true }),
             });
 
             const data = await response.json();
 
-            localStorage.setItem("authToken", data.token);
-            localStorage.setItem("isLoggedIn", true);
-
             if (response.status === 200) {
+
+                localStorage.setItem("authToken", data.token);
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem("userType", userType ? "admin" : "client");
+
                 setShowSucessLogin(true);
 
+                // Redireciona com base no tipo de usuário
                 setTimeout(() => {
                     setShowSucessLogin(false);
                     if (userType) {
@@ -59,8 +62,6 @@ function Login() {
                         navigate('/');
                     }
                 }, 1500);
-
-                
             } else if (response.status === 401) {
                 console.log('Não autorizado');
                 setError({ message: data.message });
@@ -73,8 +74,6 @@ function Login() {
 
     const [showSucessLogin, setShowSucessLogin] = useState(false);
     const [showShortPassword, setShowShortPassword] = useState(false);
-    
-
 
     return (
         <div>
@@ -133,9 +132,9 @@ function Login() {
                                     <input
                                         type="radio"
                                         name="userType"
-                                        value="false"
-                                        checked={userType === false}
-                                        onChange={() => setUserType(false)} //Cliente
+                                        value="client"
+                                        checked={!userType}
+                                        onChange={() => setUserType(false)} 
                                         className={stylesLogin.radioInput}
                                     />
                                     Cliente
@@ -144,9 +143,9 @@ function Login() {
                                     <input
                                         type="radio"
                                         name="userType"
-                                        value="true"
-                                        checked={userType === true}
-                                        onChange={() => setUserType(true)} //Admin
+                                        value="admin"
+                                        checked={userType}
+                                        onChange={() => setUserType(true)}
                                         className={stylesLogin.radioInput}
                                     />
                                     Admin
