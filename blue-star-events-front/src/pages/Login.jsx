@@ -18,7 +18,7 @@ function Login() {
     const [senha, setSenha] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const [userType, setUserType] = useState(false); // Default para cliente
+    const [userType, setUserType] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,7 +53,6 @@ function Login() {
 
                 setShowSucessLogin(true);
 
-                // Redireciona com base no tipo de usuário
                 setTimeout(() => {
                     setShowSucessLogin(false);
                     if (userType) {

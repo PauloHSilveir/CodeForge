@@ -12,27 +12,33 @@ import {
     RiPhoneLine,
     RiLockPasswordLine
 } from '@remixicon/react';
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
-// Função para formatar CPF
 const formatCPF = (cpf) => {
     const numbers = cpf.replace(/\D/g, '');
     return numbers.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
 };
 
-// Função para formatar telefone
 const formatPhone = (phone) => {
     const numbers = phone.replace(/\D/g, '');
     return numbers.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
 };
 
-// Função para validar email
-const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+const isValidCPF = (cpf) => {
+    const cleanCPF = cpf.replace(/\D/g, '');
+    return cleanCPF.length === 11; 
+};
+
+const isValidPhone = (phone) => {
+    const cleanPhone = phone.replace(/\D/g, '');
+    return /^(\d{2})(\d{5})(\d{4})$/.test(cleanPhone);
 };
 
 function CadastrarUsuario() {
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
 
     const [name, setNome] = useState('');
     const [cpf, setCpf] = useState('');
@@ -41,27 +47,39 @@ function CadastrarUsuario() {
     const [password, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
 
+    const showModalFail = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModal(true);
+
+        setTimeout(() => {
+            setShowModal(false);
+        }, 2000);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Validação básica de email
-        if (!isValidEmail(email)) {
-            alert('Por favor, insira um email válido');
+        
+        if (!isValidCPF(cpf)) {
+            showModalFail("CPF INVÁLIDO", "Por favor, insira um CPF válido.");
             return;
         }
 
-        // Validação de senha
+        if (!isValidPhone(phone)) {
+            showModalFail("TELEFONE INVÁLIDO", "Por favor, insira um telefone válido.");
+            return;
+        }
+
         if (password !== confirmarSenha) {
-            alert('As senhas não conferem!');
+            showModalFail("SENHAS NÃO CONFEREM", "As senhas digitadas são diferentes.");
             return;
         }
 
         if (password.length < 8) {
-            alert('A senha deve ter pelo menos 8 caracteres');
+            showModalFail("SENHA INVÁLIDA", "A senha deve conter no mínimo 8 caracteres!");
             return;
         }
 
-        // Se passou pelas validações, continua com o código original
         const userData = { name, cpf: formatCPF(cpf), email, phone: formatPhone(phone), password };
         localStorage.setItem('userData', JSON.stringify(userData));
         navigate('/cadastrarendereco');
@@ -125,15 +143,10 @@ function CadastrarUsuario() {
                                     type="email"
                                     id="email"
                                     placeholder="Digite seu email"
-                                    className={`${stylesFormBaseA.inputField} ${email && !isValidEmail(email) ? stylesFormBaseA.inputError : ''}`}
+                                    className={stylesFormBaseA.inputField}
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    onBlur={(e) => {
-                                        if (e.target.value && !isValidEmail(e.target.value)) {
-                                            alert('Por favor, insira um email válido');
-                                        }
-                                    }}
                                 />
                             </div>
 
@@ -200,6 +213,11 @@ function CadastrarUsuario() {
                     </div>
                 </div>
             </div>
+            <ModalMensagemFalha
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModal}
+            />
         </div>
     );
 }
