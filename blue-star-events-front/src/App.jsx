@@ -60,11 +60,11 @@ function App() {
             <Route path='/perfil' element={<Perfil />} />
             <Route path='/editardados' element={<EditarDados />} />
             <Route path='historicotransacoes' element={<VisualizarHistoricoTransacoesCliente />} />
-            <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} />
-            <Route path="/carrinho" element={<Carrinho />} />
+            <Route path="/detalhespedido/:pedidoId" element={<DetalhesPedido />} /> {/*Falta fazer e ajustar modais */}
+            <Route path="/editarpedido/:pedidoId" element={<EditarPedido />} /> {/*Falta fazer e ajustar modais */}
+            <Route path="/carrinho" element={<Carrinho />} /> {/*Falta fazer e ajustar modais */}
             <Route path="/pagamento" element={<Pagamento />} />
             <Route path="/confirmacaopagamento" element={<ConfirmacaoPagamento />} />
-            <Route path="/editarpedido/:pedidoId" element={<EditarPedido />} />
           </Route>
 
           {/*Admin */}

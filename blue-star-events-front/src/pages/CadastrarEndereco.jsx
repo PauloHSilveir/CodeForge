@@ -30,6 +30,7 @@ function CadastrarEndereco() {
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalMessage, setModalMessage] = useState('');
+    const [showSucessRegister, setShowSucessRegister] = useState(false);
 
     const [rua, setLogradouro] = useState('');
     const [numero, setNumero] = useState('');
@@ -134,7 +135,7 @@ function CadastrarEndereco() {
         }
     };
 
-    const [showSucessRegister, setShowSucessRegister] = useState(false);
+    
 
     return (
         <div>

@@ -15,7 +15,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
             setShowMessageError(true);
             setTimeout(() => {
                 setRedirectToLogin(true);
-            }, 2000);
+            }, 3000);
         }
 
         if (redirectToLogin) {
@@ -38,7 +38,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
             setShowRoleError(true);
             setTimeout(() => {
                 setRedirectToHome(true);
-            }, 2000);
+            }, 3000);
         }
 
         if (redirectToHome) {

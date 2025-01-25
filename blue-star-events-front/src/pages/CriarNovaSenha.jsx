@@ -7,12 +7,16 @@ import {
     RiLockPasswordLine,
     RiArrowLeftCircleLine
 } from '@remixicon/react';
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
 function CriarNovaSenha() {
     const [novaSenha, setNovaSenha] = useState('');
     const [novaSenhaConfirma, setNovaSenhaConfirma] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [showModalS, setShowModalSuccess] = useState(false);
+    const [showModalF, setShowModalFail] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -20,15 +24,40 @@ function CriarNovaSenha() {
     const token = queryParams.get('token');
     const email = queryParams.get('email');
 
+    const showModalSuccess = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModalSuccess(true);
+
+        setTimeout(() => {
+            setShowModalSuccess(false);
+            navigate('/login'); 
+        }, 1500);
+    };
+
+    const showModalFail = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModalFail(true);
+
+        setTimeout(() => {
+            setShowModalFail(false);
+        }, 2000);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (novaSenha !== novaSenhaConfirma) {
-            setError('As senhas não coincidem.');
+        
+        if (novaSenha.length < 8) {
+            showModalFail('SENHA INVÁLIDA', 'A senha deve conter no mínimo 8 caracteres!');
             return;
         }
 
-        setError('');
+        if (novaSenha !== novaSenhaConfirma) {
+            showModalFail("ERRO", "As senhas não coincidem.");
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:1313/user/reset_password?token=' + token + '&email=' + email, {
                 method: 'POST',
@@ -41,14 +70,12 @@ function CriarNovaSenha() {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess('Senha alterada com sucesso!');
-                setError('');
-                setTimeout(() => navigate('/login'), 2000);
+                showModalSuccess("SUCESSO", "Senha alterada com sucesso!");
             } else {
-                setError(data.message || 'Erro ao redefinir a senha.');
+                showModalFail("ERRO", data.message || 'Erro ao redefinir a senha.');
             }
         } catch (err) {
-            setError('Erro ao conectar ao servidor. Tente novamente mais tarde.', err);
+            showModalFail("ERRO NO SERVIDOR", "Erro ao conectar ao servidor. Tente novamente mais tarde.");
         }
     };
 
@@ -98,8 +125,6 @@ function CriarNovaSenha() {
                                     required
                                 />
                             </div>
-                            {error && <p className={stylesFormBaseA.errorText}>{error}</p>}
-                            {success && <p className={stylesFormBaseA.successText}>{success}</p>}
                             <button className={stylesFormBaseA.buttonBase} type="submit">
                                 Redefinir
                             </button>
@@ -115,6 +140,18 @@ function CriarNovaSenha() {
                     </div>
                 </div>
             </div>
+
+            <ModalMensagemSucesso
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModalS}
+            />
+
+            <ModalMensagemFalha
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModalF}
+            />
         </div>
     );
 }
