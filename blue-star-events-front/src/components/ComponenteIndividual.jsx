@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import stylesGI from "../styles/PacoteIndividual.module.css";
-import ModalExcluir from "../components/ModalExcluir";
-import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
-import ModalMensagemFalha from "../components/ModalMensagemFalha";
+import ModalExcluir from "./ModalExcluir";
+import ModalMensagemSucesso from "./ModalMensagemSucesso";
+import ModalMensagemFalha from "./ModalMensagemFalha";
 import { useNavigate } from 'react-router-dom';
 
-function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, imagem, onDelete }) {
+function ComponenteIndividual({ id, nome, descricao, quantidade, valor, categoria, imagem, onDelete }) {
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
     const [showSucess, setShowSucess] = useState(false);
@@ -15,7 +15,7 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, ima
     const closeModal = () => setModalOpen(false);
 
     const handleEdit = () => {
-        navigate('/editaritem', {
+        navigate('/editar-componente', {
             state: {
                 itemData: {
                     id,
@@ -39,17 +39,17 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, ima
                 setShowSucess(true);
                 setTimeout(() => {
                     setShowSucess(false);
-                    onDelete(); // Recarrega a lista após deletar
-                }, 2000);
+                    onDelete();
+                }, 1500);
             } else {
                 throw new Error('Erro ao deletar');
             }
         } catch (error) {
-            console.error("Erro ao excluir item:", error);
+            console.error("Erro ao excluir componente:", error);
             setShowFail(true);
             setTimeout(() => {
                 setShowFail(false);
-            }, 3000);
+            }, 1500);
         }
         closeModal();
     };
@@ -59,7 +59,7 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, ima
             <div className={stylesGI.descriptionItemTop}>
 
                 <div className={stylesGI.idTop}>
-                    <span className={stylesGI.mediumTextDark}>Item: </span>
+                    <span className={stylesGI.mediumTextDark}>Componente: </span>
                     <span className={stylesGI.mediumTextLight}>{id}</span>
                 </div>
 
@@ -68,11 +68,11 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, ima
                         className={`${stylesGI.buttons} ${stylesGI.excPac}`}
                         onClick={openModal}
                     >
-                        EXCLUIR ITEM
+                        EXCLUIR COMPONENTE
                     </button>
 
                     <button className={`${stylesGI.buttons} ${stylesGI.ediPac}`} onClick={handleEdit}>
-                        EDITAR ITEM
+                        EDITAR COMPONENTE
                     </button>
                 </div>
             </div>
@@ -86,7 +86,7 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, ima
 
             <div className={stylesGI.descriptionItemBottom}>
                 <div className={stylesGI.packageImageContainer}>
-                    <img src={imagem} alt={`Imagem do item ${nome}`} />
+                    <img src={imagem} alt={`Imagem do componente ${nome}`} />
                 </div>
                 <div className={stylesGI.idTop}>
                     <span className={stylesGI.mediumTextDark}>{nome}</span>
@@ -98,24 +98,24 @@ function ItemIndividual({ id, nome, descricao, quantidade, valor, categoria, ima
                 onConfirm={handleDelete}
             >
                 <p>
-                    DESEJA REALMENTE <strong>EXCLUIR</strong> O ITEM
+                    DESEJA REALMENTE <strong>EXCLUIR</strong> O COMPONENTE
                     <strong> PERMANENTEMENTE</strong>?
                 </p>
             </ModalExcluir>
 
             <ModalMensagemSucesso
-                title="EXCLUIR ITEM"
-                text="Item excluído com sucesso!"
+                title="EXCLUIR COMPONENTE"
+                text="Componente excluído com sucesso!"
                 isVisible={showSucess}
             />
 
             <ModalMensagemFalha
-                title="EXCLUIR ITEM"
-                text="Erro ao excluir o item!"
+                title="EXCLUIR COMPONENTE"
+                text="Erro ao excluir o componente!"
                 isVisible={showFail}
             />
         </div>
     );
 }
 
-export default ItemIndividual;
+export default ComponenteIndividual;

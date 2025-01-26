@@ -4,8 +4,6 @@ import {
   RiMenuLine,
   RiCloseLine,
   RiArrowDownSLine,
-  RiFileLine,
-  RiFileEditLine,
   RiLoginBoxLine,
   RiUserAddLine,
   RiUserLine,
@@ -19,7 +17,106 @@ import stylesNavbar from '../styles/Navbar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import ModalMensagemSucesso from '../components/ModalMensagemSucesso';
 
-const CartIcon = ({ cartItems }) => (
+const UserDropdown = ({ isLoggedIn, handleLogout }) => {
+  const userType = localStorage.getItem('userType');
+
+  return (
+    <li className={stylesNavbar.dropdown__item}>
+      <div className={stylesNavbar.nav__link}>
+        Usuário <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
+      </div>
+      <ul className={stylesNavbar.dropdown__menu}>
+        {isLoggedIn ? (
+          <>
+            {userType === 'client' && (
+              <li>
+                <Link to="/perfil" className={stylesNavbar.dropdown__link}>
+                  <RiUserLine /> Perfil
+                </Link>
+              </li>
+            )}
+            <li>
+              <Link
+                to="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLogout();
+                }}
+                className={stylesNavbar.dropdown__link}
+              >
+                <RiLogoutBoxRLine /> Sair
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/login" className={stylesNavbar.dropdown__link}>
+                <RiLoginBoxLine /> Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/cadastrarusuario" className={stylesNavbar.dropdown__link}>
+                <RiUserAddLine /> Cadastrar
+              </Link>
+            </li>
+          </>
+        )}
+      </ul>
+    </li>
+  );
+};
+
+const ManageSystemDropdown = () => {
+  const userType = localStorage.getItem('userType');
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+  if (userType !== 'admin' || !isLoggedIn) {
+    return null;
+  }
+
+  return (
+    <li className={stylesNavbar.dropdown__item}>
+      <div className={stylesNavbar.nav__link}>
+        <Link to="/gerenciarsistema" className={`${stylesNavbar.nav__link} ${stylesNavbar.nav__link__GS}`}>
+          Gerenciar Sistema
+        </Link>
+        <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
+      </div>
+      <ul className={stylesNavbar.dropdown__menu}>
+        <li>
+          <Link to="/gerenciarpacotes" className={stylesNavbar.dropdown__link}>
+            <RiBox3Line /> Pacotes
+          </Link>
+        </li>
+        <li>
+          <Link to="/gerenciar-componentes" className={stylesNavbar.dropdown__link}>
+            <RiSofaLine /> Componentes
+          </Link>
+        </li>
+        <li>
+          <Link to="/gerenciarfuncionarios" className={stylesNavbar.dropdown__link}>
+            <RiUserLine /> Administradores
+          </Link>
+        </li>
+        <li>
+          <Link to="/gerenciartransacoes" className={stylesNavbar.dropdown__link}>
+            <RiMoneyDollarBoxLine /> Transações
+          </Link>
+        </li>
+      </ul>
+    </li>
+  );
+};
+
+const CartIcon = ({ cartItems }) => {
+  const userType = localStorage.getItem('userType');
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  if (userType !== 'client' || !isLoggedIn) {
+    return null;
+  }
+
+  return(
   <li>
     <Link to="/carrinho" className={stylesNavbar.nav__link}>
       <div className={stylesNavbar.cart}>
@@ -28,106 +125,14 @@ const CartIcon = ({ cartItems }) => (
       </div>
     </Link>
   </li>
-);
-
-const Logo = () => (
-  <Link to="/" className={stylesNavbar.nav__logo}>
-    <RiStarLine /> Blue Star Events
-  </Link>
-);
-
-const MenuToggle = ({ menuOpen, toggleMenu }) => (
-  <div className={stylesNavbar.nav__toggle} id="nav-toggle" onClick={toggleMenu}>
-    {menuOpen ? (
-      <RiCloseLine className={stylesNavbar.nav__close} />
-    ) : (
-      <RiMenuLine className={stylesNavbar.nav__burger} />
-    )}
-  </div>
-);
-
-const UserDropdown = ({ isLoggedIn, handleLogout }) => (
-  <li className={stylesNavbar.dropdown__item}>
-    <div className={stylesNavbar.nav__link}>
-      Usuário <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
-    </div>
-    <ul className={stylesNavbar.dropdown__menu}>
-      {isLoggedIn ? (
-        <>
-          <li>
-            <Link to="/perfil" className={stylesNavbar.dropdown__link}>
-              <RiUserLine /> Perfil
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="#"
-              onClick={(e) => {
-                e.preventDefault();
-                handleLogout();
-              }}
-              className={stylesNavbar.dropdown__link}
-            >
-              <RiLogoutBoxRLine /> Sair
-            </Link>
-          </li>
-        </>
-      ) : (
-        <>
-          <li>
-            <Link to="/login" className={stylesNavbar.dropdown__link}>
-              <RiLoginBoxLine /> Login
-            </Link>
-          </li>
-          <li>
-            <Link to="/cadastrarusuario" className={stylesNavbar.dropdown__link}>
-              <RiUserAddLine /> Cadastrar
-            </Link>
-          </li>
-        </>
-      )}
-    </ul>
-  </li>
-);
-
-const ManageSystemDropdown = () => (
-  <li className={stylesNavbar.dropdown__item}>
-    <div className={stylesNavbar.nav__link}>
-      <Link to="/gerenciarsistema" className={`${stylesNavbar.nav__link} ${stylesNavbar.nav__link__GS}`}>
-        Gerenciar Sistema
-      </Link>
-      <RiArrowDownSLine className={stylesNavbar.dropdown__arrow} />
-    </div>
-    <ul className={stylesNavbar.dropdown__menu}>
-      <li>
-        <Link to="/gerenciarpacotes" className={stylesNavbar.dropdown__link}>
-          <RiBox3Line /> Pacotes
-        </Link>
-      </li>
-      <li>
-        <Link to="/gerenciaritens" className={stylesNavbar.dropdown__link}>
-          <RiSofaLine /> Itens
-        </Link>
-      </li>
-      <li>
-        <Link to="/gerenciarfuncionarios" className={stylesNavbar.dropdown__link}>
-          <RiUserLine /> Funcionários
-        </Link>
-      </li>
-      <li>
-        <Link to="/gerenciartransacoes" className={stylesNavbar.dropdown__link}>
-          <RiMoneyDollarBoxLine /> Transações
-        </Link>
-      </li>
-    </ul>
-  </li>
-);
+  );
+};
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartItems, setCartItems] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSucess, setShowSucess] = useState(false);
+  const [cartItems, setCartItems] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -145,20 +150,29 @@ const Navbar = () => {
     setIsLoggedIn(false);
     localStorage.setItem('authToken', '');
     localStorage.setItem('isLoggedIn', 'false');
+    localStorage.removeItem('userType');
     setShowSucess(true);
 
     setTimeout(() => {
       setShowSucess(false);
       navigate('/login');
-    }, 2000);
+    }, 1500);
   };
 
   return (
     <header className={stylesNavbar.header}>
       <nav className={`${stylesNavbar.nav} ${stylesNavbar.container}`}>
         <div className={stylesNavbar.nav__data}>
-          <Logo />
-          <MenuToggle menuOpen={menuOpen} toggleMenu={toggleMenu} />
+          <Link to="/" className={stylesNavbar.nav__logo}>
+            <RiStarLine /> Blue Star Events
+          </Link>
+          <div className={stylesNavbar.nav__toggle} onClick={toggleMenu}>
+            {menuOpen ? (
+              <RiCloseLine className={stylesNavbar.nav__close} />
+            ) : (
+              <RiMenuLine className={stylesNavbar.nav__burger} />
+            )}
+          </div>
         </div>
         <div
           className={`${stylesNavbar.nav__menu} ${menuOpen ? stylesNavbar['show-menu'] : ''}`}
@@ -177,6 +191,7 @@ const Navbar = () => {
             </li>
             <CartIcon cartItems={cartItems} />
           </ul>
+
         </div>
       </nav>
       <ModalMensagemSucesso

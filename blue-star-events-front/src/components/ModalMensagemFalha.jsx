@@ -3,7 +3,7 @@ import stylesSucesso from "../styles/ModalMensagemSucesso.module.css";
 import stylesFalha from "../styles/ModalMensagemFalha.module.css";
 import { RiCloseCircleLine } from '@remixicon/react';
 
-const ModalMensagemSucesso = ({ title, text, isVisible }) => {
+const ModalMensagemFalha = ({ title, text, isVisible }) => {
     if (!isVisible) return null;
 
     return (
@@ -25,4 +25,4 @@ const ModalMensagemSucesso = ({ title, text, isVisible }) => {
     );
 };
 
-export default ModalMensagemSucesso;
+export default ModalMensagemFalha;

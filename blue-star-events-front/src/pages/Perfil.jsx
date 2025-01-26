@@ -14,7 +14,6 @@ import {
     RiApps2Fill,
     RiShoppingCart2Line,
     RiUser3Line,
-    RiChat4Fill
 } from '@remixicon/react';
 
 const BASE_URL = 'http://localhost:1313';
@@ -22,82 +21,72 @@ const BASE_URL = 'http://localhost:1313';
 function Perfil() {
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
-    const [showSucess, setShowSucess] = useState(false);
-    const [showFail, setShowFail] = useState(false);
-    const [userType, setUserType] = useState("");
+    const [showSucessModal, setShowSucessModal] = useState(false);
+    const [showFailModal, setShowFailModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
     const [userData, setUserData] = useState({ name: '', email: '' });
 
     const token = localStorage.getItem('authToken');
     const decodedToken = jwtDecode(token);
     const userId = decodedToken.id;
 
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-
-    const fetchUserData = async () => {
-        try {
-            const response = await fetch(`${BASE_URL}/user/${userId}`);
-            if (!response.ok) {
-                throw new Error('Erro ao buscar dados do usuário');
-            }
-            const data = await response.json();
-            setUserData(data.user);
-            if (data.user.isAdmin === 1) {
-                setUserType("admin");
-            } else {
-                setUserType("user");
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-        }
+    const showSuccessModal = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowSucessModal(true);
+        setTimeout(() => setShowSucessModal(false), 2000);
     };
+
+    const showModalFail = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowFailModal(true);
+        setTimeout(() => setShowFailModal(false), 2000);
+    };
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/user/${userId}`);
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar dados do usuário');
+                }
+                const data = await response.json();
+                setUserData(data.user);
+            } catch (error) {
+                showModalFail('ERRO', 'Não foi possível carregar os dados do usuário');
+            }
+        };
+
+        fetchUserData();
+    }, [userId]);
 
     const handleNavigate = (path) => {
         navigate(path);
-    };
+    }
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
 
     const handleDelete = async () => {
         try {
-            let response;
-            if (userType === 'admin') {
-                response = await fetch(`${BASE_URL}/admin/delete/${userId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                });
-            } else {
-                response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                });
-            }
+            const response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
 
             if (!response.ok) {
                 throw new Error('Erro ao excluir conta');
             }
 
-            setShowSucess(true);
-
-            setTimeout(() => {
-                setShowSucess(false);
-                navigate('/login');
-            }, 3000);
+            showSuccessModal('EXCLUIR CONTA', 'Conta excluída com sucesso! Redirecionando...');
+            setTimeout(() => navigate('/login'), 3000);
         } catch (error) {
-            console.error('Erro:', error);
-            setShowFail(true);
-
-            setTimeout(() => {
-                setShowFail(false);
-            }, 3000);
+            showModalFail('EXCLUIR CONTA', 'Erro ao excluir a conta');
         }
         closeModal();
     };
@@ -197,15 +186,15 @@ function Perfil() {
             </ModalExcluir>
 
             <ModalMensagemSucesso
-                title="EXCLUIR CONTA"
-                text="Conta excluída com sucesso! Redirecionando..."
-                isVisible={showSucess}
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showSucessModal}
             />
 
             <ModalMensagemFalha
-                title="EXCLUIR CONTA"
-                text="Erro ao excluir a conta!"
-                isVisible={showFail}
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showFailModal}
             />
         </div>
     );

@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import GerenciarGenerico from "../components/GerenciarGenerico";
 import PacoteIndividual from "../components/PacoteIndividual";
 import { RiBox3Line } from "@remixicon/react";
-import packageImage1 from "../assets/images/Aniversario.png";
-import packageImage2 from "../assets/images/Casamento.png";
-
 const BASE_URL = "http://localhost:1313";
 
 function GerenciarPacotes() {

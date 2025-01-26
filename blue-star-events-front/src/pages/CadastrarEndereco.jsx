@@ -15,6 +15,8 @@ import {
     RiUserAddLine
 } from '@remixicon/react';
 import ModalCadastrar from "../components/ModalCadastrar";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 
 const formatCEP = (cep) => {
     const numbers = cep.replace(/\D/g, '');
@@ -25,6 +27,10 @@ function CadastrarEndereco() {
     const navigate = useNavigate();
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [showSucessRegister, setShowSucessRegister] = useState(false);
 
     const [rua, setLogradouro] = useState('');
     const [numero, setNumero] = useState('');
@@ -33,10 +39,6 @@ function CadastrarEndereco() {
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
     const [cep, setCep] = useState('');
-
-    const handleNavigate = (path) => {
-        navigate(path);
-    };
 
     const handleOpenTerms = () => {
         setShowTermsModal(true);
@@ -53,13 +55,44 @@ function CadastrarEndereco() {
     const handleClosePrivacy = () => {
         setShowPrivacyModal(false);
     };
+
+    const isValidEstado = (estado) => {
+        const regex = /^[A-Z]{2}$/;
+        return regex.test(estado);
+    };
+
+    const isValidCEP = (cep) => {
+        const cleanCEP = cep.replace(/\D/g, '');
+        return /^\d{5}\d{3}$/.test(cleanCEP);
+    };
+
+    const showModalFail = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModal(true);
+
+        setTimeout(() => {
+            setShowModal(false);
+        }, 2000);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!isValidEstado(estado)) {
+            showModalFail("ESTADO INVÁLIDO", "O estado deve ser uma sigla de 2 letras.");
+            return;
+        }
+
+        if (!isValidCEP(cep)) {
+            showModalFail("CEP INVÁLIDO", "O CEP deve estar no formato XXXXX-XXX ou XXXXXXXX.");
+            return;
+        }
 
         const userData = JSON.parse(localStorage.getItem('userData'));
 
         if (!userData) {
-            alert('Dados do usuário não encontrados! Por favor, refaça o cadastro.');
+            showModalFail('DADOS NÃO ENCONTRADOS', 'Dados do usuário não encontrados! Por favor, refaça o cadastro.');
             navigate('/cadastrarusuario');
             return;
         }
@@ -86,17 +119,24 @@ function CadastrarEndereco() {
 
             if (response.ok) {
                 localStorage.removeItem('userData');
-                alert('Cadastro realizado com sucesso!');
-                navigate('/');
+                setShowSucessRegister(true);
+
+                setTimeout(() => {
+                    setShowSucessRegister(false);
+                    navigate('/');
+                }, 1500);
             } else {
                 const errorData = await response.json();
-                alert(errorData.msg || 'Erro ao cadastrar. Verifique os dados e tente novamente.');
+                showModalFail('ERRO', errorData.msg || 'Erro ao cadastrar. Verifique os dados e tente novamente.');
             }
         } catch (error) {
             console.error('Erro na requisição:', error);
-            alert('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+            showModalFail('ERRO DE CONEXÃO', 'Erro ao conectar com o servidor. Tente novamente mais tarde.');
         }
     };
+
+    
+
     return (
         <div>
             <NavBar />
@@ -118,7 +158,14 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiRoadMapLine />
-                                <input type="text" id="logradouro" placeholder="Digite o logradouro" className={stylesFormBaseA.inputField} onChange={(e) => setLogradouro(e.target.value)} required /> 
+                                <input
+                                    type="text"
+                                    id="logradouro"
+                                    placeholder="Digite o logradouro"
+                                    className={stylesFormBaseA.inputField}
+                                    onChange={(e) => setLogradouro(e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="numero" className={stylesFormBaseA.label}>
@@ -126,7 +173,14 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMapPinUserLine />
-                                <input type="text" id="numero" placeholder="Digite o número da residência" className={stylesFormBaseA.inputField} onChange={(e) => setNumero(e.target.value)} required />
+                                <input
+                                    type="text"
+                                    id="numero"
+                                    placeholder="Digite o número da residência"
+                                    className={stylesFormBaseA.inputField}
+                                    onChange={(e) => setNumero(e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="complemento" className={stylesFormBaseA.label}>
@@ -134,7 +188,13 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiHome8Line />
-                                <input type="text" id="complemento" placeholder="Digite o complemento" className={stylesFormBaseA.inputField} onChange={(e) => setComplemento(e.target.value)}/>
+                                <input
+                                    type="text"
+                                    id="complemento"
+                                    placeholder="Digite o complemento"
+                                    className={stylesFormBaseA.inputField}
+                                    onChange={(e) => setComplemento(e.target.value)}
+                                />
                             </div>
 
                             <label htmlFor="bairro" className={stylesFormBaseA.label}>
@@ -142,7 +202,14 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiGroup2Line />
-                                <input type="text" id="bairro" placeholder="Digite o bairro" className={stylesFormBaseA.inputField} onChange={(e) => setBairro(e.target.value)} required />
+                                <input
+                                    type="text"
+                                    id="bairro"
+                                    placeholder="Digite o bairro"
+                                    className={stylesFormBaseA.inputField}
+                                    onChange={(e) => setBairro(e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="cidade" className={stylesFormBaseA.label}>
@@ -150,7 +217,14 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiCommunityLine />
-                                <input type="text" id="cidade" placeholder="Digite a cidade" className={stylesFormBaseA.inputField} onChange={(e) => setCidade(e.target.value)} required />
+                                <input
+                                    type="text"
+                                    id="cidade"
+                                    placeholder="Digite a cidade"
+                                    className={stylesFormBaseA.inputField}
+                                    onChange={(e) => setCidade(e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="estado" className={stylesFormBaseA.label}>
@@ -158,7 +232,14 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMapLine />
-                                <input type="text" id="estado" placeholder="Digite o estado" className={stylesFormBaseA.inputField} onChange={(e) => setEstado(e.target.value)} required />
+                                <input
+                                    type="text"
+                                    id="estado"
+                                    placeholder="Digite o estado (XX)"
+                                    className={stylesFormBaseA.inputField}
+                                    onChange={(e) => setEstado(e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <label htmlFor="cep" className={stylesFormBaseA.label}>
@@ -166,7 +247,14 @@ function CadastrarEndereco() {
                             </label>
                             <div className={stylesFormBaseA.inputs}>
                                 <RiMapPinRangeLine />
-                                <input type="text" id="cep" placeholder="Digite o CEP" className={stylesFormBaseA.inputField} onChange={(e) => setCep(e.target.value)} required />
+                                <input
+                                    type="text"
+                                    id="cep"
+                                    placeholder="Digite o CEP"
+                                    className={stylesFormBaseA.inputField}
+                                    onChange={(e) => setCep(e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <div className={stylesCadastrarEndereco.inputCheckBox}>
@@ -271,6 +359,17 @@ function CadastrarEndereco() {
                 </div>
             </ModalCadastrar>
 
+            <ModalMensagemFalha
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModal}
+            />
+
+            <ModalMensagemSucesso
+                title="CADASTRAR USUÁRIO"
+                text="Cadastro realizado com sucesso! Redirecionando..."
+                isVisible={showSucessRegister}
+            />
         </div >
     );
 }

@@ -243,6 +243,20 @@ function Pagamento() {
                                             onChange={handleCardDataChange}
                                         />
                                     </div>
+                                    <div>
+                                        <label>Número de Parcelas:</label>
+                                        <select name="parcelas" id="parcelas">
+                                            {[...Array(8).keys()].map((num) => {
+                                                const parcelas = num + 1;
+                                                const valorParcela = (subtotal / parcelas).toFixed(2);
+                                                return (
+                                                    <option key={parcelas} value={parcelas}>
+                                                        {parcelas}x  R$ {valorParcela.replace(".", ",")}
+                                                    </option>
+                                                );
+                                            })}
+                                        </select>
+                                    </div>
                                 </form>
                             </div>
                         )}

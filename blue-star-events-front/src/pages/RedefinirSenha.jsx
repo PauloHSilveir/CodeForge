@@ -8,13 +8,37 @@ import {
     RiMailLine,
     RiArrowLeftCircleLine
 } from '@remixicon/react';
+import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
+import ModalMensagemFalha from "../components/ModalMensagemFalha";
 
 function RedefinirSenha() {
     const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [showModalS, setShowModalSuccess] = useState(false);
+    const [showModalF, setShowModalFail] = useState(false);
     const navigate = useNavigate();
+
+    const showModalSuccess = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModalSuccess(true);
+
+        setTimeout(() => {
+            setShowModalSuccess(false);
+        }, 2000);
+    };
+
+    const showModalFail = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModalFail(true);
+
+        setTimeout(() => {
+            setShowModalFail(false);
+        }, 2000);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,16 +57,21 @@ function RedefinirSenha() {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess('Email enviado com sucesso!');
-                setError('');
-                setTimeout(() => navigate('/'), 2000); 
+                showModalSuccess(
+                    "E-MAIL ENVIADO",
+                    "Confira seu e-mail para achar o link de criar uma nova senha."
+                );
             } else {
-                setError(data.message || 'Erro ao enviar o e-mail.');
-                setSuccess('');
+                showModalFail(
+                    "ERRO AO ENVIAR E-MAIL",
+                    data.message || "Erro ao enviar o e-mail. Tente novamente."
+                );
             }
         } catch (err) {
-            setError('Erro ao conectar ao servidor. Tente novamente mais tarde.', err);
-            setSuccess('');
+            showModalFail(
+                "ERRO NO SERVIDOR",
+                "Erro ao conectar ao servidor. Tente novamente mais tarde."
+            );
         } finally {
             setLoading(false);
         }
@@ -81,16 +110,11 @@ function RedefinirSenha() {
                                     className={stylesFormBaseA.inputField}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    disabled={loading} // Bloqueia o campo durante a requisição
+                                    disabled={loading}
                                     required
                                 />
                             </div>
-                            {error && (
-                                <p className={stylesFormBaseA.errorText}>{error}</p>
-                            )}
-                            {success && (
-                                <p className={stylesFormBaseA.successText}>{success}</p>
-                            )}
+
                             <button
                                 className={stylesFormBaseA.buttonBase}
                                 type="submit"
@@ -114,6 +138,20 @@ function RedefinirSenha() {
                     </div>
                 </div>
             </div>
+
+            {/* Modal de sucesso */}
+            <ModalMensagemSucesso
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModalS}
+            />
+
+            {/* Modal de falha */}
+            <ModalMensagemFalha
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModalF}
+            />
         </div>
     );
 }

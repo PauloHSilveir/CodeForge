@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import GerenciarGenerico from "../components/GerenciarGenerico";
 import { RiSurroundSoundLine } from "@remixicon/react";
-import ItemIndividual from "../components/ItemIndividual";
+import ItemIndividual from "../components/ComponenteIndividual";
 
-function GerenciarItens() {
+function GerenciarComponentes() {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function GerenciarItens() {
             }));
             setItems(formattedItems);
         } catch (error) {
-            console.error("Erro ao carregar itens:", error);
+            console.error("Erro ao carregar componentes:", error);
         }
     };
 
@@ -40,15 +40,15 @@ function GerenciarItens() {
                 />
             )}
             icone={RiSurroundSoundLine}
-            titulo="ITENS CADASTRADOS"
-            placeholder="Pesquisar itens"
-            buttonText="ADICIONAR ITEM"
-            buttonLink="/cadastraritem"
+            titulo="COMPONENTES CADASTRADOS"
+            placeholder="Pesquisar componentes"
+            buttonText="ADICIONAR COMPONENTES"
+            buttonLink="/cadastrar-componentes"
             itensPorPagina={12}
-            noItensFound="Nenhum item encontrado."
+            noItensFound="Nenhum componente encontrado."
             campoPesquisa="nome"
         />
     );
 }
 
-export default GerenciarItens;
+export default GerenciarComponentes;

@@ -19,11 +19,11 @@ function FuncionarioIndividual({ id, nome, email, celular, data_admissao, onDele
 
     const handleEdit = (id) => {
         if (!id) {
-            console.error("ID do funcionário é inválido ou não encontrado!");
+            console.error("ID do administrador é inválido ou não encontrado!");
             return;
         }
 
-        console.log("Funcionário selecionado para edição:", id);
+        console.log("Administrador selecionado para edição:", id);
         navigate(`/editarFuncionario/${id}`);
     };
 
@@ -38,7 +38,7 @@ function FuncionarioIndividual({ id, nome, email, celular, data_admissao, onDele
             });
 
             if (!response.ok) {
-                throw new Error("Erro ao excluir funcionário.");
+                throw new Error("Erro ao excluir administrador.");
             }
 
             setShowSucess(true);
@@ -53,7 +53,7 @@ function FuncionarioIndividual({ id, nome, email, celular, data_admissao, onDele
 
             closeModal();
         } catch (error) {
-            console.error("Erro ao excluir funcionário:", error);
+            console.error("Erro ao excluir administrador:", error);
 
             setShowFail(true);
 
@@ -92,7 +92,7 @@ function FuncionarioIndividual({ id, nome, email, celular, data_admissao, onDele
                         className={`${stylesGI.buttons} ${stylesGI.excPac}`}
                         onClick={openModal}
                     >
-                        EXCLUIR FUNCIONÁRIO
+                        EXCLUIR ADMINISTRADOR
                     </button>
                 </div>
 
@@ -101,7 +101,7 @@ function FuncionarioIndividual({ id, nome, email, celular, data_admissao, onDele
                         className={`${stylesGI.buttons} ${stylesGI.ediPac}`}
                         onClick={() => handleEdit(id)}
                     >
-                        EDITAR FUNCIONÁRIO
+                        EDITAR ADMINISTRADOR
                     </button>
                 </div>
 
@@ -112,21 +112,21 @@ function FuncionarioIndividual({ id, nome, email, celular, data_admissao, onDele
                 onConfirm={() => handleDelete(id)}
             >
                 <p>
-                    DESEJA REALMENTE <strong>EXCLUIR</strong> O FUNCIONÁRIO
+                    DESEJA REALMENTE <strong>EXCLUIR</strong> O ADMIN
                     <strong> PERMANENTEMENTE</strong>?
                 </p>
             </ModalExcluir>
 
 
             <ModalMensagemSucesso
-                title="EXCLUIR FUNCIONÁRIO"
-                text="Funcionário excluído com sucesso! "
+                title="EXCLUIR ADMINISTRADOR"
+                text="Administrador excluído com sucesso! "
                 isVisible={showSucess}
             />
 
             <ModalMensagemFalha
-                title="EXCLUIR FUNCIONÁRIO"
-                text="Erro ao excluir o funcionário!"
+                title="EXCLUIR ADMINISTRADOR"
+                text="Erro ao excluir o administrador!"
                 isVisible={showFail}
             />
         </div>

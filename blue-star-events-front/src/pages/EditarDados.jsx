@@ -32,7 +32,7 @@ const BASE_URL = 'http://localhost:1313';
 function EditarDados() {
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
-    const [userType, setUserType] = useState("");
+    const [displayName, setDisplayName] = useState('');
     const [userData, setUserData] = useState({
         name: '',
         cpf: '',
@@ -46,6 +46,42 @@ function EditarDados() {
         estado: '',
         cep: ''
     });
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const isValidCPF = (cpf) => {
+        const cleanCPF = cpf.replace(/\D/g, '');
+        return cleanCPF.length === 11; 
+    };
+    
+    const isValidPhone = (phone) => {
+        const cleanPhone = phone.replace(/\D/g, '');
+        return /^(\d{2})(\d{5})(\d{4})$/.test(cleanPhone);
+    };
+
+    const isValidEstado = (estado) => {
+        const regex = /^[A-Z]{2}$/;
+        return regex.test(estado);
+    };
+
+    const isValidCEP = (cep) => {
+        const cleanCEP = cep.replace(/\D/g, '');
+        return /^\d{5}\d{3}$/.test(cleanCEP);
+    };
+
+    const showModalFail = (title, message) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowModal(true);
+
+        setTimeout(() => {
+            setShowModal(false);
+        }, 2000);
+    };
 
     const token = localStorage.getItem('authToken');
     const decodedToken = jwtDecode(token);
@@ -63,18 +99,25 @@ function EditarDados() {
             }
             const data = await response.json();
             setUserData(data.user);
-            if (data.user.isAdmin === 1) {
-                setUserType("admin");
-            } else {
-                setUserType("user");
-            }
+            setDisplayName(data.user.name);
         } catch (error) {
             console.error('Erro:', error);
+            showModalFail('ERRO', 'Erro ao carregar dados do usuário');
         }
     };
 
     const handlePersonalDataSubmit = async (e) => {
         e.preventDefault();
+
+        if (!isValidCPF(userData.cpf)) {
+            showModalFail("CPF INVÁLIDO", "Por favor, insira um CPF válido.");
+            return;
+        }
+
+        if (!isValidPhone(userData.phone)) {
+            showModalFail("TELEFONE INVÁLIDO", "Por favor, insira um telefone válido.");
+            return;
+        }
 
         try {
             const response = await fetch(`${BASE_URL}/user/update/personal/${userId}`, {
@@ -95,16 +138,33 @@ function EditarDados() {
                 throw new Error('Erro ao atualizar dados pessoais');
             }
 
-            alert('Dados pessoais atualizados com sucesso!');
+            setDisplayName(userData.name);
+            setShowSuccess(true);
+            setSuccessMessage('Dados pessoais atualizados com sucesso!');
+            
+            setTimeout(() => {
+                setShowSuccess(false);
+            }, 3000);
+
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao atualizar dados pessoais');
+            showModalFail('ERRO', 'Erro ao atualizar dados pessoais');
         }
-
     };
 
     const handleAddressSubmit = async (e) => {
         e.preventDefault();
+
+        if (!isValidEstado(userData.estado)) {
+            showModalFail("ESTADO INVÁLIDO", "O estado deve ser uma sigla de 2 letras.");
+            return;
+        }
+
+        if (!isValidCEP(userData.cep)) {
+            showModalFail("CEP INVÁLIDO", "O CEP deve estar no formato XXXXX-XXX ou XXXXXXXX.");
+            return;
+        }
+
         try {
             const response = await fetch(`${BASE_URL}/user/update/address/${userId}`, {
                 method: 'PUT',
@@ -127,51 +187,43 @@ function EditarDados() {
                 throw new Error('Erro ao atualizar endereço');
             }
 
-            alert('Endereço atualizado com sucesso!');
+            setShowSuccess(true);
+            setSuccessMessage('Endereço atualizado com sucesso!');
+            
+            setTimeout(() => {
+                setShowSuccess(false);
+            }, 3000);
+
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao atualizar endereço');
+            showModalFail('ERRO', 'Erro ao atualizar endereço');
         }
     };
 
     const handleDelete = async () => {
         try {
-            let response;
-            if (userType === 'admin') {
-                response = await fetch(`${BASE_URL}/admin/delete/${userId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                });
-            } else {
-                response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                });
-            }
+            const response = await fetch(`${BASE_URL}/user/delete/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
 
             if (!response.ok) {
                 throw new Error('Erro ao excluir conta');
             }
 
-            setShowSucess(true);
+            setShowSuccess(true);
+            setSuccessMessage('Conta excluída com sucesso! Redirecionando...');
 
             setTimeout(() => {
-                setShowSucess(false);
+                setShowSuccess(false);
                 navigate('/login');
             }, 3000);
         } catch (error) {
             console.error('Erro:', error);
-            setShowFail(true);
-
-            setTimeout(() => {
-                setShowFail(false);
-            }, 3000);
+            showModalFail('ERRO', 'Erro ao excluir a conta!');
         }
         closeModal();
     };
@@ -183,8 +235,6 @@ function EditarDados() {
             [id]: value
         }));
     };
-    const [showSucess, setShowSucess] = useState(false);
-    const [showFail, setShowFail] = useState(false);
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -203,7 +253,7 @@ function EditarDados() {
                             <div className={stylesPerfil.leftPerfil}>
                                 <img src={iconImage} alt="Imagem de icone" />
                                 <div className={stylesPerfil.leftText}>
-                                    <span className={stylesPerfil.bigText}> Bem Vindo, {userData.name} </span>
+                                    <span className={stylesPerfil.bigText}> Bem Vindo, {displayName} </span>
                                     <div className={stylesPerfil.mailPerfil}>
                                         <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
                                         <span className={stylesPerfil.mediumText}>{userData.email}</span>
@@ -440,17 +490,17 @@ function EditarDados() {
                     <strong> PERMANENTEMENTE</strong>?
                 </p>
             </ModalExcluir>
-
+            
             <ModalMensagemSucesso
-                title="EXCLUIR CONTA"
-                text="Conta excluída com sucesso! Redirecionando..."
-                isVisible={showSucess}
+                title="EDITADO COM SUCESSO"
+                text={successMessage}
+                isVisible={showSuccess}
             />
 
             <ModalMensagemFalha
-                title="EXCLUIR CONTA"
-                text="Erro ao excluir a conta!"
-                isVisible={showFail}
+                title={modalTitle}
+                text={modalMessage}
+                isVisible={showModal}
             />
         </div>
     );

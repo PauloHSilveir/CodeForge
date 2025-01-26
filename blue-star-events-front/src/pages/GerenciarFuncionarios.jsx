@@ -59,12 +59,12 @@ function GerenciarFuncionarios() {
                 />
             )}
             icone={RiUser3Line}
-            titulo="FUNCIONÁRIOS CADASTRADOS"
-            placeholder="Pesquisar funcionário"
-            buttonText="ADICIONAR FUNCIONÁRIO"
+            titulo="ADMINISTRADORES CADASTRADOS"
+            placeholder="Pesquisar administrador"
+            buttonText="ADICIONAR ADMINISTRADORES"
             buttonLink="/cadastrarfuncionario"
             itensPorPagina={30}
-            noItensFound="Nenhum funcionário encontrado."
+            noItensFound="Nenhum administrador encontrado."
             campoPesquisa="name"
         />
     );

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../components/Navbar";
 import { useNavigate, useLocation } from "react-router-dom";
-import FormularioItens from "../components/FomularioItens";
+import FormularioComponentes from "../components/FormularioComponentes";
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 
-function EditarItem() {
+function EditarComponente() {
     const navigate = useNavigate();
     const location = useLocation();
     const [showMessage, setShowMessage] = useState(false);
@@ -26,8 +26,8 @@ function EditarItem() {
                         imagem: data.componente.imagem
                     });
                 } catch (error) {
-                    console.error("Erro ao buscar item:", error);
-                    navigate('/gerenciaritens');
+                    console.error("Erro ao buscar componente:", error);
+                    navigate('/gerenciar-componentes');
                 }
             }
         };
@@ -54,13 +54,13 @@ function EditarItem() {
                 setShowMessage(true);
                 setTimeout(() => {
                     setShowMessage(false);
-                    navigate('/gerenciaritens');
-                }, 3000);
+                    navigate('/gerenciar-componentes');
+                }, 1500);
             } else {
                 throw new Error('Erro ao atualizar');
             }
         } catch (error) {
-            console.error("Erro ao atualizar item:", error);
+            console.error("Erro ao atualizar componente:", error);
             
         }
     };
@@ -69,18 +69,18 @@ function EditarItem() {
         <div>
             <NavBar />
             <ModalMensagemSucesso
-                title="EDITAR ITEM"
+                title="EDITAR COMPONENTE"
                 text="Editado com sucesso! Redirecionando..."
                 isVisible={showMessage}
             />
-            <FormularioItens
+            <FormularioComponentes
                 initialData={itemData}
                 onSubmit={handleEdit}
                 mode="edit"
-                onBack={() => navigate('/gerenciarItens')}
+                onBack={() => navigate('/gerenciar-componentes')}
             />
         </div>
     );
 }
 
-export default EditarItem;
+export default EditarComponente;
