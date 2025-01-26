@@ -329,6 +329,20 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
+      usuario_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      asaas_payment_id: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       data: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -484,10 +498,10 @@ module.exports = {
     await queryInterface.bulkInsert('users', [
       {
         name: 'João Silva',
-        cpf: '12345678901',
+        cpf: '56600378018',
         password: 'password123',
         email: 'joao.silva@example.com',
-        phone: '11987654321',
+        phone: '37998232727',
         rua: 'Rua A',
         numero: 10,
         complemento: 'Apto 101',
@@ -710,6 +724,7 @@ module.exports = {
     await queryInterface.bulkInsert('pagamentos', [
       {
         id: 1,
+        usuario_id: 1,
         data: new Date(),
         metodo_pagamento: 'cartao_credito',
         valor: 150.00,
@@ -719,6 +734,7 @@ module.exports = {
       },
       {
         id: 2,
+        usuario_id: 1,
         data: new Date(),
         metodo_pagamento: 'cartao_credito',
         valor: 200.00,
@@ -728,6 +744,7 @@ module.exports = {
       },
       {
         id: 3,
+        usuario_id: 2,
         data: new Date(),
         metodo_pagamento: 'pix',
         valor: 300.00,
@@ -737,6 +754,7 @@ module.exports = {
       },
       {
         id: 4,
+        usuario_id: 3,
         data: new Date(),
         metodo_pagamento: 'pix',
         valor: 300.00,
@@ -836,11 +854,11 @@ module.exports = {
     await queryInterface.dropTable('admin');
     await queryInterface.dropTable('transacao_pacote');
     await queryInterface.dropTable('transacoes');
+    await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('carrinho');
     await queryInterface.dropTable('pacote_componentes');
     await queryInterface.dropTable('componentes');
     await queryInterface.dropTable('eventos');
-    await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('pacotes');
     await queryInterface.dropTable('users');
 

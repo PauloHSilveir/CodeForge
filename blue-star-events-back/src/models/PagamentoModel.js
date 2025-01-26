@@ -1,18 +1,25 @@
-const {Model, DataTypes} = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 class Pagamento extends Model {
     static init(sequelize) {
         super.init({
+            usuario_id: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+            asaas_payment_id: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
             data: {
                 type: DataTypes.DATE,
                 allowNull: false,
                 validate: {
-                    idDate: {
+                    isDate: {
                         msg: "A data deve ser valida",
                     }
                 },
             },
-
             metodo_pagamento: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -45,11 +52,6 @@ class Pagamento extends Model {
                     notEmpty: {
                         msg: "Status não pode estar vazio",
                     },
-
-                    isIn: {
-                        args:[['pago', 'processando', 'falhou']],
-                        msg: "O status deve ser 'pago', 'pendente'ou 'falhou'",
-                    }
                 },
             },
         }, {
@@ -60,6 +62,9 @@ class Pagamento extends Model {
     static associate(models) {
         this.hasOne(models.Transacao, {
             foreignKey: 'pagamento_id', as: 'transacao',
+        });
+        this.belongsTo(models.User, {
+            foreignKey: 'usuario_id', as: 'user',
         });
     }
 }
