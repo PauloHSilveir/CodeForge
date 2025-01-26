@@ -107,6 +107,7 @@ function Carrinho() {
 
             setItensCarrinho([]);
             setSubtotal(0);
+            await carregarCarrinho();
         } catch (error) {
             console.error('Erro ao limpar carrinho:', error);
             setError('Não foi possível limpar o carrinho');

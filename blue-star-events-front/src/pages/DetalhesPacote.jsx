@@ -116,6 +116,9 @@ function DetalhesPacote() {
             }
 
             showModalSuccess('SUCESSO', 'Pacote adicionado ao carrinho com sucesso!');
+            setTimeout(() => {
+                navigate('/carrinho');
+            }, 2000);
         } catch (error) {
             showModalFail('ERRO', 'Não foi possível adicionar o item ao carrinho');
         }

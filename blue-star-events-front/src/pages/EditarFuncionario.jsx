@@ -3,11 +3,10 @@ import NavBar from "../components/Navbar";
 import stylesFormBaseA from "../styles/FormBaseA.module.css";
 import stylesED from "../styles/EditarDados.module.css";
 import stylesEF from "../styles/EditarFuncionario.module.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { formatCpf, formatPhone, formatCep } from '../utils/formatters';
 import ModalMensagemSucesso from "../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../components/ModalMensagemFalha";
-import { useParams } from 'react-router-dom';
 import {
     RiArrowLeftCircleLine,
     RiUserLine,
@@ -28,14 +27,13 @@ const BASE_URL = 'http://localhost:1313';
 
 function EditarFuncionario() {
     const navigate = useNavigate();
-    const { userId } = useParams();
     const [userData, setUserData] = useState({
         name: '',
         cpf: '',
         email: '',
         phone: '',
         salario: '',
-        dataAdmissao: '',
+        data_admissao: '',
         rua: '',
         numero: '',
         complemento: '',
@@ -45,23 +43,31 @@ function EditarFuncionario() {
         cep: ''
     });
 
+    const { userId } = useParams();
+
     useEffect(() => {
-        fetchUserData(userId);
+        if (userId) {
+            fetchUserData(userId);
+        }
     }, [userId]);
 
     const fetchUserData = async (userId) => {
         try {
-            const response = await fetch(`${BASE_URL}/admin/${userId}`);
-            if (!response.ok) {
-                throw new Error('Erro ao buscar dados do funcionário');
-            }
-            const data = await response.json();
-            console.log("Dados:", data);
-            setUserData({
-                ...data,
-                salario: data.admin.salario || '',
-                dataAdmissao: new Date(data.admin.data_admissao).toISOString().split('T')[0],
+            const response = await fetch(`${BASE_URL}/admin/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             });
+            const data = await response.json();
+
+            setUserData(prevData => ({
+                ...prevData,
+                ...data.admin,
+                dataAdmissao: new Date(data.admin.data_admissao)
+                    .toISOString()
+                    .split("T")[0],
+            }));
         } catch (error) {
             console.error('Erro ao buscar dados do funcionário:', error.message);
         }

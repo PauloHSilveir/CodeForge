@@ -85,7 +85,7 @@ function App() {
             <Route path='/gerenciarfuncionarios' element={<GerenciarFuncionarios />} />
             <Route path='cadastrarfuncionario' element={<CadastrarFuncionario />} />
             <Route path='cadastrarenderecofuncionario' element={<CadastrarEnderecoFuncionario />} />
-            <Route path='editarfuncionario' element={<EditarFuncionario />} />
+            <Route path='editarfuncionario/:id' element={<EditarFuncionario />} />
             <Route path='/gerenciartransacoes' element={<VisualizarHistoricoTransacoesADM />} />
             <Route path='detalhestransacao' element={<DetalhesTransacao />} />
           </Route>

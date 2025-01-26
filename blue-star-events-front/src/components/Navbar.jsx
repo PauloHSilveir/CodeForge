@@ -16,6 +16,7 @@ import {
 import stylesNavbar from '../styles/Navbar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import ModalMensagemSucesso from '../components/ModalMensagemSucesso';
+import { jwtDecode } from 'jwt-decode';
 
 const UserDropdown = ({ isLoggedIn, handleLogout }) => {
   const userType = localStorage.getItem('userType');
@@ -116,15 +117,15 @@ const CartIcon = ({ cartItems }) => {
     return null;
   }
 
-  return(
-  <li>
-    <Link to="/carrinho" className={stylesNavbar.nav__link}>
-      <div className={stylesNavbar.cart}>
-        <RiShoppingCart2Line className={stylesNavbar.cart__icon} />
-        {cartItems > 0 && <span className={stylesNavbar.cart__count}>{cartItems}</span>}
-      </div>
-    </Link>
-  </li>
+  return (
+    <li>
+      <Link to="/carrinho" className={stylesNavbar.nav__link}>
+        <div className={stylesNavbar.cart}>
+          <RiShoppingCart2Line className={stylesNavbar.cart__icon} />
+          {cartItems > 0 && <span className={stylesNavbar.cart__count}>{cartItems}</span>}
+        </div>
+      </Link>
+    </li>
   );
 };
 
@@ -132,8 +133,47 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSucess, setShowSucess] = useState(false);
-  const [cartItems, setCartItems] = useState(1);
+  const [cartItems, setCartItems] = useState(0);
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('authToken');
+  const userId = token ? jwtDecode(token).id : null;
+  console.log(userId);
+  console.log(token);
+
+  // Carrega os itens do carrinho quando o componente monta
+  useEffect(() => {
+    carregarCarrinho();
+
+  }, [token, userId]);
+
+  const carregarCarrinho = async () => {
+    try {
+      const response = await fetch(`http://localhost:1313/carrinho/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Falha ao carregar quantidade do carrinho');
+      }
+  
+      const responseData = await response.json();
+      console.log('Itens do carrinho:', responseData.data.items);
+  
+      // Somar a quantidade total de itens no carrinho
+      const totalQuantidade = responseData.data.items.reduce((total, item) => total + item.quantidade, 0);
+  
+      setCartItems(totalQuantidade);
+      console.log('Carrinho carregado com sucesso. Quantidade total:', totalQuantidade);
+    } catch (error) {
+      console.error('Erro ao carregar carrinho:', error);
+    }
+  };
+  
 
   useEffect(() => {
     const storedLoginStatus = localStorage.getItem('isLoggedIn');
