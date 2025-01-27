@@ -138,8 +138,6 @@ const Navbar = () => {
 
   const token = localStorage.getItem('authToken');
   const userId = token ? jwtDecode(token).id : null;
-  console.log(userId);
-  console.log(token);
 
   // Carrega os itens do carrinho quando o componente monta
   useEffect(() => {
@@ -162,13 +160,11 @@ const Navbar = () => {
       }
   
       const responseData = await response.json();
-      console.log('Itens do carrinho:', responseData.data.items);
   
       // Somar a quantidade total de itens no carrinho
       const totalQuantidade = responseData.data.items.reduce((total, item) => total + item.quantidade, 0);
   
       setCartItems(totalQuantidade);
-      console.log('Carrinho carregado com sucesso. Quantidade total:', totalQuantidade);
     } catch (error) {
       console.error('Erro ao carregar carrinho:', error);
     }

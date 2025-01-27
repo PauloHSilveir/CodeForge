@@ -5,9 +5,10 @@ const { validateCreatePagamento } = require('../middlewares/validationMiddleware
 const router = express.Router();
 
 router.post('/', validateCreatePagamento, PagamentoController.criarPagamento);
-router.get('/', PagamentoController.listarPagamentos);
+//router.get('/', PagamentoController.listarPagamentos);
+router.get('/all/:id', PagamentoController.findByUser);
 router.get('/:id', PagamentoController.buscarPagamentoPorId);
 //router.patch('/:id', PagamentoController.atualizarPagamento);
-router.patch('/status/:asaasPaymentId', PagamentoController.atualizarStatus);
+//router.patch('/status/:asaasPaymentId', PagamentoController.atualizarStatus);
 
 module.exports = router;

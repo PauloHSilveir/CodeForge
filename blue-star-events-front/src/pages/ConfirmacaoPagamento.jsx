@@ -26,9 +26,9 @@ function ConfirmacaoPagamento() {
         }
     }, []);
 
-    const fetchPagamentos = async (userId, token) => {
+    const fetchPagamentos = async (usuarioId, token) => {
         try {
-            const response = await fetch('http://localhost:1313/pagamento', {
+            const response = await fetch(`http://localhost:1313/pagamento/all/${usuarioId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,29 +42,23 @@ function ConfirmacaoPagamento() {
     
             const data = await response.json();
     
-            // Filtrar pagamentos pelo ID do usuário
-            const userPagamentos = data.data.registros.filter(
-                pagamento => pagamento.usuario_id === userId
-            );
-
-            const formattedData = userPagamentos.map((pagamento) => ({
-                id: pagamento.id,
-                asaas_payment_id: pagamento.asaas_payment_id 
-                    ? pagamento.asaas_payment_id.replace(/^pay_/, '') 
+            const formattedData = data.map((pagamento) => ({
+                ...pagamento,
+                asaas_payment_id: pagamento.asaas_payment_id
+                    ? pagamento.asaas_payment_id.replace(/^pay_/, '')
                     : null,
-                data: new Date(pagamento.data)
+                    data: new Date(pagamento.data)
                     .toISOString()
                     .split("T")[0],
-                metodo_pagamento: pagamento.metodo_pagamento,
-                valor: parseFloat(pagamento.valor),
-                status: pagamento.status,
+                valor: pagamento.valor ? parseFloat(pagamento.valor).toFixed(2) : null,
             }));
-            
+    
             setPagamentos(formattedData);
         } catch (error) {
             console.error("Erro ao buscar dados de pagamento:", error.message);
         }
-    };    
+    };
+      
 
     const getStatusColor = (status) => {
         switch (status) {

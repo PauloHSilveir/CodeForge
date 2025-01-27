@@ -7,28 +7,28 @@ class PagamentoService {
     try {
       // Função para remover caracteres não numéricos
       //const transformarEmNumeros = (texto) => texto.replace(/\D/g, '');
-  
+
       // Primeiro, buscar informações do usuário
       const usuario = await User.findByPk(dadosPagamento.usuario_id, {
         attributes: [
-          'name', 
-          'cpf', 
-          'phone', 
-          'email', 
-          'rua', 
-          'numero', 
-          'complemento', 
-          'bairro', 
-          'cidade', 
-          'estado', 
+          'name',
+          'cpf',
+          'phone',
+          'email',
+          'rua',
+          'numero',
+          'complemento',
+          'bairro',
+          'cidade',
+          'estado',
           'cep'
         ]
       });
-  
+
       if (!usuario) {
         throw new Error('Usuário não encontrado');
       }
-  
+
       // Combinar dados do usuário com dados de pagamento
       const dadosCompletos = {
         ...dadosPagamento,
@@ -45,13 +45,13 @@ class PagamentoService {
         cep: usuario.cep
       };
       console.log('Dados Completos:', dadosCompletos);
-  
+
       // Criar cliente no Asaas usando dadosCompletos
       const clienteId = await AsaasService.criarClienteAsaas(dadosCompletos);
-  
+
       let resultadoAsaas;
       let statusPagamento = 'pendente';
-  
+
       // Processar pagamento conforme método
       switch (dadosCompletos.metodo_pagamento) {
         case 'cartao_credito':
@@ -75,10 +75,10 @@ class PagamentoService {
         default:
           throw new Error('Método de pagamento inválido');
       }
-  
+
       // Determinar status do pagamento
       statusPagamento = this.mapearStatusPagamento(resultadoAsaas.status);
-  
+
       // Salvar pagamento no banco de dados local
       const pagamento = await Pagamento.create({
         usuario_id: dadosCompletos.usuario_id,
@@ -88,7 +88,7 @@ class PagamentoService {
         status: statusPagamento,
         asaas_payment_id: resultadoAsaas.id
       });
-  
+
       return {
         pagamento,
         dadosAsaas: resultadoAsaas
@@ -96,7 +96,7 @@ class PagamentoService {
     } catch (error) {
       throw new Error(`Erro ao processar pagamento: ${error.message}`);
     }
-  }  
+  }
 
   // Método para mapear status do pagamento
   mapearStatusPagamento(statusAsaas) {
@@ -122,9 +122,9 @@ class PagamentoService {
 
       const [linhasAfetadas] = await Pagamento.update(
         { status: novoStatus },
-        { 
+        {
           where: { asaas_payment_id: asaasPaymentId },
-          returning: true 
+          returning: true
         }
       );
 
@@ -141,7 +141,7 @@ class PagamentoService {
     }
   }
 
-  async listarPagamentos(page, limit) {
+  /*async listarPagamentos(page, limit) {
     try {
       const offset = (page - 1) * limit;
       
@@ -159,7 +159,24 @@ class PagamentoService {
     } catch (error) {
       throw new Error(`Erro ao listar pagamentos: ${error.message}`);
     }
+  }*/
+  async findByUser(usuarioId) {
+    try {
+      if (!usuarioId) {
+        throw new Error('O ID do usuário é obrigatório.');
+      }
+
+      const pagamentos = await Pagamento.findAll({
+        where: { usuario_id: usuarioId },
+        order: [['createdAt', 'DESC']],
+      });
+
+      return pagamentos;
+    } catch (error) {
+      throw new Error(`Erro ao buscar pagamentos para o usuário ${usuarioId}: ${error.message}`);
+    }
   }
+
 
   async buscarPagamentoPorId(id) {
     try {
