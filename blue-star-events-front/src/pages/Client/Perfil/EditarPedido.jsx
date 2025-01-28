@@ -8,15 +8,17 @@ import stylesPI from "../../../styles/PacoteIndividual.module.css";
 import stylesGIT from "../../../styles/GerenciarItensTop.module.css";
 import stylesEP from "../../../styles/EditarPedido.module.css";
 import iconImage from "../../../assets/images/iconPerfil.png";
+import packageImage from "../../../assets/images/Aniversario.png";
 import { RiFileEditFill, RiMailFill } from '@remixicon/react';
 import { jwtDecode } from 'jwt-decode';
 
+const BASE_URL = "http://localhost:1313";
 
 function EditarPedido() {
     const navigate = useNavigate();
     const location = useLocation();
-    const [pedido, setPedido] = useState(null);
-    const [pedidoOriginal, setPedidoOriginal] = useState(null);
+    const [transacao, setTransacao] = useState(null);
+    const [transacaoOriginal, setTransacaoOriginal] = useState(null);
     const [userData, setUserData] = useState({
         nome: 'Usuário',
         email: 'email@exemplo.com',
@@ -29,7 +31,7 @@ function EditarPedido() {
         const fetchUserData = async () => {
             if (userId && token) {
                 try {
-                    const response = await fetch(`http://localhost:1313/user/${userId}`, {
+                    const response = await fetch(`${BASE_URL}/user/${userId}`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -56,45 +58,131 @@ function EditarPedido() {
     }, [userId, token]);
 
     useEffect(() => {
-        if (location.state?.pedido) {
-            setPedido(location.state.pedido);
-            setPedidoOriginal(JSON.parse(JSON.stringify(location.state.pedido)));
+        if (location.state?.idTransacao) {
+            fetchTransacao(location.state.idTransacao);
         }
     }, [location.state]);
 
+    const mapStatusFromBackend = (status) => {
+        switch (status) {
+            case 'completa':
+                return 'Concluída';
+            case 'pendente':
+                return 'Pendente';
+            case 'falha':
+                return 'Cancelada';
+            default:
+                return status;
+        }
+    };
+
+    const fetchTransacao = async (idTransacao) => {
+        try {
+            const response = await fetch(`${BASE_URL}/transacao/${idTransacao}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao buscar os detalhes da transação.');
+            }
+
+            const data = await response.json();
+
+            // Formatando os dados recebidos
+            const formattedData = {
+                id: data.id,
+                data: new Date(data.data_criacao).toLocaleDateString('pt-BR'),
+                status: mapStatusFromBackend(data.status),
+                pagamento: data.metodo_pagamento,
+                valor: data.valor,
+                pacotes: data.pacotes.map(pacote => ({
+                    nome: pacote.nome,
+                    quantidade: pacote.quantidade,
+                    image: packageImage,
+                    valor: pacote.preco
+                }))
+            };
+
+            setTransacao(formattedData);
+            setTransacaoOriginal(JSON.parse(JSON.stringify(formattedData)));
+        } catch (error) {
+            console.error('Erro ao buscar a transação:', error);
+        }
+    };
+
     const handleQuantidadeChange = (index, novaQuantidade) => {
-        const atualizado = { ...pedido };
+        const atualizado = { ...transacao };
         atualizado.pacotes[index].quantidade = novaQuantidade;
-        setPedido(atualizado);
+        setTransacao(atualizado);
     };
 
     const handleRemoverPacote = (index) => {
-        const atualizado = { ...pedido };
+        const atualizado = { ...transacao };
         atualizado.pacotes.splice(index, 1);
-        setPedido(atualizado);
+        setTransacao(atualizado);
     };
 
-    const handleSalvarAlteracoes = () => {
-        console.log("Pedido atualizado:", pedido);
-        navigate(`/detalhespedido/${pedido.id}`, { state: { pedido } });
+    const handleSalvarAlteracoes = async () => {
+        try {
+            console.log("T_ID:" + transacao.id);
+            const response = await fetch(`${BASE_URL}/transacao/update/${transacao.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    pacotes: transacao.pacotes.map(pacote => ({
+                        nome: pacote.nome,
+                        quantidade: pacote.quantidade,
+                        preco: pacote.valor
+                    }))
+                })
+            });
+
+            console.log('Response:' + response);
+
+            console.log({
+                pacotes: transacao.pacotes.map(pacote => ({
+                    nome: pacote.nome,
+                    quantidade: pacote.quantidade,
+                    preco: pacote.valor
+                }))
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar a transação');
+            }
+
+            navigate(`/detalhespedido/${transacao.id}`, {
+                state: { idTransacao: transacao.id }
+            });
+        } catch (error) {
+            console.error('Erro ao salvar alterações:', error);
+        }
     };
 
     const handleCancelarEdicao = () => {
-        setPedido(pedidoOriginal);
-        navigate(`/detalhespedido/${pedido.id}`, { state: { pedido: pedidoOriginal } });
+        navigate(`/detalhespedido/${transacao.id}`, {
+            state: { idTransacao: transacao.id }
+        });
     };
 
     const calcularSubtotal = (pacotes) => {
-        return pacotes.reduce((total, pacote) => total + pacote.valor * pacote.quantidade, 0);
+        return pacotes.reduce((total, pacote) => total + (pacote.valor * pacote.quantidade), 0);
     };
 
-    if (!pedido) {
+    if (!transacao) {
         return (
             <div>
                 <NavBar />
                 <div className={stylesPerfil.container}>
                     <div className={stylesPerfil.PerfilBox}>
-                        <p>Pedido não encontrado. Retorne à página anterior.</p>
+                        <p>Transação não encontrada. Retorne à página anterior.</p>
                         <button
                             className={stylesGIT.adicPac}
                             onClick={() => navigate("/historicotransacoes")}
@@ -133,7 +221,7 @@ function EditarPedido() {
                     <div className={stylesGIT.topTitle}>
                         <div className={stylesGIT.title}>
                             <RiFileEditFill className={stylesGIT.blueIcon} />
-                            <span className={stylesGIT.bigText}>EDITAR PEDIDO</span>
+                            <span className={stylesGIT.bigText}>EDITAR TRANSAÇÃO</span>
                         </div>
                         <div className={stylesEP.butonsTop}>
                             <button
@@ -145,7 +233,7 @@ function EditarPedido() {
                             <button
                                 className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
                                 onClick={handleSalvarAlteracoes}
-                                disabled={JSON.stringify(pedido) === JSON.stringify(pedidoOriginal)} // Desabilita se não houver alteração
+                                disabled={JSON.stringify(transacao) === JSON.stringify(transacaoOriginal)} // Desabilita se não houver alteração
                             >
                                 SALVAR ALTERAÇÕES
                             </button>
@@ -153,7 +241,7 @@ function EditarPedido() {
                     </div>
 
                     <div className={`${stylesDT.detailsContainer} ${styles.detailsContainer}`}>
-                        {pedido.pacotes.map((pacote, index) => (
+                        {transacao.pacotes.map((pacote, index) => (
                             <div key={index} className={stylesDT.transactionDetailsImage}>
                                 <div>
                                     <img
@@ -167,15 +255,21 @@ function EditarPedido() {
                                     <div className={stylesEP.inputContainer}>
                                         <label className={stylesEP.inputLabel}>
                                             Quantidade:
-                                            <input
-                                                type="number"
+                                            <select
                                                 value={pacote.quantidade}
-                                                min="1"
                                                 onChange={(e) => handleQuantidadeChange(index, parseInt(e.target.value, 10))}
                                                 className={stylesEP.input}
-                                            />
+                                            >
+                                                {/* A quantidade pode ser variada com base nas opções disponíveis */}
+                                                {[...Array(10).keys()].map((num) => (
+                                                    <option key={num + 1} value={num + 1}>
+                                                        {num + 1}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </label>
                                     </div>
+
                                 </div>
                                 <div className={stylesEP.remPac}>
                                     <button
@@ -189,14 +283,14 @@ function EditarPedido() {
                         ))}
 
                         <div className={stylesDT.transactionDetails}>
-                            <span className={stylesDT.smallTextDark}>Resumo do Pedido:</span>
+                            <span className={stylesDT.smallTextDark}>Resumo da Transação:</span>
                             <div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextLightNotMargin}>
                                         Subtotal:
                                     </span>
                                     <span className={stylesDT.smallTextLightNotMargin}>
-                                        R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}
+                                        R$ {calcularSubtotal(transacao.pacotes).toFixed(2)}
                                     </span>
                                 </div>
                                 <div className={stylesDT.transactionDetailsRow}>
@@ -210,7 +304,7 @@ function EditarPedido() {
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextDark}>Total:</span>
                                     <span className={stylesDT.smallTextDark}>
-                                        R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}
+                                        R$ {calcularSubtotal(transacao.pacotes).toFixed(2)}
                                     </span>
                                 </div>
                             </div>
