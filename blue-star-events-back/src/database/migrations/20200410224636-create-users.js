@@ -853,8 +853,8 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('admin');
     await queryInterface.dropTable('transacao_pacote');
-    await queryInterface.dropTable('transacoes');
     await queryInterface.dropTable('pagamentos');
+    await queryInterface.dropTable('transacoes');
     await queryInterface.dropTable('carrinho');
     await queryInterface.dropTable('pacote_componentes');
     await queryInterface.dropTable('componentes');
