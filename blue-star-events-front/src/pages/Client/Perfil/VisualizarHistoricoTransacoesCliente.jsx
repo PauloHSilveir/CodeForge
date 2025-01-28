@@ -27,14 +27,62 @@ function VisualizarHistoricoTransacoesCliente() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [paginaAtual, setPaginaAtual] = useState(1);
+    const [userData, setUserData] = useState({
+        nome: 'Usuário',
+        email: 'email@exemplo.com'
+    });
     const itensPorPagina = 5;
 
     const token = localStorage.getItem('authToken');
     const userId = token ? jwtDecode(token).id : null;
 
     useEffect(() => {
+        const fetchUserData = async () => {
+            if (userId && token) {
+                try {
+                    const response = await fetch(`${BASE_URL}/user/${userId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar dados do usuário');
+                    }
+    
+                    const data = await response.json();
+                    
+                    // Acessando os dados dentro do objeto user
+                    setUserData({
+                        nome: data.user.name || 'Usuário',
+                        email: data.user.email || 'email@exemplo.com'
+                    });
+    
+                } catch (error) {
+                    console.error('Erro ao buscar dados do usuário:', error);
+                }
+            }
+        };
+    
+        fetchUserData();
+    }, [userId, token]);
+
+    useEffect(() => {
         fetchTransacoes();
     }, []);
+
+    useEffect(() => {
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            console.log("Token decodificado:", decodedToken);
+            setUserData({
+                nome: decodedToken.nome || 'Usuário',
+                email: decodedToken.email || 'email@exemplo.com'
+            });
+        }
+    }, [token]);
 
     const fetchTransacoes = async () => {
         try {
@@ -46,13 +94,13 @@ function VisualizarHistoricoTransacoesCliente() {
                 }
             });
 
-            
+
             if (!response.ok) {
                 throw new Error('Erro ao buscar dados das transações.');
             }
 
             const data = await response.json();
-            
+
             const formattedData = data.map(transacao => ({
                 id: transacao.id,
                 data: new Date(transacao.data_criacao).toLocaleDateString('pt-BR'),
@@ -79,7 +127,7 @@ function VisualizarHistoricoTransacoesCliente() {
     const handleDelete = async () => {
         console.log(selectedOrder);
         try {
-            
+
             const response = await fetch(`${BASE_URL}/transacao/delete/${selectedOrder}`, {
                 method: 'DELETE',
                 headers: {
@@ -164,13 +212,13 @@ function VisualizarHistoricoTransacoesCliente() {
                         <img src={iconImage} alt="Imagem de icone" />
                         <div className={stylesPerfil.leftText}>
                             <span className={stylesPerfil.bigText}>
-                                Bem Vindo, Fulano Editor Master
+                                Bem Vindo, {userData.nome}
                             </span>
 
                             <div className={stylesPerfil.mailPerfil}>
                                 <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
                                 <span className={stylesPerfil.mediumText}>
-                                    fulano@gmail.com
+                                    {userData.email}
                                 </span>
                             </div>
                         </div>
@@ -249,7 +297,7 @@ function VisualizarHistoricoTransacoesCliente() {
                             ))}
                         </div>
                     ))}
-                    
+
                     <Paginacao
                         totalItens={totalItens}
                         itensPorPagina={itensPorPagina}

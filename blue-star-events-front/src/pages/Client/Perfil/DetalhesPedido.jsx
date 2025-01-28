@@ -11,6 +11,9 @@ import stylesPI from "../../../styles/PacoteIndividual.module.css";
 import stylesGIT from "../../../styles/GerenciarItensTop.module.css";
 import iconImage from "../../../assets/images/iconPerfil.png";
 import { RiShoppingCart2Line, RiMailFill } from '@remixicon/react';
+import { jwtDecode } from 'jwt-decode';
+
+const BASE_URL = "http://localhost:1313";
 
 function DetalhesPedido() {
     const navigate = useNavigate();
@@ -22,6 +25,65 @@ function DetalhesPedido() {
     const [showSucess, setShowSucess] = useState(false);
     const [showFail, setShowFail] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const [userData, setUserData] = useState({
+        nome: 'Usuário',
+        email: 'email@exemplo.com'
+    });
+
+    const token = localStorage.getItem('authToken');
+    const userId = token ? jwtDecode(token).id : null;
+
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (userId && token) {
+                try {
+                    const response = await fetch(`${BASE_URL}/user/${userId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar dados do usuário');
+                    }
+    
+                    const data = await response.json();
+                    
+                    // Acessando os dados dentro do objeto user
+                    setUserData({
+                        nome: data.user.name || 'Usuário',
+                        email: data.user.email || 'email@exemplo.com'
+                    });
+    
+                } catch (error) {
+                    console.error('Erro ao buscar dados do usuário:', error);
+                }
+            }
+        };
+    
+        fetchUserData();
+    }, [userId, token]);
+
+    useEffect(() => {
+        if (location.state?.pedido) {
+            setPedido(location.state.pedido);
+        }
+    }, [location.state]);
+
+
+    useEffect(() => {
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            console.log("Token decodificado:", decodedToken);
+            setUserData({
+                nome: decodedToken.nome || 'Usuário',
+                email: decodedToken.email || 'email@exemplo.com'
+            });
+        }
+    }, [token]);
 
     useEffect(() => {
         if (location.state?.pedido) {
@@ -105,13 +167,13 @@ function DetalhesPedido() {
                         <img src={iconImage} alt="Imagem de icone" />
                         <div className={stylesPerfil.leftText}>
                             <span className={stylesPerfil.bigText}>
-                                Bem Vindo, Fulano Editor Master
+                                Bem Vindo, {userData.nome}
                             </span>
 
                             <div className={stylesPerfil.mailPerfil}>
                                 <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
                                 <span className={stylesPerfil.mediumText}>
-                                    fulano@gmail.com
+                                    {userData.email}
                                 </span>
                             </div>
                         </div>
@@ -144,7 +206,7 @@ function DetalhesPedido() {
                                     </span>
                                 </div>
                                 <div className={styles.containerButtons}>
-                                    {pedido.status === "Realizado" && (
+                                    {pedido.status === "Concluído" && (
                                         <>
                                             <button
                                                 className={`${stylesPI.buttons} ${stylesPI.excPac}`}
