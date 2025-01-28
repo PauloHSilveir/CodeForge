@@ -139,14 +139,24 @@ const Navbar = () => {
   const token = localStorage.getItem('authToken');
   const userId = token ? jwtDecode(token).id : null;
 
-  // Carrega os itens do carrinho quando o componente monta
   useEffect(() => {
-    carregarCarrinho();
-
+    const userType = localStorage.getItem('userType');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  
+    if (userType === 'client' && isLoggedIn && userId && token) {
+      carregarCarrinho();
+    }
   }, [token, userId]);
 
   const carregarCarrinho = async () => {
     try {
+      const userType = localStorage.getItem('userType');
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      
+      if (!userType === 'client' || !isLoggedIn) {
+        return;
+      }
+  
       const response = await fetch(`http://localhost:1313/carrinho/${userId}`, {
         method: 'GET',
         headers: {
@@ -160,17 +170,13 @@ const Navbar = () => {
       }
   
       const responseData = await response.json();
-  
-      // Somar a quantidade total de itens no carrinho
       const totalQuantidade = responseData.data.items.reduce((total, item) => total + item.quantidade, 0);
-  
       setCartItems(totalQuantidade);
     } catch (error) {
       console.error('Erro ao carregar carrinho:', error);
     }
   };
   
-
   useEffect(() => {
     const storedLoginStatus = localStorage.getItem('isLoggedIn');
     if (storedLoginStatus === 'true') {
