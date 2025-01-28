@@ -3,7 +3,7 @@ import NavBar from "../../../components/Navbar";
 import stylesFormBaseA from "../../../styles/FormBaseA.module.css";
 import stylesED from "../../../styles/EditarDados.module.css";
 import stylesEF from "../../../styles/EditarFuncionario.module.css";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { formatCpf, formatPhone, formatCep } from '../../../utils/formatters';
 import ModalMensagemSucesso from "../../../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../../../components/ModalMensagemFalha";
@@ -27,23 +27,24 @@ const BASE_URL = 'http://localhost:1313';
 
 function EditarFuncionario() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [userData, setUserData] = useState({
-        name: '',
-        cpf: '',
-        email: '',
-        phone: '',
-        salario: '',
-        data_admissao: '',
-        rua: '',
-        numero: '',
-        complemento: '',
-        bairro: '',
-        cidade: '',
-        estado: '',
-        cep: ''
+        name: null,
+        cpf: null,
+        email: null,
+        phone: null,
+        salario: null,
+        dataAdmissao: null,
+        rua: null,
+        numero: null,
+        complemento: null,
+        bairro: null,
+        cidade: null,
+        estado: null,
+        cep: null
     });
 
-    const { userId } = useParams();
+    const userId = location.state?.userId;
 
     useEffect(() => {
         if (userId) {
@@ -61,13 +62,25 @@ function EditarFuncionario() {
             });
             const data = await response.json();
 
-            setUserData(prevData => ({
-                ...prevData,
-                ...data.admin,
+            const formattedData = {
+                id: data.id,
+                name: data.name,
+                cpf: formatCpf(data.cpf),
+                email: data.email,
+                phone: formatPhone(data.phone),
+                salario: data.admin.salario,  
                 dataAdmissao: new Date(data.admin.data_admissao)
-                    .toISOString()
-                    .split("T")[0],
-            }));
+                .toISOString()
+                .split("T")[0],
+                rua: data.rua,
+                numero: data.numero,
+                complemento: data.complemento,
+                bairro: data.bairro,
+                cidade: data.cidade,
+                estado: data.estado,
+                cep: formatCep(data.cep)
+            };
+            setUserData(formattedData);
         } catch (error) {
             console.error('Erro ao buscar dados do funcionário:', error.message);
         }

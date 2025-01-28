@@ -24,5 +24,6 @@ app.use('/admin', AdminRouter);
 app.use('/carrinho', CarrinhoRouter);
 app.use('/transacao', TransacaoRouter);
 app.use('/pagamento', PagamentoRouter);
+//app.use('/upload', UploadRoute);
 
 module.exports = app;

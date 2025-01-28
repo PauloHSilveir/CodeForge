@@ -77,6 +77,18 @@ class ComponenteService {
         throw new Error('O preço deve ser maior que zero');
       }
 
+      // Se recebeu uma nova imagem E é diferente da atual, deleta a antiga
+      if (componenteData.imagem && componenteData.imagem !== existingcomponente.imagem) {
+        const fs = require('fs');
+        const path = require('path');
+        const oldImagePath = path.join(__dirname, '..', 'uploads', existingcomponente.imagem);
+
+        // Deleta o arquivo antigo se ele existir
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      }
+
       await componente.update(componenteData);
 
       return {

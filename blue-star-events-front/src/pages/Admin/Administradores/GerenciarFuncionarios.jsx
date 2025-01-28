@@ -30,7 +30,6 @@ function GerenciarFuncionarios() {
                     .split("T")[0],
             }));
 
-            console.log("Dados formatados:", formattedData);
             setFuncionarios(formattedData);
         } catch (error) {
             console.error("Erro ao buscar dados dos funcionários:", error.message);

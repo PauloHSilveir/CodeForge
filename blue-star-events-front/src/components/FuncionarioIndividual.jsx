@@ -23,8 +23,7 @@ function FuncionarioIndividual({ id, nome, email, celular, data_admissao, onDele
             return;
         }
 
-        console.log("Administrador selecionado para edição:", id);
-        navigate(`/editarFuncionario/${id}`);
+        navigate(`/editarFuncionario/${id}`, { state: {userId: id}});
     };
 
     const handleDelete = async (id) => {

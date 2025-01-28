@@ -10,7 +10,7 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use("/src/images", express.static("images"));
+app.use('/uploads', express.static('uploads'));
 
 app.use(express.json());
 app.use(routes);

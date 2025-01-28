@@ -113,6 +113,17 @@ module.exports = {
             if (!componentes || !Array.isArray(componentes) || componentes.length === 0) {
                 throw new Error('É necessário fornecer ao menos um componente');
             }
+            // Se recebeu uma nova imagem E é diferente da atual, deleta a antiga
+            if (data.imagem && data.imagem !== pacote.imagem) {
+                const fs = require('fs');
+                const path = require('path');
+                const oldImagePath = path.join(__dirname, '..', 'uploads', pacote.imagem);
+
+                // Deleta o arquivo antigo se ele existir
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath);
+                }
+            }
 
             // Calcular novo preço total
             const precoTotal = await this._calcularPrecoTotal(componentes);

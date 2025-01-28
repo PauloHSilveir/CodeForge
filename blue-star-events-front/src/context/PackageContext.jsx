@@ -22,6 +22,7 @@ export const PackageProvider = ({ children }) => {
   };
 
   const addComponents = (items) => {
+    
     const newComponents = items.map(item => ({
       componente_id: item.id,
       quantidade_componente: item.quantity || 1,
