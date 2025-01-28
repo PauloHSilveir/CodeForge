@@ -12,7 +12,7 @@ import {
     RiEditBoxLine,
     RiDeleteBinLine,
     RiApps2Fill,
-    RiShoppingCart2Line,
+    RiMoneyDollarCircleLine,
     RiUser3Line,
 } from '@remixicon/react';
 
@@ -141,14 +141,14 @@ function Perfil() {
                                 className={stylesPerfil.buttonsOptionsBox}
                                 onClick={() => handleNavigate('/historicotransacoes')}
                             >
-                                <RiShoppingCart2Line className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
+                                <RiMoneyDollarCircleLine className={`${stylesPerfil.blueIcon} ${stylesPerfil.bigIcon}`} />
                                 <div className={stylesPerfil.textsButtonsOptions}>
                                     <span className={stylesPerfil.mediumText}>
-                                        MEUS PEDIDOS
+                                        MINHAS TRANSAÇÕES 
                                     </span>
 
                                     <span className={stylesPerfil.smallText}>
-                                        <br />Veja o histórico e acompanhe seus pedidos.
+                                        <br />Veja o histórico e acompanhe suas transações.
                                     </span>
                                 </div>
                             </button>

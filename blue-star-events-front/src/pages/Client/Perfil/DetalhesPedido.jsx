@@ -12,6 +12,7 @@ import stylesGIT from "../../../styles/GerenciarItensTop.module.css";
 import iconImage from "../../../assets/images/iconPerfil.png";
 import { RiShoppingCart2Line, RiMailFill } from '@remixicon/react';
 import { jwtDecode } from 'jwt-decode';
+import packageImage from "../../../assets/images/Aniversario.png";
 
 const BASE_URL = "http://localhost:1313";
 
@@ -19,7 +20,7 @@ function DetalhesPedido() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [pedido, setPedido] = useState(null);
+    const [transacao, setTransacao] = useState(null);
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [showSucess, setShowSucess] = useState(false);
@@ -45,31 +46,31 @@ function DetalhesPedido() {
                             'Content-Type': 'application/json'
                         }
                     });
-    
+
                     if (!response.ok) {
                         throw new Error('Erro ao buscar dados do usuário');
                     }
-    
+
                     const data = await response.json();
-                    
+
                     // Acessando os dados dentro do objeto user
                     setUserData({
                         nome: data.user.name || 'Usuário',
                         email: data.user.email || 'email@exemplo.com'
                     });
-    
+
                 } catch (error) {
                     console.error('Erro ao buscar dados do usuário:', error);
                 }
             }
         };
-    
+
         fetchUserData();
     }, [userId, token]);
 
     useEffect(() => {
-        if (location.state?.pedido) {
-            setPedido(location.state.pedido);
+        if (location.state?.idTransacao) {
+            fetchTransacao(location.state.idTransacao);
         }
     }, [location.state]);
 
@@ -77,7 +78,6 @@ function DetalhesPedido() {
     useEffect(() => {
         if (token) {
             const decodedToken = jwtDecode(token);
-            console.log("Token decodificado:", decodedToken);
             setUserData({
                 nome: decodedToken.nome || 'Usuário',
                 email: decodedToken.email || 'email@exemplo.com'
@@ -85,11 +85,55 @@ function DetalhesPedido() {
         }
     }, [token]);
 
-    useEffect(() => {
-        if (location.state?.pedido) {
-            setPedido(location.state.pedido);
+    const mapStatusFromBackend = (status) => {
+        switch (status) {
+            case 'completa':
+                return 'Concluída';
+            case 'pendente':
+                return 'Pendente';
+            case 'falha':
+                return 'Cancelada';
+            default:
+                return status;
         }
-    }, [location.state]);
+    };
+
+    const fetchTransacao = async (idTransacao) => {
+        try {
+            const response = await fetch(`${BASE_URL}/transacao/${idTransacao}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Erro ao buscar os detalhes da transação.');
+            }
+    
+            const data = await response.json();
+            
+            // Formatando os dados recebidos
+            const formattedData = {
+                id: data.id,
+                data: new Date(data.data_criacao).toLocaleDateString('pt-BR'),
+                status: mapStatusFromBackend(data.status),
+                pagamento: data.metodo_pagamento,
+                valor: data.valor,
+                pacotes: data.pacotes.map(pacote => ({
+                    nome: pacote.nome,
+                    quantidade: pacote.quantidade,
+                    image: packageImage,
+                    valor: pacote.preco
+                }))
+            };
+    
+            setTransacao(formattedData);
+        } catch (error) {
+            console.error('Erro ao buscar a transação:', error);
+        }
+    };
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -104,7 +148,7 @@ function DetalhesPedido() {
 
     const handleDelete = async () => {
         try {
-            console.log(`Pedido ${selectedOrder} cancelado.`);
+            console.log(`Transacão ${selectedOrder} cancelado.`);
             setShowSucess(true);
 
             setTimeout(() => {
@@ -113,7 +157,7 @@ function DetalhesPedido() {
                 navigate("/historicotransacoes");
             }, 3000);
         } catch (error) {
-            console.error("Erro ao excluir pedido:", error);
+            console.error("Erro ao excluir transação:", error);
             setShowFail(true);
 
             setTimeout(() => {
@@ -139,13 +183,13 @@ function DetalhesPedido() {
     };
 
 
-    if (!pedido) {
+    if (!transacao) {
         return (
             <div>
                 <NavBar />
                 <div className={stylesPerfil.container}>
                     <div className={stylesPerfil.PerfilBox}>
-                        <p>Pedido não encontrado. Retorne à página anterior.</p>
+                        <p>Transação não encontrada. Retorne à página anterior.</p>
                         <button
                             className={stylesGIT.adicPac}
                             onClick={() => navigate('/historicotransacoes')}
@@ -184,7 +228,7 @@ function DetalhesPedido() {
                     <div className={stylesGIT.topTitle}>
                         <div className={stylesGIT.title}>
                             <RiShoppingCart2Line className={stylesGIT.blueIcon} />
-                            <span className={stylesGIT.bigText}>DETALHES DO PEDIDO</span>
+                            <span className={stylesGIT.bigText}>DETALHES DA TRANSAÇÃO</span>
                         </div>
                         <button
                             className={stylesGIT.adicPac}
@@ -199,45 +243,45 @@ function DetalhesPedido() {
                             <div className={styles.transacaoHeader}>
                                 <div>
                                     <span className={stylesDT.smallTextDark}>
-                                        Pedido:
+                                        Transação:
                                     </span>
                                     <span className={stylesDT.smallTextLight}>
-                                        {pedido.id} - {pedido.data}
+                                        {transacao.id} - {transacao.data}
                                     </span>
                                 </div>
                                 <div className={styles.containerButtons}>
-                                    {pedido.status === "Concluído" && (
+                                    {transacao.status === "Pendente" && (
                                         <>
                                             <button
                                                 className={`${stylesPI.buttons} ${stylesPI.excPac}`}
-                                                onClick={() => openModal(pedido.id)}
+                                                onClick={() => openModal(transacao.id)}
                                             >
-                                                CANCELAR PEDIDO
+                                                CANCELAR TRANSAÇÃO
                                             </button>
 
                                             <button
                                                 className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
-                                                onClick={() => navigate(`/editarpedido/${pedido.id}`, { state: { pedido } })}
+                                                onClick={() => navigate(`/editarpedido/${transacao.id}`, { state: {idTransacao: transacao.id} })}
                                             >
-                                                EDITAR PEDIDO
+                                                EDITAR TRANSAÇÃO
                                             </button>
                                         </>
-                                    )}
+                                    )}  
                                 </div>
                             </div>
                         </div>
 
                         <div className={stylesDT.transactionDetails}>
                             <div
-                                className={`${stylesDT.smallTextDark} ${styles.transacaoStatus} ${styles[getStatusColor(pedido.status)]}`}
+                                className={`${stylesDT.smallTextDark} ${styles.transacaoStatus} ${styles[getStatusColor(transacao.status)]}`}
                             >
-                                Pedido {pedido.status}.
+                                Transação {transacao.status}.
                             </div>
                         </div>
 
                         <div className={stylesDT.transactionDetails}>
                             <span className={stylesDT.smallTextDark}>
-                                Pagamento via {pedido.pagamento}.
+                                Pagamento via {transacao.pagamento}.
                             </span>
                         </div>
 
@@ -247,7 +291,7 @@ function DetalhesPedido() {
                             </span>
                         </div>
 
-                        {pedido.pacotes.map((pacote, index) => (
+                        {transacao.pacotes.map((pacote, index) => (
                             <div key={index} className={stylesDT.transactionDetailsImage}>
                                 <div>
                                     <img src={pacote.image} alt="Imagem do pacote" className={stylesDT.image} />
@@ -262,11 +306,11 @@ function DetalhesPedido() {
                         ))}
 
                         <div className={stylesDT.transactionDetails}>
-                            <span className={stylesDT.smallTextDark}>Resumo do Pedido:</span><br />
+                            <span className={stylesDT.smallTextDark}>Resumo da Transação:</span><br />
                             <div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextLightNotMargin}>Subtotal do(s) item(ns):</span>
-                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}</span>
+                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularSubtotal(transacao.pacotes).toFixed(2)}</span>
                                 </div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextLightNotMargin}>Frete e Manuseio:</span>
@@ -274,11 +318,11 @@ function DetalhesPedido() {
                                 </div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextLightNotMargin}>Total:</span>
-                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}</span>
+                                    <span className={stylesDT.smallTextLightNotMargin}>R$ {calcularSubtotal(transacao.pacotes).toFixed(2)}</span>
                                 </div>
                                 <div className={stylesDT.transactionDetailsRow}>
                                     <span className={stylesDT.smallTextDark}>Total Geral:</span>
-                                    <span className={stylesDT.smallTextDark}>R$ {calcularSubtotal(pedido.pacotes).toFixed(2)}</span>
+                                    <span className={stylesDT.smallTextDark}>R$ {calcularSubtotal(transacao.pacotes).toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>

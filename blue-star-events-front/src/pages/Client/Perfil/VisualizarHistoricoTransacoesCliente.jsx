@@ -76,7 +76,6 @@ function VisualizarHistoricoTransacoesCliente() {
     useEffect(() => {
         if (token) {
             const decodedToken = jwtDecode(token);
-            console.log("Token decodificado:", decodedToken);
             setUserData({
                 nome: decodedToken.nome || 'Usuário',
                 email: decodedToken.email || 'email@exemplo.com'
@@ -262,7 +261,7 @@ function VisualizarHistoricoTransacoesCliente() {
                                         )}
                                         <button
                                             className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
-                                            onClick={() => navigate(`/detalhespedido/${transacao.id}`, { state: { pedido: transacao } })}
+                                            onClick={() => navigate(`/detalhespedido/${transacao.id}`, { state: {idTransacao: transacao.id} })}
                                         >
                                             VER DETALHES
                                         </button>
