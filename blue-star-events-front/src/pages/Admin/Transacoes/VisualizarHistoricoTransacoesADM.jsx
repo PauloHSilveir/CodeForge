@@ -1,14 +1,56 @@
+import { useState, useEffect } from 'react';
 import GerenciarGenerico from "../../../components/GerenciarGenerico";
-import { RiMoneyDollarCircleLine } from "@remixicon/react"; 
+import { RiMoneyDollarCircleLine } from "@remixicon/react";
 import TransacaoIndividual from "../../../components/TransacaoIndividual";
 
-// Dados mockados
-const transacoes = [
-    { id: 1, valor: 571847.56, data: "2024-12-21", cliente: "João Marcos da Silva Guedes", status: "Pendente"},
-    { id: 2, valor: 864.31, data: "2024-12-17", cliente: "Otávio Melo Ribeiro", status: "concluido"},
-];
-
 function VisualizarHistoricoTransacoesADM() {
+    const [transacoes, setTransacoes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchTransacoes = async () => {
+            try {
+                const response = await fetch('http://localhost:1313/transacao');
+                if (!response.ok) {
+                    throw new Error('Falha ao carregar as transações');
+                }
+                const data = await response.json();
+                
+                // Transform the API data to match the component's expected format
+                const transformedData = data.map(transacao => ({
+                    id: transacao.id,
+                    valor: parseFloat(transacao.pagamento.valor),
+                    data: new Date(transacao.data).toISOString().split('T')[0],
+                    cliente: transacao.usuario.name,
+                    status: transacao.pagamento.status,
+                    metodoPagamento: transacao.pagamento.metodo_pagamento,
+                    pacotes: transacao.transacao_pacotes.map(tp => ({
+                        nome: tp.pacote.name,
+                        quantidade: tp.quantidade_pacote,
+                        preco: parseFloat(tp.pacote.preco)
+                    }))
+                }));
+
+                setTransacoes(transformedData);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTransacoes();
+    }, []);
+
+    if (loading) {
+        return <div>Carregando transações...</div>;
+    }
+
+    if (error) {
+        return <div>Erro ao carregar transações: {error}</div>;
+    }
+
     return (
         <GerenciarGenerico
             dados={transacoes}
@@ -20,6 +62,8 @@ function VisualizarHistoricoTransacoesADM() {
                     data={transacao.data}
                     cliente={transacao.cliente}
                     status={transacao.status}
+                    metodoPagamento={transacao.metodoPagamento}
+                    pacotes={transacao.pacotes}
                 />
             )}
             icone={RiMoneyDollarCircleLine}

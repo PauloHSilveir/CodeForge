@@ -93,9 +93,40 @@ O **Blue Star Events** é um sistema **WEB** desenvolvido para a empresa **Blue 
 
 ```
 ├── blue-star-events-back
-│    └── index.js
-├── blue-star-events-front/src
-│    └── App.js 
+│    ├── src
+│    │    ├── config
+│    │    ├── controllers
+│    │    ├── database
+│    │    │      └── migrations
+│    │    ├── middlewares
+│    │    ├── models
+│    │    ├── modules
+│    │    ├── resources
+│    │    ├── routes
+│    │    ├── services
+│    │    └── utils
+│    ├── uploads
+│    ├── index.js
+│    ├── .gitignore
+│    ├── .sequelizerc
+│    └── package.json
+│
+├── blue-star-events-front
+│    ├── src
+│    │     ├── assets
+│    │     ├── components
+│    │     ├── context
+│    │     ├── pages
+│    │     ├── pages
+│    │     │      ├── Admin
+│    │     │      ├── Client
+│    │     │      └── Global
+│    │     ├── styles
+│    │     ├── utils
+│    │     └── App.js
+│    ├── .gitignore
+│    └── package.json
+│
 ├── Diagramas
 │    ├── Diagrama de Classes.pdf
 │    ├── Diagrama de Pacotes.pdf

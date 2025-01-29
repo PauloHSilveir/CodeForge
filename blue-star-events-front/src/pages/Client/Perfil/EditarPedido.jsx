@@ -86,14 +86,7 @@ function EditarPedido() {
 
             const data = await response.json();
 
-            // Converter a data do evento para o formato datetime-local
-            const dataEvento = data.evento?.data
-                ? new Date(data.evento.data).toISOString().slice(0, 16)
-                : '';
-
-            // Atualizar o estado do evento com os dados recebidos
             setEvento({
-                data: dataEvento, // Data já formatada para datetime-local
                 rua: data.evento?.rua || '',
                 numero: data.evento?.numero || '',
                 complemento: data.evento?.complemento || '',
@@ -106,7 +99,6 @@ function EditarPedido() {
             const formattedData = {
                 id: data.id,
                 data_criacao: new Date(data.data_criacao).toLocaleDateString('pt-BR'),
-                data_evento: dataEvento,
                 status: mapStatusFromBackend(data.pagamento.status),
                 pagamento: data.pagamento.metodo_pagamento,
                 valor: data.pagamento.valor,
@@ -242,20 +234,6 @@ function EditarPedido() {
                         </div>
                     </div>
                     <div className={`${stylesDT.detailsContainer} ${styles.detailsContainer}`}>
-                        {/* Nova seção para Data do Evento */}
-                        <div className={stylesDT.transactionDetails}>
-                            <p className={stylesDT.smallTextDark}>Data e Hora do Evento:</p>
-                            <div className={stylesEP.inputContainer}>
-                                <input
-                                    type="datetime-local"
-                                    name="data"
-                                    value={evento.data}
-                                    onChange={handleEventoChange}
-                                    className={stylesEP.input}
-                                />
-                            </div>
-                        </div>
-
                         <div className={stylesDT.transactionDetails}>
                             <p className={stylesDT.smallTextDark}>Endereço de evento:</p>
                             <div className={stylesEP.formGrid}>
