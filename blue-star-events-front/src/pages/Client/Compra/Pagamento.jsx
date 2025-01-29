@@ -11,6 +11,7 @@ function Pagamento() {
     const location = useLocation();
     const subtotal = location.state?.subtotal || 0;
     const itensCarrinho = location.state?.itensCarrinho || [];
+    const eventData = location.state?.eventData;
 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
     const [cardData, setCardData] = useState({
@@ -128,7 +129,8 @@ function Pagamento() {
                         subtotal,
                         itensCarrinho,
                         selectedPaymentMethod,
-                        paymentDetails: responseData
+                        paymentDetails: responseData,
+                        eventData
                     }
                 });
             } else {
