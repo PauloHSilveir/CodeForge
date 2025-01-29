@@ -18,7 +18,7 @@ const CadastrarPacote2 = () => {
                 const data = await response.json();
                 
                 const professionalComponents = data.componente
-                    .filter(item => item.categoria === 'Funcionarios')
+                    .filter(item => item.categoria === 'Funcionário')
                     .map(item => ({
                         id: item.id,
                         name: item.name,

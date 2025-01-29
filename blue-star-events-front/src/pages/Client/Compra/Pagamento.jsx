@@ -28,16 +28,6 @@ function Pagamento() {
     const token = localStorage.getItem('authToken');
     const usuarioId = token ? jwtDecode(token).id : null;
 
-    const handleNavigate = (path) => {
-        navigate(path, {
-            state: {
-                subtotal,
-                itensCarrinho,
-                selectedPaymentMethod
-            }
-        });
-    };
-
     const handlePaymentSelection = (method) => {
         setSelectedPaymentMethod((prevMethod) => (prevMethod === method ? "" : method));
     };
@@ -55,45 +45,9 @@ function Pagamento() {
         setError(null);
 
         try {
-            // Validações de campos antes do envio
             if (!selectedPaymentMethod) {
                 setError('Selecione um método de pagamento');
                 return;
-            }
-
-            // Validações específicas para cartão de crédito
-            if (selectedPaymentMethod === 'cartao_credito') {
-                const {
-                    nomeCartao,
-                    numeroCartao,
-                    mesValidade,
-                    anoValidade,
-                    cvv
-                } = cardData;
-
-                // Validações de campos
-                if (!nomeCartao || !numeroCartao || !mesValidade || !anoValidade || !cvv) {
-                    setError('Preencha todos os dados do cartão');
-                    return;
-                }
-
-                // Validação de formato de cartão
-                if (!/^\d{4}-\d{4}-\d{4}-\d{4}$/.test(numeroCartao)) {
-                    setError('Número do cartão inválido');
-                    return;
-                }
-
-                // Validação de data de validade
-                const currentYear = new Date().getFullYear() % 100;
-                const currentMonth = new Date().getMonth() + 1;
-
-                if (
-                    parseInt(anoValidade) < currentYear ||
-                    (parseInt(anoValidade) === currentYear && parseInt(mesValidade) < currentMonth)
-                ) {
-                    setError('Cartão vencido');
-                    return;
-                }
             }
 
             const paymentData = {
@@ -102,7 +56,6 @@ function Pagamento() {
                 valor: subtotal
             };
 
-            // Adicionar dados específicos de cartão
             if (selectedPaymentMethod === 'cartao_credito') {
                 paymentData.nomeCartao = cardData.nomeCartao;
                 paymentData.numeroCartao = cardData.numeroCartao.replace(/\D/g, '');
@@ -111,8 +64,8 @@ function Pagamento() {
                 paymentData.cvv = cardData.cvv;
             }
 
-            console.log('Dados do pagamento:', paymentData);
-            const response = await fetch('http://localhost:1313/pagamento', {
+            // 1. Process Payment
+            const paymentResponse = await fetch('http://localhost:1313/pagamento', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,24 +74,81 @@ function Pagamento() {
                 body: JSON.stringify(paymentData)
             });
 
-            const responseData = await response.json();
-
-            if (response.ok) {
-                navigate('/confirmacaopagamento', {
-                    state: {
-                        subtotal,
-                        itensCarrinho,
-                        selectedPaymentMethod,
-                        paymentDetails: responseData,
-                        eventData
-                    }
-                });
-            } else {
-                throw new Error(responseData.mensagem || 'Erro ao realizar pagamento');
+            if (!paymentResponse.ok) {
+                throw new Error('Erro ao processar pagamento');
             }
+
+            const paymentResult = await paymentResponse.json();
+            const pagamentoId = paymentResult.data.pagamento.id;
+
+            // 2. Create Event
+            const eventoData = {
+                data: eventData.dataEvento,
+                rua: eventData.endereco.rua,
+                numero: eventData.endereco.numero,
+                complemento: eventData.endereco.complemento,
+                bairro: eventData.endereco.bairro,
+                cidade: eventData.endereco.cidade,
+                estado: eventData.endereco.estado,
+                cep: eventData.endereco.cep
+            };
+            console.log(eventoData);
+
+            const eventResponse = await fetch('http://localhost:1313/evento/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(eventoData)
+            });
+
+            if (!eventResponse.ok) {
+                throw new Error('Erro ao criar evento');
+            }
+
+            const eventResult = await eventResponse.json();
+            console.log(eventResult);
+            const eventoId = eventResult.event.id; // Assuming the API returns the event ID
+
+            // 3. Create Transaction
+            const transactionData = {
+                usuario_id: usuarioId,
+                pagamento_id: pagamentoId,
+                evento_id: eventoId,
+                pacotes: itensCarrinho.map(item => ({
+                    pacote_id: Number(item.pacote_id),
+                    quantidade_pacote: Number(item.quantidade)
+                }))                
+            };
+            console.log(transactionData);
+            const transactionResponse = await fetch('http://localhost:1313/transacao/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(transactionData)
+            });
+
+            if (!transactionResponse.ok) {
+                throw new Error('Erro ao criar transação');
+            }
+
+            // If everything is successful, navigate to confirmation page
+            navigate('/confirmacaopagamento', {
+                state: {
+                    subtotal,
+                    itensCarrinho,
+                    selectedPaymentMethod,
+                    paymentDetails: paymentResult,
+                    eventData
+                }
+            });
+
         } catch (err) {
-            setError(err.message || 'Erro ao processar pagamento');
-            console.error('Erro no pagamento:', err);
+            setError(err.message || 'Erro ao processar operação');
+            console.error('Erro:', err);
         } finally {
             setLoading(false);
         }
@@ -244,20 +254,6 @@ function Pagamento() {
                                             value={cardData.cvv}
                                             onChange={handleCardDataChange}
                                         />
-                                    </div>
-                                    <div>
-                                        <label>Número de Parcelas:</label>
-                                        <select name="parcelas" id="parcelas">
-                                            {[...Array(8).keys()].map((num) => {
-                                                const parcelas = num + 1;
-                                                const valorParcela = (subtotal / parcelas).toFixed(2);
-                                                return (
-                                                    <option key={parcelas} value={parcelas}>
-                                                        {parcelas}x  R$ {valorParcela.replace(".", ",")}
-                                                    </option>
-                                                );
-                                            })}
-                                        </select>
                                     </div>
                                 </form>
                             </div>

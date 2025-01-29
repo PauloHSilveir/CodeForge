@@ -141,19 +141,6 @@ function ConfirmacaoPagamento() {
                             )}
                         </div>
                     ))}
-
-                    {itensCarrinho.map((pacote, index) => (
-                        <div key={index} className={stylesDT.transactionDetailsImage}>
-                            <div>
-                                <img src={pacote.imagem} alt="Imagem do pacote" className={stylesDT.image} />
-                            </div>
-                            <div>
-                                <span className={stylesDT.smallTextDark}>{pacote.nome}</span><br />
-                                <span className={stylesDT.smallTextLightNotMargin}>Quantidade: {pacote.quantidade}</span><br />
-                                <span className={stylesDT.smallTextLightNotMargin}>Preço: {pacote.preco}</span>
-                            </div>
-                        </div>
-                    ))}
                 </div>
             </div>
         </div>

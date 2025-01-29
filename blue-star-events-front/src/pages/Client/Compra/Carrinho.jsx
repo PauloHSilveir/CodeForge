@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "../../../components/Navbar";
 import OrcamentoBase from "../../../components/OrcamentoBase";
@@ -15,9 +15,6 @@ function Carrinho() {
     const [subtotal, setSubtotal] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const location = useLocation();
-    const eventData = location.state?.eventData;
 
     // Recupera o token e ID do usuário
     const token = localStorage.getItem('authToken');
@@ -55,7 +52,7 @@ function Carrinho() {
             }
 
             const responseData = await response.json();
-
+            
             if (responseData.success && responseData.data) {
                 setItensCarrinho(responseData.data.items || []);
                 setSubtotal(parseFloat(responseData.data.total) || 0);
@@ -119,12 +116,11 @@ function Carrinho() {
 
     // Função de navegação
     const handleNavigate = (path) => {
-        navigate(path, {
-            state: {
+        navigate(path, { 
+            state: { 
                 subtotal,
-                itens: itensCarrinho,
-                eventData
-            }
+                itensCarrinho 
+            } 
         });
     };
 
@@ -145,10 +141,10 @@ function Carrinho() {
                 title="CARRINHO"
                 subtotal={subtotal}
                 IconDetails={RiShoppingCart2Line}
-                nextPath="/pagamento"
+                nextPath="/definirdetalhesevento"
                 prevPath="/consultarpacotes"
                 handleNavigate={handleNavigate}
-                nextButtonText="IR PARA O PAGAMENTO"
+                nextButtonText="DEFINIR DETALHES DO EVENTO"
                 prevButtonText="CONTINUAR COMPRANDO"
             >
                 {error && (
@@ -156,7 +152,7 @@ function Carrinho() {
                         {error}
                     </div>
                 )}
-
+                
                 <div>
                     {itensCarrinho.length > 0 ? (
                         <>

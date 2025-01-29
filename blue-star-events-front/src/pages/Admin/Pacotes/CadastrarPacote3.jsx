@@ -19,7 +19,7 @@ const CadastrarPacote3 = () => {
                 const data = await response.json();
 
                 const itemComponents = data.componente
-                    .filter(item => item.categoria === 'Itens')
+                    .filter(item => item.categoria === 'Item')
                     .map(item => ({
                         id: item.id,
                         name: item.name,

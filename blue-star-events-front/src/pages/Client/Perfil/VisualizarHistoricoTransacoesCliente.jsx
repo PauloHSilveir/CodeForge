@@ -92,28 +92,41 @@ function VisualizarHistoricoTransacoesCliente() {
                     'Content-Type': 'application/json'
                 }
             });
-
-
+    
             if (!response.ok) {
                 throw new Error('Erro ao buscar dados das transações.');
             }
-
+    
             const data = await response.json();
-
+    
             const formattedData = data.map(transacao => ({
                 id: transacao.id,
                 data: new Date(transacao.data_criacao).toLocaleDateString('pt-BR'),
-                status: mapStatusFromBackend(transacao.status),
-                pagamento: transacao.metodo_pagamento,
-                valor: transacao.valor,
+                status: mapStatusFromBackend(transacao.pagamento.status),
+                pagamento: transacao.pagamento.metodo_pagamento,
+                valor: transacao.pagamento.valor,
                 pacotes: transacao.pacotes.map(pacote => ({
                     nome: pacote.nome,
                     quantidade: pacote.quantidade,
                     image: packageImage,
                     valor: pacote.preco
-                }))
+                })),
+                usuario: {
+                    nome: transacao.usuario.nome,
+                    email: transacao.usuario.email
+                },
+                evento: {
+                    data: new Date(transacao.evento.data).toLocaleDateString('pt-BR'),
+                    rua: transacao.evento.rua,
+                    numero: transacao.evento.numero,
+                    complemento: transacao.evento.complemento,
+                    bairro: transacao.evento.bairro,
+                    cidade: transacao.evento.cidade,
+                    estado: transacao.evento.estado,
+                    cep: transacao.evento.cep
+                }
             }));
-
+    
             setTransacoes(formattedData);
         } catch (err) {
             console.error("Erro ao buscar transações:", err);

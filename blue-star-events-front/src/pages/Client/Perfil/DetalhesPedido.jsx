@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from "../../../components/Navbar";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ModalExcluir from "../../../components/ModalExcluir";
 import ModalMensagemSucesso from "../../../components/ModalMensagemSucesso";
 import ModalMensagemFalha from "../../../components/ModalMensagemFalha";
@@ -107,20 +107,34 @@ function DetalhesPedido() {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Erro ao buscar os detalhes da transação.');
             }
-    
+
             const data = await response.json();
-            
+
             // Formatando os dados recebidos
             const formattedData = {
                 id: data.id,
                 data: new Date(data.data_criacao).toLocaleDateString('pt-BR'),
-                status: mapStatusFromBackend(data.status),
-                pagamento: data.metodo_pagamento,
-                valor: data.valor,
+                status: mapStatusFromBackend(data.pagamento.status),
+                pagamento: data.pagamento.metodo_pagamento,
+                valor: data.pagamento.valor,
+                usuario: {
+                    nome: data.usuario.nome,
+                    email: data.usuario.email
+                },
+                evento: {
+                    data: new Date(data.evento.data).toLocaleDateString('pt-BR'),
+                    rua: data.evento.rua,
+                    numero: data.evento.numero,
+                    complemento: data.evento.complemento,
+                    bairro: data.evento.bairro,
+                    cidade: data.evento.cidade,
+                    estado: data.evento.estado,
+                    cep: data.evento.cep
+                },
                 pacotes: data.pacotes.map(pacote => ({
                     nome: pacote.nome,
                     quantidade: pacote.quantidade,
@@ -128,15 +142,11 @@ function DetalhesPedido() {
                     valor: pacote.preco
                 }))
             };
-    
+
             setTransacao(formattedData);
         } catch (error) {
             console.error('Erro ao buscar a transação:', error);
         }
-    };
-
-    const handleNavigate = (path) => {
-        navigate(path);
     };
 
     const openModal = (orderId) => {
@@ -146,9 +156,21 @@ function DetalhesPedido() {
 
     const closeModal = () => setModalOpen(false);
 
+    // Update the handleDelete function to use the API
     const handleDelete = async () => {
         try {
-            console.log(`Transacão ${selectedOrder} cancelado.`);
+            const response = await fetch(`${BASE_URL}/transacao/delete/${selectedOrder}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao cancelar transação');
+            }
+
             setShowSucess(true);
 
             setTimeout(() => {
@@ -157,7 +179,7 @@ function DetalhesPedido() {
                 navigate("/historicotransacoes");
             }, 3000);
         } catch (error) {
-            console.error("Erro ao excluir transação:", error);
+            console.error("Erro ao cancelar transação:", error);
             setShowFail(true);
 
             setTimeout(() => {
@@ -261,12 +283,12 @@ function DetalhesPedido() {
 
                                             <button
                                                 className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
-                                                onClick={() => navigate(`/editarpedido/${transacao.id}`, { state: {idTransacao: transacao.id} })}
+                                                onClick={() => navigate(`/editarpedido/${transacao.id}`, { state: { idTransacao: transacao.id } })}
                                             >
                                                 EDITAR TRANSAÇÃO
                                             </button>
                                         </>
-                                    )}  
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -326,14 +348,19 @@ function DetalhesPedido() {
                                 </div>
                             </div>
                         </div>
-
-                        {/*Depois ajeitar o endereço*/}
                         <div className={stylesDT.transactionDetails}>
-                            <span className={stylesDT.smallTextDark}>Endereço: </span><br />
-                            <span className={stylesDT.smallTextLightNotMargin}>Rua Salomão Pinheiro Costa 697</span><br />
-                            <span className={stylesDT.smallTextLightNotMargin}>Higienópolis</span><br />
-                            <span className={stylesDT.smallTextLightNotMargin}>São Paulo</span><br />
-                            <span className={stylesDT.smallTextLightNotMargin}>Brasil</span>
+                            <span className={stylesDT.smallTextDark}>Endereço do Evento: </span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>
+                                {transacao.evento.rua}, {transacao.evento.numero}
+                                {transacao.evento.complemento && `, ${transacao.evento.complemento}`}
+                            </span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>{transacao.evento.bairro}</span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>
+                                {transacao.evento.cidade} - {transacao.evento.estado}
+                            </span><br />
+                            <span className={stylesDT.smallTextLightNotMargin}>CEP: {transacao.evento.cep}</span><br />
+                            <span className={stylesDT.smallTextDark}>Data do Evento: </span>
+                            <span className={stylesDT.smallTextLightNotMargin}>{transacao.evento.data}</span>
                         </div>
                     </div>
                 </div>

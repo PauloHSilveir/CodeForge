@@ -38,6 +38,7 @@ import Pagamento from './pages/Client/Compra/Pagamento';
 import ConfirmacaoPagamento from './pages/Client/Compra/ConfirmacaoPagamento';
 import EditarPedido from './pages/Client/Perfil/EditarPedido';
 import { PackageProvider } from './context/PackageContext';
+import DefinirDetalhesEvento from './pages/Client/Compra/DefinirDetalhesEvento';
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
             <Route path="/carrinho" element={<Carrinho />} /> {/*Falta fazer e ajustar modais */}
             <Route path="/pagamento" element={<Pagamento />} /> {/*Falta fazer e ajustar modais */}
             <Route path="/confirmacaopagamento" element={<ConfirmacaoPagamento />} /> {/*Falta fazer e ajustar modais */}
+            <Route path='/definirdetalhesevento' element={<DefinirDetalhesEvento />} />
           </Route>
 
           {/*Admin */}

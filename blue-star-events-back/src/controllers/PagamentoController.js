@@ -38,32 +38,6 @@ class PagamentoController {
     }
   }
 
-  /*async atualizarStatus(req, res) {
-    try {
-      const { asaasPaymentId } = req.params;
-      
-      const resultado = await PagamentoService.atualizarStatusPagamento(asaasPaymentId);
-      
-      return responseSuccess(res, resultado);
-    } catch (error) {
-      return responseError(res, error.message, 500);
-    }
-  }*/
-
-  /*async listarPagamentos(req, res) {
-    try {
-      const { page = 1, limit = 10 } = req.query;
-
-      //Atualiza status antes de listar
-      await PagamentoService.atualizarStatusPagamento(asaasPaymentId);
-
-      const pagamentos = await PagamentoService.listarPagamentos(page, limit);
-      return responseSuccess(res, pagamentos);
-    } catch (error) {
-      return responseError(res, error.message, 500);
-    }
-  }*/
-
   async findByUser(req, res) {
     try {
       const { id } = req.params;

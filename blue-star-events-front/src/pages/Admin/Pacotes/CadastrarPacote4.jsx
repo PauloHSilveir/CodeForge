@@ -20,7 +20,7 @@ const CadastrarPacote4 = () => {
                 const data = await response.json();
 
                 const foodComponents = data.componente
-                    .filter((item) => item.categoria === "Comidas")
+                    .filter((item) => item.categoria === "Comida")
                     .map((item) => ({
                         id: item.id,
                         name: item.name,
@@ -97,7 +97,7 @@ const CadastrarPacote4 = () => {
                 items={foods}
                 onSave={handleSave}
                 backPath="/cadastrarpacotes3"
-                nextPath="/gerenciarpacotes"
+                //nextPath="/gerenciarpacotes"
                 buttonText="CADASTRAR PACOTE"
             />
             <ModalMensagemSucesso
