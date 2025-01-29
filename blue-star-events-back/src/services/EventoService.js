@@ -1,11 +1,11 @@
-const Event = require('../models/Event');
+const EventoModel = require('../models/EventoModel');
 
 module.exports = {
 
     // Função para listar todos os eventos
     async getAll() {
         try {
-            const events = await Event.findAll();
+            const events = await EventoModel.findAll();
             return events;
         } catch (error) {
             throw new Error('Erro ao buscar eventos');
@@ -15,7 +15,7 @@ module.exports = {
     // Função para criar um evento
     async create(eventData) {
         try {
-            const event = await Event.create(eventData);
+            const event = await EventoModel.create(eventData);
             return event;
         } catch (error) {
             throw new Error('Erro ao criar evento');
@@ -25,7 +25,9 @@ module.exports = {
     // Função para atualizar um evento
     async update(eventId, eventData) {
         try {
-            const event = await Event.update(eventData, {
+            console.log(eventData);
+            console.log(eventId);
+            const event = await EventoModel.update(eventData, {
                 where: { id: eventId }
             });
             return event;
@@ -37,7 +39,7 @@ module.exports = {
     // Função para excluir um evento
     async delete(eventId) {
         try {
-            const event = await Event.destroy({
+            const event = await EventoModel.destroy({
                 where: { id: eventId }
             });
             return event;

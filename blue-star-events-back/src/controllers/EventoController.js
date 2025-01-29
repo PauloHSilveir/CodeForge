@@ -1,11 +1,11 @@
-const EventService = require('../services/EventService');
+const EventoService = require('../services/EventoService');
 
 module.exports = {
 
     // Função para listar todos os eventos
     async index(req, res) {
         try {
-            const events = await EventService.getAll();
+            const events = await EventoService.getAll();
             return res.status(200).json(events);
         } catch (error) {
             console.error('Erro ao buscar eventos:', error);
@@ -14,11 +14,11 @@ module.exports = {
     },
 
     // Função para criar um evento
-    async store(req, res) {
+    async create(req, res) {
         const eventData = req.body;
 
         try {
-            const event = await EventService.create(eventData);
+            const event = await EventoService.create(eventData);
             return res.status(201).json({
                 status: 1,
                 message: 'Evento cadastrado com sucesso!',
@@ -35,11 +35,12 @@ module.exports = {
 
     // Função para atualizar um evento
     async update(req, res) {
-        const { eventId } = req.params;
+        const { id: eventId } = req.params;
         const eventData = req.body;
-
+        console.log(eventData);
+        console.log(eventId);
         try {
-            await EventService.update(eventId, eventData);
+            await EventoService.update(eventId, eventData);
             return res.status(200).json({
                 status: 1,
                 message: 'Evento atualizado com sucesso!',
@@ -58,7 +59,7 @@ module.exports = {
         const { eventId } = req.params;
 
         try {
-            await EventService.delete(eventId);
+            await EventoService.delete(eventId);
             return res.status(200).json({
                 status: 1,
                 message: 'Evento excluído com sucesso!',

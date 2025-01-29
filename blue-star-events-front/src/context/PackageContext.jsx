@@ -14,7 +14,6 @@ export const PackageProvider = ({ children }) => {
   });
 
   const updatePackageData = (formData) => {
-    // No need for field conversion since form matches our state structure
     setPackageData(prev => ({ 
       ...prev, 
       ...formData 
@@ -22,27 +21,54 @@ export const PackageProvider = ({ children }) => {
   };
 
   const addComponents = (items) => {
-    
+    // Convert new items to the expected backend format
     const newComponents = items.map(item => ({
       componente_id: item.id,
-      quantidade_componente: item.quantity || 1,
+      quantidade_componente: item.quantity
     }));
 
-    setPackageData(prev => ({
-      ...prev,
-      componentes: [...prev.componentes, ...newComponents]
-    }));
+    setPackageData(prev => {
+      // Get existing component IDs for comparison
+      const existingComponentIds = prev.componentes.map(comp => comp.componente_id);
+      
+      // Filter out any new components that would be duplicates
+      const uniqueNewComponents = newComponents.filter(
+        comp => !existingComponentIds.includes(comp.componente_id)
+      );
+
+      // Combine existing components with new unique components
+      const updatedComponents = [...prev.componentes, ...uniqueNewComponents];
+
+      return {
+        ...prev,
+        componentes: updatedComponents
+      };
+    });
   };
 
   const getFormattedData = () => {
-    return packageData;
+    return {
+      ...packageData,
+      componentes: packageData.componentes
+    };
+  };
+
+  // Optional: Add a function to remove components if needed
+  const removeComponent = (componentId) => {
+    setPackageData(prev => ({
+      ...prev,
+      componentes: prev.componentes.filter(
+        comp => comp.componente_id !== componentId
+      )
+    }));
   };
 
   return (
     <PackageContext.Provider value={{ 
       packageData, 
       updatePackageData, 
-      addComponents, 
+      addComponents,
+      removeComponent, 
       getFormattedData 
     }}>
       {children}

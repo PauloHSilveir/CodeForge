@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import PacoteForm from "../../../components/PacoteForm";
 import { useNavigate } from "react-router-dom";
 import { usePackage } from "../../../context/PackageContext";
-// import { fetchPacotes } from "./GerenciarPacotes";
 import ModalMensagemSucesso from "../../../components/ModalMensagemSucesso";
 
 const CadastrarPacote4 = () => {
     const [foods, setFoods] = useState([]);
     const { packageData, addComponents } = usePackage();
     const navigate = useNavigate();
-
     const [showSucessPacote, setShowSucessPacote] = useState(false);
-
+    
     useEffect(() => {
         const fetchFoods = async () => {
             try {
@@ -40,32 +38,46 @@ const CadastrarPacote4 = () => {
     }, []);
 
     const handleSave = async (selectedItems) => {
-        console.log("selected itens: " + selectedItems);
-        addComponents(selectedItems);
-        handleSubmit();
+        try {
+            // Primeiro adiciona os componentes
+            await addComponents(selectedItems);
+            
+            // Espera um tick do React para garantir que o estado foi atualizado
+            await new Promise(resolve => setTimeout(resolve, 0));
+            
+            // Agora submete o formulário
+            await handleSubmit();
+        } catch (error) {
+            console.error("Erro ao salvar", error);
+        }
     }
+
     const handleSubmit = async () => {
         try {
+            console.log("Enviando dados:", packageData); // Para debug
+
+            const formattedData = {
+                name: packageData.nome,
+                description: packageData.descricao,
+                tipo: packageData.tipo,
+                disponibilidade: Number(packageData.disponibilidade),
+                imagem: packageData.imagem instanceof File ? packageData.imagem.name : packageData.imagem,
+                tamanho: packageData.tamanho,
+                componentes: packageData.componentes
+            };
+
+            console.log("Dados formatados:", formattedData); // Para debug
+
             const response = await fetch("http://localhost:1313/pacote/cadastrar", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    name: packageData.nome,
-                    description: packageData.descricao,
-                    tipo: packageData.tipo,
-                    disponibilidade: Number(packageData.disponibilidade),
-                    imagem: packageData.imagem instanceof File ? packageData.imagem.name : packageData.imagem,
-                    tamanho: packageData.tamanho,
-                    componentes: packageData.componentes,
-                }),
+                body: JSON.stringify(formattedData),
             });
-            console.log("Componentes:", packageData.componentes);
 
             if (!response.ok) throw new Error("Falha ao criar pacote");
 
-            // Exibir modal de sucesso
             setShowSucessPacote(true);
 
             setTimeout(() => {
@@ -92,9 +104,7 @@ const CadastrarPacote4 = () => {
                 title="CADASTRAR PACOTE"
                 text="Pacote cadastrado com sucesso!"
                 isVisible={showSucessPacote}
-
             />
-
         </>
     );
 };

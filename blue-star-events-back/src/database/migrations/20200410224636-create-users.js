@@ -143,16 +143,6 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      pacote_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'pacotes',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       data: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -396,16 +386,18 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      evento_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'eventos',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       data: {
         type: Sequelize.DATE,
-        allowNull: false,
-      },
-      valor: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-      },
-      status: {
-        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {
@@ -596,7 +588,6 @@ module.exports = {
 
     await queryInterface.bulkInsert('eventos', [
       {
-        pacote_id: 1,
         data: new Date(),
         rua: 'Rua U',
         numero: 30,
@@ -609,7 +600,6 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        pacote_id: 2,
         data: new Date(),
         rua: 'Rua V',
         numero: 36,
@@ -622,7 +612,6 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        pacote_id: 3,
         data: new Date(),
         rua: 'Rua W',
         numero: 70,
@@ -728,7 +717,7 @@ module.exports = {
         data: new Date(),
         metodo_pagamento: 'cartao_credito',
         valor: 150.00,
-        status: 'pago',
+        status: 'pendente',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -738,7 +727,7 @@ module.exports = {
         data: new Date(),
         metodo_pagamento: 'cartao_credito',
         valor: 200.00,
-        status: 'processando',
+        status: 'concluido',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -748,7 +737,7 @@ module.exports = {
         data: new Date(),
         metodo_pagamento: 'pix',
         valor: 300.00,
-        status: 'falhou',
+        status: 'pendente',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -758,7 +747,7 @@ module.exports = {
         data: new Date(),
         metodo_pagamento: 'pix',
         valor: 300.00,
-        status: 'pago',
+        status: 'pendente',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -769,9 +758,8 @@ module.exports = {
         id: 1,
         usuario_id: 1,
         pagamento_id: 1,
+        evento_id: 1,
         data: new Date(),
-        valor: 150.00,
-        status: 'completo',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -779,9 +767,8 @@ module.exports = {
         id: 2,
         usuario_id: 2,
         pagamento_id: 2,
+        evento_id: 2,
         data: new Date(),
-        valor: 200.00,
-        status: 'pendente',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -789,9 +776,8 @@ module.exports = {
         id: 3,
         usuario_id: 3,
         pagamento_id: 3,
+        evento_id: 3,
         data: new Date(),
-        valor: 300.00,
-        status: 'falha',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -853,8 +839,8 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('admin');
     await queryInterface.dropTable('transacao_pacote');
-    await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('transacoes');
+    await queryInterface.dropTable('pagamentos');
     await queryInterface.dropTable('carrinho');
     await queryInterface.dropTable('pacote_componentes');
     await queryInterface.dropTable('componentes');
