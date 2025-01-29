@@ -18,7 +18,16 @@ function EditarPedido() {
     const navigate = useNavigate();
     const location = useLocation();
     const [transacao, setTransacao] = useState(null);
-    const [transacaoOriginal, setTransacaoOriginal] = useState(null);
+    const [evento, setEvento] = useState({
+        data: '',
+        rua: '',
+        numero: '',
+        bairro: '',
+        cidade: '',
+        estado: '',
+        cep: '',
+        complemento: ''
+    });
     const [userData, setUserData] = useState({
         nome: 'Usuário',
         email: 'email@exemplo.com',
@@ -32,7 +41,6 @@ function EditarPedido() {
             if (userId && token) {
                 try {
                     const response = await fetch(`${BASE_URL}/user/${userId}`, {
-                        method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json',
@@ -63,23 +71,9 @@ function EditarPedido() {
         }
     }, [location.state]);
 
-    const mapStatusFromBackend = (status) => {
-        switch (status) {
-            case 'completa':
-                return 'Concluída';
-            case 'pendente':
-                return 'Pendente';
-            case 'falha':
-                return 'Cancelada';
-            default:
-                return status;
-        }
-    };
-
     const fetchTransacao = async (idTransacao) => {
         try {
             const response = await fetch(`${BASE_URL}/transacao/${idTransacao}`, {
-                method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -92,13 +86,30 @@ function EditarPedido() {
 
             const data = await response.json();
 
-            // Formatando os dados recebidos
+            // Converter a data do evento para o formato datetime-local
+            const dataEvento = data.evento?.data
+                ? new Date(data.evento.data).toISOString().slice(0, 16)
+                : '';
+
+            // Atualizar o estado do evento com os dados recebidos
+            setEvento({
+                data: dataEvento, // Data já formatada para datetime-local
+                rua: data.evento?.rua || '',
+                numero: data.evento?.numero || '',
+                complemento: data.evento?.complemento || '',
+                bairro: data.evento?.bairro || '',
+                cidade: data.evento?.cidade || '',
+                estado: data.evento?.estado || '',
+                cep: data.evento?.cep || ''
+            });
+
             const formattedData = {
                 id: data.id,
-                data: new Date(data.data_criacao).toLocaleDateString('pt-BR'),
-                status: mapStatusFromBackend(data.status),
-                pagamento: data.metodo_pagamento,
-                valor: data.valor,
+                data_criacao: new Date(data.data_criacao).toLocaleDateString('pt-BR'),
+                data_evento: dataEvento,
+                status: mapStatusFromBackend(data.pagamento.status),
+                pagamento: data.pagamento.metodo_pagamento,
+                valor: data.pagamento.valor,
                 pacotes: data.pacotes.map(pacote => ({
                     nome: pacote.nome,
                     quantidade: pacote.quantidade,
@@ -108,27 +119,21 @@ function EditarPedido() {
             };
 
             setTransacao(formattedData);
-            setTransacaoOriginal(JSON.parse(JSON.stringify(formattedData)));
         } catch (error) {
             console.error('Erro ao buscar a transação:', error);
         }
     };
 
-    const handleQuantidadeChange = (index, novaQuantidade) => {
-        const atualizado = { ...transacao };
-        atualizado.pacotes[index].quantidade = novaQuantidade;
-        setTransacao(atualizado);
-    };
-
-    const handleRemoverPacote = (index) => {
-        const atualizado = { ...transacao };
-        atualizado.pacotes.splice(index, 1);
-        setTransacao(atualizado);
+    const handleEventoChange = (e) => {
+        const { name, value } = e.target;
+        setEvento(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
 
     const handleSalvarAlteracoes = async () => {
         try {
-            console.log("T_ID:" + transacao.id);
             const response = await fetch(`${BASE_URL}/transacao/update/${transacao.id}`, {
                 method: 'PUT',
                 headers: {
@@ -136,26 +141,12 @@ function EditarPedido() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    pacotes: transacao.pacotes.map(pacote => ({
-                        nome: pacote.nome,
-                        quantidade: pacote.quantidade,
-                        preco: pacote.valor
-                    }))
+                    evento: evento // Enviando apenas os dados do evento
                 })
             });
 
-            console.log('Response:' + response);
-
-            console.log({
-                pacotes: transacao.pacotes.map(pacote => ({
-                    nome: pacote.nome,
-                    quantidade: pacote.quantidade,
-                    preco: pacote.valor
-                }))
-            });
-
             if (!response.ok) {
-                throw new Error('Erro ao atualizar a transação');
+                throw new Error('Erro ao atualizar os dados');
             }
 
             navigate(`/detalhespedido/${transacao.id}`, {
@@ -170,6 +161,19 @@ function EditarPedido() {
         navigate(`/detalhespedido/${transacao.id}`, {
             state: { idTransacao: transacao.id }
         });
+    };
+
+    const mapStatusFromBackend = (status) => {
+        switch (status) {
+            case 'completa':
+                return 'Concluída';
+            case 'pendente':
+                return 'Pendente';
+            case 'falha':
+                return 'Cancelada';
+            default:
+                return status;
+        }
     };
 
     const calcularSubtotal = (pacotes) => {
@@ -206,7 +210,6 @@ function EditarPedido() {
                             <span className={stylesPerfil.bigText}>
                                 Bem Vindo, {userData.nome}
                             </span>
-
                             <div className={stylesPerfil.mailPerfil}>
                                 <RiMailFill className={`${stylesPerfil.blueIcon} ${stylesPerfil.smallIcon}`} />
                                 <span className={stylesPerfil.mediumText}>
@@ -221,7 +224,7 @@ function EditarPedido() {
                     <div className={stylesGIT.topTitle}>
                         <div className={stylesGIT.title}>
                             <RiFileEditFill className={stylesGIT.blueIcon} />
-                            <span className={stylesGIT.bigText}>EDITAR TRANSAÇÃO</span>
+                            <span className={stylesGIT.bigText}>EDITAR ENDEREÇO DO EVENTO</span>
                         </div>
                         <div className={stylesEP.butonsTop}>
                             <button
@@ -233,14 +236,130 @@ function EditarPedido() {
                             <button
                                 className={`${stylesPI.buttons} ${stylesPI.ediPac}`}
                                 onClick={handleSalvarAlteracoes}
-                                disabled={JSON.stringify(transacao) === JSON.stringify(transacaoOriginal)} // Desabilita se não houver alteração
                             >
                                 SALVAR ALTERAÇÕES
                             </button>
                         </div>
                     </div>
-
                     <div className={`${stylesDT.detailsContainer} ${styles.detailsContainer}`}>
+                        {/* Nova seção para Data do Evento */}
+                        <div className={stylesDT.transactionDetails}>
+                            <p className={stylesDT.smallTextDark}>Data e Hora do Evento:</p>
+                            <div className={stylesEP.inputContainer}>
+                                <input
+                                    type="datetime-local"
+                                    name="data"
+                                    value={evento.data}
+                                    onChange={handleEventoChange}
+                                    className={stylesEP.input}
+                                />
+                            </div>
+                        </div>
+
+                        <div className={stylesDT.transactionDetails}>
+                            <p className={stylesDT.smallTextDark}>Endereço de evento:</p>
+                            <div className={stylesEP.formGrid}>
+                                <div className={stylesEP.inputContainer}>
+                                    <label className={stylesDT.smallTextLightNotMargin}>
+                                        Rua:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="rua"
+                                        value={evento.rua}
+                                        onChange={handleEventoChange}
+                                        className={stylesEP.input}
+                                        placeholder="Rua"
+                                    />
+                                </div>
+
+                                <div className={stylesEP.inputContainer}>
+                                    <label className={stylesDT.smallTextLightNotMargin}>
+                                        Número:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="numero"
+                                        value={evento.numero}
+                                        onChange={handleEventoChange}
+                                        className={stylesEP.input}
+                                        placeholder="Número"
+                                    />
+                                </div>
+
+                                <div className={stylesEP.inputContainer}>
+                                    <label className={stylesDT.smallTextLightNotMargin}>
+                                        Complemento:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="complemento"
+                                        value={evento.complemento}
+                                        onChange={handleEventoChange}
+                                        className={stylesEP.input}
+                                        placeholder="Complemento"
+                                    />
+                                </div>
+
+                                <div className={stylesEP.inputContainer}>
+                                    <label className={stylesDT.smallTextLightNotMargin}>
+                                        Bairro:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="bairro"
+                                        value={evento.bairro}
+                                        onChange={handleEventoChange}
+                                        className={stylesEP.input}
+                                        placeholder="Bairro"
+                                    />
+                                </div>
+
+                                <div className={stylesEP.inputContainer}>
+                                    <label className={stylesDT.smallTextLightNotMargin}>
+                                        Cidade:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="cidade"
+                                        value={evento.cidade}
+                                        onChange={handleEventoChange}
+                                        className={stylesEP.input}
+                                        placeholder="Cidade"
+                                    />
+                                </div>
+
+                                <div className={stylesEP.inputContainer}>
+                                    <label className={stylesDT.smallTextLightNotMargin}>
+                                        Estado:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="estado"
+                                        value={evento.estado}
+                                        onChange={handleEventoChange}
+                                        className={stylesEP.input}
+                                        placeholder="Estado(XX)"
+                                    />
+                                </div>
+
+                                <div className={stylesEP.inputContainer}>
+                                    <label className={stylesDT.smallTextLightNotMargin}>
+                                        CEP:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="cep"
+                                        value={evento.cep}
+                                        onChange={handleEventoChange}
+                                        className={stylesEP.input}
+                                        placeholder="CEP(XXXXX-XXX)"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Exibição dos pacotes (somente leitura) */}
                         {transacao.pacotes.map((pacote, index) => (
                             <div key={index} className={stylesDT.transactionDetailsImage}>
                                 <div>
@@ -252,32 +371,10 @@ function EditarPedido() {
                                 </div>
                                 <div>
                                     <span className={stylesDT.smallTextDark}>{pacote.nome}</span>
-                                    <div className={stylesEP.inputContainer}>
-                                        <label className={stylesEP.inputLabel}>
-                                            Quantidade:
-                                            <select
-                                                value={pacote.quantidade}
-                                                onChange={(e) => handleQuantidadeChange(index, parseInt(e.target.value, 10))}
-                                                className={stylesEP.input}
-                                            >
-                                                {/* A quantidade pode ser variada com base nas opções disponíveis */}
-                                                {[...Array(10).keys()].map((num) => (
-                                                    <option key={num + 1} value={num + 1}>
-                                                        {num + 1}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </label>
-                                    </div>
-
-                                </div>
-                                <div className={stylesEP.remPac}>
-                                    <button
-                                        className={`${stylesPI.buttons} ${stylesPI.excPac}`}
-                                        onClick={() => handleRemoverPacote(index)}
-                                    >
-                                        REMOVER PACOTE
-                                    </button>
+                                    <br />
+                                    <span className={stylesDT.smallTextLightNotMargin}>
+                                        Quantidade: {pacote.quantidade}
+                                    </span>
                                 </div>
                             </div>
                         ))}

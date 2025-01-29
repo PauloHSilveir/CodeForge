@@ -48,9 +48,12 @@ class TransacaoService {
         const transaction = await Transacao.sequelize.transaction();
         try {
             const transacao = await Transacao.findByPk(id, {
-                include: [{ model: Pagamento, as: 'pagamento' }]
+                include: [
+                    { model: Pagamento, as: 'pagamento' },
+                    { model: Evento, as: 'evento' }
+                ]
             });
-            
+
             if (!transacao) {
                 throw new Error('Transação não encontrada');
             }
@@ -60,23 +63,34 @@ class TransacaoService {
                 throw new Error('Não é possível atualizar uma transação com pagamento já processado');
             }
 
-            // Remover pacotes antigos
-            await TransacaoPacote.destroy({
-                where: { transacao_id: id },
-                transaction
-            });
+            // Extrair apenas os campos de endereço do evento
+            const enderecoFields = {
+                rua: transacaoData.evento.rua,
+                numero: transacaoData.evento.numero,
+                complemento: transacaoData.evento.complemento,
+                bairro: transacaoData.evento.bairro,
+                cidade: transacaoData.evento.cidade,
+                estado: transacaoData.evento.estado,
+                cep: transacaoData.evento.cep
+            };
 
-            // Recriar transação_pacote
-            await Promise.all(transacaoData.pacotes.map(async (pacoteItem) => {
-                await TransacaoPacote.create({
-                    transacao_id: transacao.id,
-                    pacote_id: pacoteItem.pacote_id,
-                    quantidade_pacote: pacoteItem.quantidade_pacote
-                }, { transaction });
-            }));
+            // Atualizar apenas os campos de endereço do evento
+            await transacao.evento.update(enderecoFields, { transaction });
 
             await transaction.commit();
-            return { message: 'Transação atualizada com sucesso', transacao };
+
+            // Recarregar a transação com os dados atualizados
+            await transacao.reload({
+                include: [
+                    { model: Pagamento, as: 'pagamento' },
+                    { model: Evento, as: 'evento' }
+                ]
+            });
+
+            return {
+                message: 'Endereço do evento atualizado com sucesso',
+                transacao
+            };
         } catch (error) {
             await transaction.rollback();
             throw new Error(error.message);
@@ -84,7 +98,7 @@ class TransacaoService {
     }
 
     async delete(id) {
-        const transaction = await sequelize.transaction();
+        const transaction = await Transacao.sequelize.transaction();
         try {
             const transacao = await Transacao.findByPk(id, {
                 include: [{ model: Pagamento, as: 'pagamento' }]

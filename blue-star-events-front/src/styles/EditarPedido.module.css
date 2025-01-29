@@ -10,12 +10,21 @@
     margin-left: auto;
 }
 
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    min-width: 20rem;
+    margin-bottom: 0.5rem;
+}
+
 .input {
-    width: 3rem;
-    padding: 0.25rem;
+    width: 20rem;
+    padding: 0.5rem 0.75rem;
     border: 0.0625rem solid #d9d9d9;
     border-radius: 0.25rem;
-    margin-left: 0.5rem;
+
+
 }
 
 .input:focus {
