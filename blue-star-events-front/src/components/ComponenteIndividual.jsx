@@ -5,7 +5,7 @@ import ModalMensagemSucesso from "./ModalMensagemSucesso";
 import ModalMensagemFalha from "./ModalMensagemFalha";
 import { useNavigate } from 'react-router-dom';
 
-function ComponenteIndividual({ id, nome, descricao, quantidade, valor, categoria, imagem, onDelete }) {
+function ComponenteIndividual({ id, nome, descricao, valor, categoria, imagem, onDelete }) {
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
     const [showSucess, setShowSucess] = useState(false);

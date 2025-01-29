@@ -179,6 +179,44 @@
     color: #0c4778;
     border-color: #0c4778;
 }
+.enderecoSection,
+.dataEventoSection {
+    display: flex;
+    margin-bottom: 1.25rem;
+    flex-direction: column;
+}
+
+.input {
+    width: 40%;
+    min-width: 20rem;
+    padding: 0.6rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid #D9D9D9;
+    border-radius: 0.25rem;
+
+}
+
+.input:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+.enderecoSection input {
+    margin-bottom: 8px;
+}
+
+.dataEventoSection input {
+    margin-top: 8px;
+}
+
+.input::placeholder {
+    color: #D9D9D9;
+}
+
+.input:focus::placeholder {
+    color: #007BFF;
+}
+
 
 @media (max-width: 1200px) {
     .column {

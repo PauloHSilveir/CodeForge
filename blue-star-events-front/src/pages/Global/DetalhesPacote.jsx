@@ -18,6 +18,16 @@ function DetalhesPacote() {
     const [showFailModal, setShowFailModal] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalMessage, setModalMessage] = useState('');
+    const [endereco, setEndereco] = useState({
+        rua: '',
+        numero: '',
+        complemento: '',
+        bairro: '',
+        cidade: '',
+        estado: '',
+        cep: '',
+    });
+    const [dataEvento, setDataEvento] = useState('');
 
     const showModalSuccess = (title, message) => {
         setModalTitle(title);
@@ -76,26 +86,42 @@ function DetalhesPacote() {
         setQuantity(parseInt(e.target.value));
     };
 
+    const handleEnderecoChange = (e) => {
+        setEndereco({
+            ...endereco,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleDataEventoChange = (e) => {
+        setDataEvento(e.target.value);
+    };
+
     const handleAddToCart = async () => {
         const token = localStorage.getItem('authToken');
         const userId = token ? jwtDecode(token).id : null;
-
+    
         if (!token) {
             showModalFail('LOGIN NECESSÁRIO', 'Você precisa estar logado para adicionar itens ao carrinho.');
             return;
         }
-
+    
         const userType = localStorage.getItem('userType');
         if (userType !== 'client') {
             showModalFail('USUÁRIO INVÁLIDO', 'Somente clientes podem adicionar itens ao carrinho.');
             return;
         }
-
+    
         if (!pacoteDetalhes?.id) {
             showModalFail('ERRO', "Pacote não encontrado.");
             return;
         }
-
+    
+        if (Object.values(endereco).some(value => !value) || !dataEvento) {
+            showModalFail('ERRO', "Por favor, preencha todos os campos de endereço e a data do evento.");
+            return;
+        }
+    
         try {
             const response = await fetch(`${BASE_URL}/carrinho/cadastrar`, {
                 method: "POST",
@@ -108,16 +134,29 @@ function DetalhesPacote() {
                     pacote_id: pacoteDetalhes.id,
                     quantidade: quantity,
                     preco_unitario: pacoteDetalhes.preco,
+                    endereco,
+                    data_evento: dataEvento,
                 }),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Erro ao adicionar pacote ao carrinho');
             }
-
+    
+            const eventData = {
+                pacote: pacoteDetalhes,
+                quantidade: quantity,
+                endereco: endereco,
+                dataEvento: dataEvento,
+                precoUnitario: pacoteDetalhes.preco,
+                precoTotal: pacoteDetalhes.preco * quantity
+            };
+    
             showModalSuccess('SUCESSO', 'Pacote adicionado ao carrinho com sucesso!');
             setTimeout(() => {
-                navigate('/carrinho');
+                navigate('/carrinho', { 
+                    state: { eventData }
+                });
             }, 2000);
         } catch (error) {
             showModalFail('ERRO', 'Não foi possível adicionar o item ao carrinho');
@@ -181,10 +220,81 @@ function DetalhesPacote() {
                                 </select>
                             </div>
 
+                            <div className={styles.enderecoSection}>
+                                <p className={styles.mediumText}>Endereço do Evento:</p>
+                                <input
+                                    type="text"
+                                    name="rua"
+                                    placeholder="Rua"
+                                    value={endereco.rua}
+                                    onChange={handleEnderecoChange}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    name="numero"
+                                    placeholder="Número"
+                                    value={endereco.numero}
+                                    onChange={handleEnderecoChange}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    name="complemento"
+                                    placeholder="Complemento"
+                                    value={endereco.complemento}
+                                    onChange={handleEnderecoChange}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    name="bairro"
+                                    placeholder="Bairro"
+                                    value={endereco.bairro}
+                                    onChange={handleEnderecoChange}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    name="cidade"
+                                    placeholder="Cidade"
+                                    value={endereco.cidade}
+                                    onChange={handleEnderecoChange}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    name="estado"
+                                    placeholder="Estado"
+                                    value={endereco.estado}
+                                    onChange={handleEnderecoChange}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    name="cep"
+                                    placeholder="CEP"
+                                    value={endereco.cep}
+                                    onChange={handleEnderecoChange}
+                                    className={styles.input}
+                                />
+                            </div>
+
+                            <div className={styles.dataEventoSection}>
+                                <p className={styles.mediumText}>Data do Evento:</p>
+                                <input
+                                    type="date"
+                                    name="dataEvento"
+                                    value={dataEvento}
+                                    onChange={handleDataEventoChange}
+                                    className={styles.input}
+                                />
+                            </div>
+
                             <div className={styles.buttonSection}>
                                 <button
                                     onClick={handleAddToCart}
-                                    className={`${styles.buttons} ${styles.addToCartButton}`}>
+                                    className={`${styles.buttons} ${styles.addToCartButton}`} >
                                     ADICIONAR AO CARRINHO
                                 </button>
                                 <button
